@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Drum shell -->
+    <path
+        android:fillColor="#FFC9962E"
+        android:pathData="M34,54 L34,70 A20,6 0 0,0 74,70 L74,54 Z" />
+    <!-- Drum head -->
+    <path
+        android:fillColor="@color/ic_foreground"
+        android:pathData="M34,54 A20,6 0 1,0 74,54 A20,6 0 1,0 34,54 Z" />
+    <!-- Sticks -->
+    <path
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round"
+        android:pathData="M38,32 L56,52 M70,32 L52,52" />
+</vector>

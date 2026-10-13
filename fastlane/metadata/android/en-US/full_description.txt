@@ -1,0 +1,9 @@
+<p>Paradiddle helps you learn and practise the 40 standard drum rudiments of the Percussive Arts Society (PAS).</p>
+<ul>
+<li><b>See it:</b> notation, sticking (R/L), accents, flams, drags and buzz strokes for every rudiment.</li>
+<li><b>Hear it:</b> listen to each rudiment at any tempo with a built-in metronome.</li>
+<li><b>Play it:</b> tap two on-screen pads (left and right hand) while notes fall toward the hit line. The app scores your timing and sticking and tells you if you rush or drag.</li>
+<li><b>Track it:</b> your best clean tempo, accuracy, practice time and a daily log, all stored on your device.</li>
+<li><b>Fair on any phone:</b> a one-time latency calibration cancels your device's audio and touch delay.</li>
+</ul>
+<p>No ads, no tracking, no account, no internet permission. Free software under the GPL-3.0-or-later.</p>

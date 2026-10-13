@@ -1,0 +1,29 @@
+name: Rudiment correction
+description: A rudiment's sticking, accents or rhythm don't match the PAS sheet
+labels: [rudiments]
+body:
+  - type: input
+    id: rudiment
+    attributes:
+      label: Rudiment
+      placeholder: "#36 Drag Paradiddle #1"
+    validations:
+      required: true
+  - type: textarea
+    id: wrong
+    attributes:
+      label: What's wrong?
+      description: Sticking, accents, grace notes, rhythm (grid)…
+    validations:
+      required: true
+  - type: input
+    id: proposal
+    attributes:
+      label: Correct pattern (optional)
+      description: In the notation of rudiments.json, see the README
+      placeholder: "R>:2 llR L R R L>:2 rrL R L L"
+  - type: input
+    id: source
+    attributes:
+      label: Source
+      description: Where the correct version comes from (PAS sheet, book, video…)

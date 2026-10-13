@@ -1,0 +1,118 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "0c503a173b5bbf5dbd2e1d4cf7649615",
+    "entities": [
+      {
+        "tableName": "practice_session",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `rudimentId` TEXT NOT NULL, `startedAt` INTEGER NOT NULL, `bpm` INTEGER NOT NULL, `repetitions` INTEGER NOT NULL, `accuracy` REAL NOT NULL, `meanOffsetMs` REAL NOT NULL, `spreadMs` REAL NOT NULL, `perfect` INTEGER NOT NULL, `good` INTEGER NOT NULL, `ok` INTEGER NOT NULL, `wrongHand` INTEGER NOT NULL, `missed` INTEGER NOT NULL, `extra` INTEGER NOT NULL, `durationSec` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rudimentId",
+            "columnName": "rudimentId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startedAt",
+            "columnName": "startedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bpm",
+            "columnName": "bpm",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "repetitions",
+            "columnName": "repetitions",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accuracy",
+            "columnName": "accuracy",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "meanOffsetMs",
+            "columnName": "meanOffsetMs",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "spreadMs",
+            "columnName": "spreadMs",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "perfect",
+            "columnName": "perfect",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "good",
+            "columnName": "good",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ok",
+            "columnName": "ok",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wrongHand",
+            "columnName": "wrongHand",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "missed",
+            "columnName": "missed",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "extra",
+            "columnName": "extra",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "durationSec",
+            "columnName": "durationSec",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0c503a173b5bbf5dbd2e1d4cf7649615')"
+    ]
+  }
+}

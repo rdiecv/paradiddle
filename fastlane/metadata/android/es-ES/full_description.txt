@@ -1,0 +1,9 @@
+<p>Paradiddle te ayuda a aprender y practicar los 40 rudimentos de batería estándar de la Percussive Arts Society (PAS).</p>
+<ul>
+<li><b>Míralo:</b> partitura, digitación (R/L), acentos, flams, drags y buzz de cada rudimento.</li>
+<li><b>Escúchalo:</b> oye cada rudimento a cualquier tempo con metrónomo integrado.</li>
+<li><b>Tócalo:</b> toca dos pads en pantalla (mano izquierda y derecha) mientras las notas caen hacia la línea de golpe. La app puntúa tu tiempo y tu digitación y te dice si aceleras o te retrasas.</li>
+<li><b>Sigue tu progreso:</b> mejor tempo limpio, precisión, tiempo de práctica y registro diario, todo guardado en tu dispositivo.</li>
+<li><b>Justo en cualquier móvil:</b> una calibración de latencia, una sola vez, compensa el retardo de audio y de pantalla de tu dispositivo.</li>
+</ul>
+<p>Sin anuncios, sin rastreo, sin cuenta y sin permiso de internet. Software libre bajo la GPL-3.0 o posterior.</p>

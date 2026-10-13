@@ -1,0 +1,16 @@
+name: Code of conduct concern
+description: Ask the maintainer to contact you about behaviour that breaks the Code of Conduct
+labels: [conduct]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Issues are public.** Please don't write names or details here if the matter is sensitive:
+        just ask to be contacted privately and say how (for example, an email address you're happy to share).
+  - type: textarea
+    id: request
+    attributes:
+      label: Your message
+      placeholder: "I'd like to report a Code of Conduct concern privately. Please contact me at …"
+    validations:
+      required: true
