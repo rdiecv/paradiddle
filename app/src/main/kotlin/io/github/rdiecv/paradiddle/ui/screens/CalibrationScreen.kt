@@ -62,6 +62,7 @@ import io.github.rdiecv.paradiddle.input.LiveDrumInput
 import io.github.rdiecv.paradiddle.ui.theme.PadColors
 import kotlinx.coroutines.launch
 import io.github.rdiecv.paradiddle.ui.components.FormattedText
+import io.github.rdiecv.paradiddle.ui.rememberFrameDelayNanos
 
 private enum class CalState { IDLE, RUNNING, DONE, FAILED }
 
@@ -140,10 +141,13 @@ fun CalibrationScreen(onBack: () -> Unit) {
     }
 
     // Session time of the current frame while running: drives the countdown, counter and pulse.
+    // The frame is seen a little after it is drawn: aim it at when it is on screen, so the pulse
+    // flashes with the click instead of after it.
+    val frameDelay by rememberFrameDelayNanos(active = state == CalState.RUNNING)
     var now by remember { mutableLongStateOf(Long.MIN_VALUE) }
     LaunchedEffect(state) {
         while (state == CalState.RUNNING) {
-            withFrameNanos { frame -> playback?.let { now = it.sessionTimeAt(frame) } }
+            withFrameNanos { frame -> playback?.let { now = it.sessionTimeAt(frame + frameDelay) } }
         }
     }
     val heard = clickTimes.count { it <= now }
