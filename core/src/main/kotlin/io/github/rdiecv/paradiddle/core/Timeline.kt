@@ -22,6 +22,8 @@ data class NoteEvent(
     val repetition: Int,
     /** Index of the source [Stroke] in the rudiment's pattern. */
     val strokeIndex: Int,
+    /** The drum to hit, when it matters (style beats played on an electronic kit). */
+    val pad: Instrument? = null,
 )
 
 data class Click(val timeNanos: Long, val strong: Boolean, val countIn: Boolean)

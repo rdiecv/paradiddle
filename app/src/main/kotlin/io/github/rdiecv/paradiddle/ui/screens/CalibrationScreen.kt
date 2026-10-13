@@ -31,6 +31,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.changedToDown
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -49,6 +51,10 @@ import io.github.rdiecv.paradiddle.core.StrokeNotation
 import io.github.rdiecv.paradiddle.core.TimelineBuilder
 import io.github.rdiecv.paradiddle.core.audio.SessionSound
 import io.github.rdiecv.paradiddle.core.audio.Synth
+import io.github.rdiecv.paradiddle.data.InputSource
+import io.github.rdiecv.paradiddle.input.DrumInputs
+import io.github.rdiecv.paradiddle.input.InputProblem
+import io.github.rdiecv.paradiddle.input.LiveDrumInput
 import io.github.rdiecv.paradiddle.ui.theme.PadColors
 import kotlinx.coroutines.launch
 
@@ -61,7 +67,12 @@ fun CalibrationScreen(onBack: () -> Unit) {
     var state by remember { mutableStateOf(CalState.IDLE) }
     var resultMs by remember { mutableIntStateOf(0) }
     var playback by remember { mutableStateOf<Playback?>(null) }
+    var live by remember { mutableStateOf<LiveDrumInput?>(null) }
+    var problem by remember { mutableStateOf<InputProblem?>(null) }
     val taps = remember { mutableStateListOf<Long>() }
+    val settings by app.settings.settings.collectAsStateWithLifecycle(null)
+    val source = settings?.inputSource ?: InputSource.SCREEN
+    val context = LocalContext.current
     // One-beat "pattern" just to get the clicks: count-in 4 + 12 beats = 16 clicks.
     val timeline = remember {
         val beat = Rudiment("calibration", 0, "", Category.ROLL, 1, StrokeNotation.parse("R"))
@@ -69,30 +80,54 @@ fun CalibrationScreen(onBack: () -> Unit) {
     }
     val clickTimes = remember { timeline.clicks.map { it.timeNanos } }
 
-    DisposableEffect(Unit) { onDispose { playback?.stop() } }
-    LifecycleEventEffect(Lifecycle.Event.ON_STOP) {
+    fun stopAll() {
+        live?.stop()
+        live = null
         playback?.stop()
+    }
+    DisposableEffect(Unit) { onDispose { stopAll() } }
+    LifecycleEventEffect(Lifecycle.Event.ON_STOP) {
+        stopAll()
         if (state == CalState.RUNNING) state = CalState.IDLE
     }
 
     fun start() {
         taps.clear()
+        problem = DrumInputs.problem(context, source)
+        if (problem != null) {
+            state = CalState.FAILED
+            return
+        }
         val sound = SessionSound(Synth(AudioEngine.sampleRate))
         val voices = sound.voices(timeline, clickGain = 0.9f, patternGain = 0f)
         playback = try {
             AudioEngine.play(voices, sound.frameOf(timeline.endNanos)) {
                 scope.launch {
+                    live?.stop()
+                    live = null
                     val offset = Calibration.offsetNanos(clickTimes, taps.toList())
                     if (offset == null) {
                         state = CalState.FAILED
                     } else {
                         resultMs = (offset / NANOS_PER_MS).toInt()
-                        app.settings.setCalibration(resultMs)
+                        app.settings.setCalibration(resultMs, source)
                         state = CalState.DONE
                     }
                 }
             }
         } catch (e: IllegalStateException) {
+            state = CalState.FAILED
+            return
+        }
+        val p = playback ?: return
+        live = DrumInputs.create(context, source)?.let { input ->
+            LiveDrumInput(input, p, timeline, mic = source == InputSource.MICROPHONE, offsetNanos = 0) { time, _, _ -> taps += time }
+        }
+        try {
+            live?.start()
+        } catch (e: IllegalStateException) {
+            stopAll()
+            problem = if (source == InputSource.MIDI) InputProblem.NO_MIDI_DEVICE else InputProblem.MIC_UNAVAILABLE
             state = CalState.FAILED
             return
         }
@@ -105,14 +140,27 @@ fun CalibrationScreen(onBack: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(stringResource(R.string.calibration_intro), textAlign = TextAlign.Center)
+            Text(
+                stringResource(
+                    when (source) {
+                        InputSource.SCREEN -> R.string.calibration_intro
+                        InputSource.MICROPHONE -> R.string.calibration_intro_mic
+                        InputSource.MIDI -> R.string.calibration_intro_midi
+                    },
+                ),
+                textAlign = TextAlign.Center,
+            )
             when (state) {
                 CalState.DONE -> Text(
                     stringResource(R.string.calibration_result, resultMs),
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
                 )
-                CalState.FAILED -> Text(stringResource(R.string.calibration_failed), color = PadColors.bad, textAlign = TextAlign.Center)
+                CalState.FAILED -> Text(
+                    stringResource(problem?.let(::inputProblemText) ?: R.string.calibration_failed),
+                    color = PadColors.bad,
+                    textAlign = TextAlign.Center,
+                )
                 else -> Unit
             }
             if (state == CalState.RUNNING) {
@@ -139,7 +187,7 @@ fun CalibrationScreen(onBack: () -> Unit) {
                                 event.changes.forEach { c ->
                                     if (c.changedToDown()) {
                                         val p = playback
-                                        if (p != null && p.isRunning) {
+                                        if (source == InputSource.SCREEN && p != null && p.isRunning) {
                                             taps += p.sessionTimeAt(AudioEngine.uptimeMillisToNanoTime(c.uptimeMillis))
                                         }
                                         c.consume()
@@ -150,7 +198,13 @@ fun CalibrationScreen(onBack: () -> Unit) {
                     },
                 contentAlignment = Alignment.Center,
             ) {
-                Text(stringResource(R.string.tap_here), fontSize = 28.sp, color = PadColors.left, fontWeight = FontWeight.Bold)
+                Text(
+                    stringResource(if (source == InputSource.SCREEN) R.string.tap_here else R.string.play_here),
+                    fontSize = 28.sp,
+                    color = PadColors.left,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                )
             }
         }
     }

@@ -24,6 +24,7 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
@@ -60,7 +61,13 @@ import io.github.rdiecv.paradiddle.ui.components.GrooveGrid
 import kotlin.math.roundToInt
 
 @Composable
-fun StyleDetailScreen(vm: StyleViewModel, onBack: () -> Unit, onLearnSong: (String) -> Unit) {
+fun StyleDetailScreen(
+    vm: StyleViewModel,
+    onBack: () -> Unit,
+    onLearnSong: (String) -> Unit,
+    /** Practise the selected beat (its index) at a tempo on real drums. */
+    onPractise: (Int, Int) -> Unit,
+) {
     val style = vm.style
     val groove = vm.groove
     // Stop when the screen goes away (other tab, back) or the app goes to the background.
@@ -142,6 +149,9 @@ fun StyleDetailScreen(vm: StyleViewModel, onBack: () -> Unit, onLearnSong: (Stri
             )
             Button(onClick = vm::toggle, modifier = Modifier.fillMaxWidth()) {
                 Text(stringResource(if (vm.playing) R.string.stop else R.string.play))
+            }
+            OutlinedButton(onClick = { vm.stop(); onPractise(vm.selected, vm.bpm) }, modifier = Modifier.fillMaxWidth()) {
+                Text(stringResource(R.string.practise_on_drums))
             }
             if (vm.audioError) {
                 Text(stringResource(R.string.audio_error), color = MaterialTheme.colorScheme.error)

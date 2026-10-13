@@ -3,7 +3,9 @@
 <li><b>Míralo:</b> partitura, digitación (R/L), acentos, flams, drags y buzz de cada rudimento.</li>
 <li><b>Escúchalo:</b> oye cada rudimento a cualquier tempo con metrónomo integrado.</li>
 <li><b>Tócalo:</b> toca dos pads en pantalla (mano izquierda y derecha) mientras las notas caen hacia la línea de golpe. La app puntúa tu tiempo y tu digitación y te dice si aceleras o te retrasas.</li>
+<li><b>En tu batería:</b> toca en un pad de práctica que oye el micrófono, o en una batería electrónica conectada por USB-MIDI (como la Alesis Nitro Mesh). La app puntúa tu tiempo y tus acentos, y en la batería electrónica qué pad golpeas.</li>
+<li><b>Estilos y canciones:</b> 20 ritmos de rock, pop, punk, metal, bossa nova, songo, reggae y cumbia sobre un dibujo de la batería que se ilumina, con lecciones de canciones enteras.</li>
 <li><b>Sigue tu progreso:</b> mejor tempo limpio, precisión, tiempo de práctica y registro diario, todo guardado en tu dispositivo.</li>
 <li><b>Justo en cualquier móvil:</b> una calibración de latencia, una sola vez, compensa el retardo de audio y de pantalla de tu dispositivo.</li>
 </ul>
-<p>Sin anuncios, sin rastreo, sin cuenta y sin permiso de internet. Software libre bajo la GPL-3.0 o posterior.</p>
+<p>Sin anuncios, sin rastreo, sin cuenta y sin permiso de internet. El micrófono solo se usa si eliges tocar en un pad que oiga. Software libre bajo la GPL-3.0 o posterior.</p>

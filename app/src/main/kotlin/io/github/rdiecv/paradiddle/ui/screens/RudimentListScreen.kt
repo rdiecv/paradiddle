@@ -67,7 +67,7 @@ fun RudimentListScreen(
         },
     ) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding)) {
-            if (settings.calibrationOffsetMs == null) {
+            if (settings.offsetMs() == null) {
                 item {
                     Card(
                         Modifier.fillMaxWidth().padding(16.dp),

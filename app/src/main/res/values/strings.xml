@@ -75,7 +75,7 @@
     <string name="reset">Reset</string>
     <string name="click_volume">Metronome volume</string>
     <string name="guide_sound">Guide sound while practising</string>
-    <string name="guide_sound_desc">Plays the pattern softly under the clicks.</string>
+    <string name="guide_sound_desc">Plays the pattern softly under the clicks (not with the microphone, which would hear it).</string>
     <string name="default_reps">Default repetitions</string>
     <string name="about">About</string>
     <string name="about_text">Paradiddle %1$s. Free software under the GPL-3.0-or-later license.
@@ -133,7 +133,7 @@ Source code: github.com/rdiecv/paradiddle</string>
     <string name="kit_pads_title">4. Snare pad feel</string>
     <string name="kit_pads_body">Hit the snare (or press its Pad Select button), press Utility and step through the settings with Page/Select; change them with &lt; and &gt;:\n• SEN (sensitivity): higher = loud sounds with less force.\n• THR (threshold): higher = you must hit harder to get any sound. Lower it until soft grace notes (flams, drags, ghost notes) sound, but not so low that other pads trigger the snare.\n• CRO (crosstalk): raise it if hitting one pad makes another sound.\n• CUR (curve): how the volume follows how hard you hit.\n• R-S: rim sensitivity. S-S: hi-hat splash sensitivity.\nPress Save to keep the changes; otherwise they are lost when you turn the module off.</string>
     <string name="kit_practice_title">5. Practise with Paradiddle</string>
-    <string name="kit_practice_body">• Put the phone on a stand where you can see the notation.\n• The app scores taps on the phone screen, not hits on the kit. To get a score, tap the on-screen pads; to train on the kit, press Listen in a rudiment (or Play in a style) and play along.\n• Calibrate the app with the same headphones you use with the kit.</string>
+    <string name="kit_practice_body">• Put the phone on a stand where you can see the notation.\n• To be scored on the kit, connect the module to the phone (a USB cable from the module\'s USB port and a USB OTG adapter) and choose Settings → Play on → Electronic kit. The app then knows which pad you hit and how hard. A practice pad works too, with Play on → Microphone.\n• Calibrate once for the way you play (Settings → Calibrate).</string>
     <string name="kit_learning_title">6. Learning Mode (optional)</string>
     <string name="kit_learning_body">• Hold Page/Select for 1 second to switch between normal mode and Learning Mode.\n• Choose Beat (snare only), Rhythm (full kit) or Pattern (kit with music) and pick an exercise with &lt; and &gt;.\n• Play/Practice plays the exercise without a score; Start/Stop gives you a score at the end.</string>
     <string name="kit_source">Based on the official Alesis Nitro Mesh Kit user guide and Kit &amp; Voice List. If your module shows something different, check the manual at alesis.com.</string>
@@ -191,4 +191,30 @@ Source code: github.com/rdiecv/paradiddle</string>
     <string name="song_status_count_in">Count-in: %1$d</string>
     <string name="song_status_now">%1$s · bar %2$d of %3$d</string>
     <string name="song_status_next">next: %1$s</string>
+    <!-- Real drums: microphone and electronic kit -->
+    <string name="input_title">Play on</string>
+    <string name="input_screen">Phone screen</string>
+    <string name="input_screen_desc">Tap the two on-screen pads. Checks timing and hands.</string>
+    <string name="input_mic">Microphone</string>
+    <string name="input_mic_desc">A practice pad or acoustic kit heard by the phone. Checks timing and accents; hands can\'t be told apart.</string>
+    <string name="input_midi">Electronic kit (USB-MIDI)</string>
+    <string name="input_midi_desc">The Nitro Mesh module connected with a USB cable and a USB OTG adapter. Checks timing, accents and which pad you hit.</string>
+    <string name="midi_connected">Connected: %1$s</string>
+    <string name="midi_none">No kit connected. Plug the module\'s USB port into the phone with a USB cable and an OTG adapter, and turn the module on.</string>
+    <string name="calibration_for">Calibration for: %1$s</string>
+    <string name="calibration_intro_mic">Play your pad in time with the clicks. Stay silent for the first 4 clicks so the app can hear the click on its own, then play along. Use the same headphones or speaker you practise with.</string>
+    <string name="calibration_intro_midi">Hit the snare in time with the clicks. The first 4 are just to get the feel.</string>
+    <string name="play_here">Play on your drums</string>
+    <string name="input_problem_screen">To be scored on your drums, choose the microphone or your electronic kit in Settings → Play on.</string>
+    <string name="input_problem_midi">No electronic kit found. Connect the module\'s USB port to the phone with a USB cable and an OTG adapter, turn it on, and try again.</string>
+    <string name="input_problem_mic_permission">Paradiddle needs the microphone to hear your pad. Choose Microphone again in Settings → Play on and allow it.</string>
+    <string name="input_problem_mic">The microphone couldn\'t be opened. Close other apps that use it and try again.</string>
+    <string name="open_settings">Open settings</string>
+    <string name="listening_midi">Play on your kit: %1$s</string>
+    <string name="listening_mic">Play on your pad: the microphone is listening</string>
+    <string name="listening_mic_tip">Use headphones so the mic doesn\'t hear the click, and don\'t play during the count-in.</string>
+    <string name="wrong_pad">Wrong pad</string>
+    <string name="accents_label">Accents right</string>
+    <string name="practise_on_drums">Practise on my drums</string>
+    <string name="bar_progress">Bar %1$d of %2$d</string>
 </resources>

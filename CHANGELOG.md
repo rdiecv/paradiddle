@@ -23,6 +23,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
   every section with the beat it uses, and playback of the whole song (or from any section)
   with a count-in, a crash at each new section and the kit lighting up. Each lesson comes from
   published drum guides and song charts.
+- Real drums: choose in Settings → Play on between the phone screen, a microphone (practice pad
+  or acoustic kit) and an electronic kit over USB-MIDI (the Alesis Nitro module's default notes
+  are built in). With real drums the timing and the accents are scored (hands can't be told
+  apart), and on the electronic kit also the pad. Each input has its own calibration.
+- Practise any style beat on real drums: 8 bars after a one-bar count-in, with the kit lighting
+  up, live feedback (early / late / wrong pad) and results.
 - Each style plays with its own drum sound (tight and dry for punk and metal, deep and roomy
   for reggae, soft for bossa nova…).
 - A top view of the Alesis Nitro Mesh kit on each style: while the groove plays, the pads to

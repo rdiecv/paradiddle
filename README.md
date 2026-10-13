@@ -12,17 +12,21 @@ A free, open source Android app for learning the **40 PAS drum rudiments**.
 - **Listen** mode: hear the rudiment at any tempo over a metronome
 - **Practice** mode: tap two on-screen pads (left/right hand) while notes fall toward a hit line;
   timing and sticking are scored live (perfect / good / ok / wrong hand / missed)
+- **Real drums**: play on a practice pad (heard by the microphone) or on an electronic kit
+  connected by USB-MIDI (such as the Alesis Nitro Mesh, with a USB OTG adapter); timing and
+  accents are scored, and on the electronic kit also which pad you hit
 - Results with rushing/dragging tendency and a suggested next tempo
 - Local progress: best clean tempo (≥ 90 %), accuracy, practice time, daily log
 - One-time latency calibration so scoring is fair on every phone
 - **Styles**: 20 named beats of rock, pop, punk, metal, bossa nova, songo, reggae and cumbia,
   shown on a drawing of the Alesis Nitro Mesh kit that lights up the pads to hit, plus a drum
   grid, looping playback at any tempo with a drum sound for each style, a recommended kit setup
-  and songs that use each beat
+  and songs that use each beat; practise any beat on real drums and get a score
 - **Song lessons**: for 11 songs, a page that maps every section to the beat it uses, gives a
   learning path and plays the whole song (or any section) with the kit lighting up
 - **My kit**: how to set up an Alesis Nitro Mesh kit to practise with the app
-- English and Spanish · no ads, no tracking, no network, no permissions
+- English and Spanish · no ads, no tracking, no network; the only permission is the microphone,
+  asked for only if you choose to play on a pad heard by it
 
 ## Install on your phone
 
@@ -35,7 +39,8 @@ Android 8.0 or newer is needed.
 3. Android will say it can't install apps from this source. Tap **Settings**, turn on
    **Allow from this source**, then go back and tap **Install**.
 4. If Google Play Protect warns about an unknown app, tap **More details → Install anyway**.
-   The app asks for no permissions and doesn't use the internet.
+   The app doesn't use the internet. It asks for the microphone only if you choose to play on a
+   practice pad heard by it.
 5. Open Paradiddle and do the **calibration** first (it takes 15 seconds).
 
 **Updating:** download the newer APK and install it over the old one. Your progress is kept.

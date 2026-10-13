@@ -7,7 +7,7 @@ import kotlin.math.abs
 import kotlin.math.min
 import kotlin.math.sqrt
 
-enum class Judgement { PERFECT, GOOD, OK, WRONG_HAND, MISSED, EXTRA, GRACE_HIT, GRACE_MISSED }
+enum class Judgement { PERFECT, GOOD, OK, WRONG_HAND, WRONG_PAD, MISSED, EXTRA, GRACE_HIT, GRACE_MISSED }
 
 /**
  * Result of one tap or one closed window.
@@ -35,9 +35,16 @@ data class SessionResult(
     val meanOffsetMs: Double,
     /** Standard deviation of the offsets, in ms. */
     val spreadMs: Double,
+    /** How well accents were played (real drums only), null when not checked. */
+    val accents: AccentResult? = null,
+    /** Hits on time but on another drum (electronic kit only). */
+    val wrongPad: Int = 0,
 ) {
     val isClean: Boolean get() = accuracy >= Scoring.CLEAN_ACCURACY
 }
+
+/** Notes played at the right loudness: accents loud, the others soft. */
+data class AccentResult(val right: Int, val total: Int)
 
 object Scoring {
     const val CLEAN_ACCURACY = 90.0
@@ -52,6 +59,8 @@ object Scoring {
     const val POINTS_WRONG_HAND = 0.25
     const val POINTS_GRACE = 0.5
     const val PENALTY_EXTRA = 0.25
+    /** An accent must be this much louder than the typical unaccented note. */
+    const val ACCENT_RATIO = 1.25f
 
     fun windowNanos(slotNanos: Long): Long = min(MAX_WINDOW_NANOS, slotNanos * 45 / 100)
 
@@ -70,8 +79,13 @@ object Scoring {
  * Matches taps to the expected notes of a [Timeline] (tolerant mode: grace notes only need
  * the right hand shortly before their main stroke). Feed taps in time order with [tap] and
  * call [advanceTo] regularly so missed notes are reported; [finish] returns the result.
+ *
+ * With [realDrums] (microphone or electronic kit) hits come through [hit]: hands can't be told
+ * apart so they aren't checked, grace notes aren't scored (their strokes are absorbed by the
+ * main note, as are a buzz stroke's bounces), the pad is checked when known, and the loudness
+ * of each note is kept to judge the accents.
  */
-class Scorer(private val timeline: Timeline) {
+class Scorer(private val timeline: Timeline, private val realDrums: Boolean = false) {
     private val window = Scoring.windowNanos(timeline.slotNanos)
     private val perfectLimit = min(25 * NANOS_PER_MS, window / 2)
     private val goodLimit = min(50 * NANOS_PER_MS, window)
@@ -82,7 +96,10 @@ class Scorer(private val timeline: Timeline) {
 
     private val notes = timeline.notes
     private val noteDone = BooleanArray(notes.size)
-    private val graces = notes.flatMap { n -> n.graces.map { Grace(it.hand, it.timeNanos, n.timeNanos) } }
+    private val graces =
+        if (realDrums) emptyList() else notes.flatMap { n -> n.graces.map { Grace(it.hand, it.timeNanos, n.timeNanos) } }
+    private val levels = FloatArray(notes.size) { Float.NaN }
+    private var absorbUntil = Long.MIN_VALUE
 
     private var nextOpenNote = 0
     private var nextOpenGrace = 0
@@ -183,6 +200,107 @@ class Scorer(private val timeline: Timeline) {
         return Feedback(Judgement.EXTRA, hand, timeNanos)
     }
 
+    /**
+     * Judges a hit on a real drum at [timeNanos] with loudness [level] (0–1) on [pad] (null when
+     * unknown). Hits must arrive in non-decreasing time order. Returns null for a hit that belongs
+     * to the note just played (its main stroke after a grace, or a buzz bounce).
+     */
+    fun hit(timeNanos: Long, level: Float, pad: Instrument? = null): Feedback? {
+        check(realDrums) { "hit() is for real drums; use tap()" }
+        var best: NoteEvent? = null
+        var bestDistance = Long.MAX_VALUE
+        var other: NoteEvent? = null
+        var otherDistance = Long.MAX_VALUE
+        for (i in nextOpenNote until notes.size) {
+            val n = notes[i]
+            if (n.timeNanos - window > timeNanos + spanBefore(n)) break
+            if (noteDone[i]) continue
+            val d = distance(n, timeNanos)
+            if (d > window) continue
+            if (pad == null || n.pad == null || sameGroup(pad, n.pad)) {
+                // Earliest matching note wins, like taps.
+                if (best == null) { best = n; bestDistance = d }
+            } else if (d < otherDistance) {
+                other = n; otherDistance = d
+            }
+        }
+        if (best == null && timeNanos <= absorbUntil) {
+            return null
+        }
+        if (best != null) {
+            noteDone[best.index] = true
+            levels[best.index] = level
+            absorbUntil = absorbEnd(best)
+            val signed = if (timeNanos < best.timeNanos) -bestDistance else bestDistance
+            val j = when {
+                bestDistance <= perfectLimit -> Judgement.PERFECT
+                bestDistance <= goodLimit -> Judgement.GOOD
+                else -> Judgement.OK
+            }
+            record(j, pointsFor(j), Scoring.POINTS_PERFECT)
+            offsets += signed
+            return Feedback(j, best.hand, timeNanos, best.index, signed)
+        }
+        if (other != null) {
+            noteDone[other.index] = true
+            record(Judgement.WRONG_PAD, Scoring.POINTS_WRONG_HAND, Scoring.POINTS_PERFECT)
+            return Feedback(Judgement.WRONG_PAD, other.hand, timeNanos, other.index, timeNanos - other.timeNanos)
+        }
+        record(Judgement.EXTRA, -Scoring.PENALTY_EXTRA, 0.0)
+        return Feedback(Judgement.EXTRA, nearestHand(timeNanos), timeNanos)
+    }
+
+    /** How early a note's grace strokes start. */
+    private fun spanBefore(n: NoteEvent): Long = n.graces.firstOrNull()?.let { n.timeNanos - it.timeNanos } ?: 0L
+
+    /** Distance from a hit to the note, or to its nearest grace stroke (a flam heard as one hit). */
+    private fun distance(n: NoteEvent, t: Long): Long {
+        var d = abs(t - n.timeNanos)
+        n.graces.forEach { g -> d = min(d, abs(t - g.timeNanos)) }
+        return d
+    }
+
+    /** Until when further hits belong to [n]: its main stroke after a grace, or a buzz's bounces. */
+    private fun absorbEnd(n: NoteEvent): Long {
+        val own = when {
+            n.buzz -> n.timeNanos + n.durationNanos
+            n.graces.isNotEmpty() -> n.timeNanos + ABSORB_AFTER_MAIN_NANOS
+            else -> return Long.MIN_VALUE
+        }
+        val next = notes.getOrNull(n.index + 1)?.let { it.timeNanos - spanBefore(it) - window } ?: Long.MAX_VALUE
+        return min(own, next)
+    }
+
+    /** Pads that count as the same drum: the cowbell sits on the ride pad, cross-stick is the snare rim. */
+    private fun sameGroup(a: Instrument, b: Instrument): Boolean = group(a) == group(b)
+
+    private fun group(i: Instrument): Instrument = when (i) {
+        Instrument.COWBELL -> Instrument.RIDE
+        Instrument.CROSS_STICK -> Instrument.SNARE
+        else -> i
+    }
+
+    private fun nearestHand(t: Long): Hand =
+        notes.minByOrNull { abs(it.timeNanos - t) }?.hand ?: Hand.RIGHT
+
+    private fun pointsFor(j: Judgement): Double = when (j) {
+        Judgement.PERFECT -> Scoring.POINTS_PERFECT
+        Judgement.GOOD -> Scoring.POINTS_GOOD
+        else -> Scoring.POINTS_OK
+    }
+
+    /** Accents loud, other notes soft, measured against the typical unaccented note. */
+    private fun accentResult(): AccentResult? {
+        if (!realDrums) return null
+        val played = notes.filter { !levels[it.index].isNaN() }
+        val soft = played.filter { !it.accent }.map { levels[it.index] }.sorted()
+        if (soft.isEmpty() || played.none { it.accent }) return null
+        val median = if (soft.size % 2 == 1) soft[soft.size / 2] else (soft[soft.size / 2 - 1] + soft[soft.size / 2]) / 2
+        val threshold = median * Scoring.ACCENT_RATIO
+        val right = played.count { (levels[it.index] >= threshold) == it.accent }
+        return AccentResult(right, played.size)
+    }
+
     private fun record(j: Judgement, p: Double, max: Double) {
         points += p
         judgedMax += max
@@ -209,6 +327,12 @@ class Scorer(private val timeline: Timeline) {
             graceMissed = c(Judgement.GRACE_MISSED),
             meanOffsetMs = mean,
             spreadMs = spread,
+            accents = accentResult(),
+            wrongPad = c(Judgement.WRONG_PAD),
         )
+    }
+
+    private companion object {
+        const val ABSORB_AFTER_MAIN_NANOS = 40 * NANOS_PER_MS
     }
 }

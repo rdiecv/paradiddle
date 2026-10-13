@@ -27,11 +27,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.changedToDown
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
@@ -50,6 +52,9 @@ import io.github.rdiecv.paradiddle.core.NANOS_PER_MS
 import io.github.rdiecv.paradiddle.core.Scoring
 import io.github.rdiecv.paradiddle.core.SessionResult
 import io.github.rdiecv.paradiddle.ui.rememberFrameDelayNanos
+import io.github.rdiecv.paradiddle.data.InputSource
+import io.github.rdiecv.paradiddle.input.InputProblem
+import io.github.rdiecv.paradiddle.input.MidiDrumInput
 import io.github.rdiecv.paradiddle.ui.components.LanesView
 import io.github.rdiecv.paradiddle.ui.components.NotationView
 import io.github.rdiecv.paradiddle.ui.theme.PadColors
@@ -78,16 +83,12 @@ fun PracticeScreen(vm: PracticeViewModel, onBack: () -> Unit) {
         Box(Modifier.fillMaxSize().padding(padding)) {
             when (vm.phase) {
                 Phase.FINISHED -> vm.result?.let { r ->
-                    ResultsContent(r, vm.bpm, onRetry = { vm.start() }, onTry = { vm.start(it) }, onDone = onBack)
+                    ResultsContent(
+                        r, vm.bpm, realDrums = vm.source != InputSource.SCREEN,
+                        onRetry = { vm.start() }, onTry = { vm.start(it) }, onDone = onBack,
+                    )
                 }
-                Phase.ERROR -> Column(
-                    Modifier.fillMaxSize().padding(24.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Text(stringResource(R.string.audio_error), textAlign = TextAlign.Center)
-                    TextButton(onClick = onBack) { Text(stringResource(R.string.back)) }
-                }
+                Phase.ERROR -> ErrorContent(vm.inputProblem, onBack)
                 else -> PlayingContent(vm)
             }
         }
@@ -103,6 +104,7 @@ private fun PlayingContent(vm: PracticeViewModel) {
     val early = stringResource(R.string.early)
     val late = stringResource(R.string.late)
     val wrong = stringResource(R.string.wrong_hand)
+    val wrongPad = stringResource(R.string.wrong_pad)
     val miss = stringResource(R.string.miss)
     val extra = stringResource(R.string.extra)
 
@@ -144,6 +146,7 @@ private fun PlayingContent(vm: PracticeViewModel) {
                     val off = f.feedback.offsetNanos
                     when (f.feedback.judgement) {
                         Judgement.WRONG_HAND -> wrong
+                        Judgement.WRONG_PAD -> wrongPad
                         Judgement.MISSED -> miss
                         Judgement.EXTRA -> extra
                         Judgement.GOOD, Judgement.OK -> if (off != null && off < 0) early else late
@@ -161,8 +164,10 @@ private fun PlayingContent(vm: PracticeViewModel) {
                 Button(onClick = { vm.start() }) { Text(stringResource(R.string.start)) }
             }
         }
-        if (!vm.listen) {
-            Pads(onTap = vm::onTap)
+        when {
+            vm.listen -> Unit
+            vm.source == InputSource.SCREEN -> Pads(onTap = vm::onTap)
+            else -> RealDrumsPanel(vm.source, Modifier.fillMaxWidth().height(160.dp).padding(8.dp))
         }
     }
 }
@@ -213,8 +218,64 @@ private fun Pad(label: String, description: String, color: androidx.compose.ui.g
     }
 }
 
+/** Why practice can't start: the audio output, or the chosen real-drum input. */
 @Composable
-private fun ResultsContent(r: SessionResult, bpm: Int, onRetry: () -> Unit, onTry: (Int) -> Unit, onDone: () -> Unit) {
+internal fun ErrorContent(problem: InputProblem?, onBack: () -> Unit, onSettings: (() -> Unit)? = null) {
+    Column(
+        Modifier.fillMaxSize().padding(24.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterVertically),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(stringResource(problem?.let(::inputProblemText) ?: R.string.audio_error), textAlign = TextAlign.Center)
+        if (problem != null && onSettings != null) {
+            Button(onClick = onSettings) { Text(stringResource(R.string.open_settings)) }
+        }
+        TextButton(onClick = onBack) { Text(stringResource(R.string.back)) }
+    }
+}
+
+/** The message explaining an [InputProblem]. */
+internal fun inputProblemText(problem: InputProblem): Int = when (problem) {
+    InputProblem.NO_REAL_DRUMS -> R.string.input_problem_screen
+    InputProblem.NO_MIDI_DEVICE -> R.string.input_problem_midi
+    InputProblem.NO_MIC_PERMISSION -> R.string.input_problem_mic_permission
+    InputProblem.MIC_UNAVAILABLE -> R.string.input_problem_mic
+}
+
+/** Shown instead of the on-screen pads while the app listens to real drums. */
+@Composable
+internal fun RealDrumsPanel(source: InputSource, modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+    val shape = RoundedCornerShape(20.dp)
+    Column(
+        modifier.clip(shape).border(2.dp, MaterialTheme.colorScheme.outlineVariant, shape).padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterVertically),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        if (source == InputSource.MIDI) {
+            val name = remember { MidiDrumInput.deviceName(context) ?: "MIDI" }
+            Text(stringResource(R.string.listening_midi, name), style = MaterialTheme.typography.titleMedium, textAlign = TextAlign.Center)
+        } else {
+            Text(stringResource(R.string.listening_mic), style = MaterialTheme.typography.titleMedium, textAlign = TextAlign.Center)
+            Text(
+                stringResource(R.string.listening_mic_tip),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+            )
+        }
+    }
+}
+
+@Composable
+internal fun ResultsContent(
+    r: SessionResult,
+    bpm: Int,
+    realDrums: Boolean,
+    onRetry: () -> Unit,
+    onTry: (Int) -> Unit,
+    onDone: () -> Unit,
+) {
     val suggested = Scoring.suggestedBpm(bpm, r.accuracy)
     Column(
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp),
@@ -238,11 +299,13 @@ private fun ResultsContent(r: SessionResult, bpm: Int, onRetry: () -> Unit, onTr
             CountRow(stringResource(R.string.perfect_label), r.perfect.toString())
             CountRow(stringResource(R.string.good_label), r.good.toString())
             CountRow(stringResource(R.string.ok_label), r.ok.toString())
-            CountRow(stringResource(R.string.wrong_hand_label), r.wrongHand.toString())
+            if (!realDrums) CountRow(stringResource(R.string.wrong_hand_label), r.wrongHand.toString())
+            if (r.wrongPad > 0) CountRow(stringResource(R.string.wrong_pad), r.wrongPad.toString())
             CountRow(stringResource(R.string.missed_label), r.missed.toString())
             CountRow(stringResource(R.string.extra_label), r.extra.toString())
             val graces = r.graceHit + r.graceMissed
             if (graces > 0) CountRow(stringResource(R.string.graces_label), stringResource(R.string.graces_value, r.graceHit, graces))
+            r.accents?.let { a -> CountRow(stringResource(R.string.accents_label), stringResource(R.string.graces_value, a.right, a.total)) }
         }
 
         val mean = r.meanOffsetMs.roundToInt()

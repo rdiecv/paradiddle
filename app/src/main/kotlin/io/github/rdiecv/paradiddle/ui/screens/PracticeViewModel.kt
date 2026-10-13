@@ -28,7 +28,12 @@ import io.github.rdiecv.paradiddle.core.Timeline
 import io.github.rdiecv.paradiddle.core.TimelineBuilder
 import io.github.rdiecv.paradiddle.core.audio.SessionSound
 import io.github.rdiecv.paradiddle.core.audio.Synth
+import io.github.rdiecv.paradiddle.core.Instrument
+import io.github.rdiecv.paradiddle.data.InputSource
 import io.github.rdiecv.paradiddle.data.PracticeSession
+import io.github.rdiecv.paradiddle.input.DrumInputs
+import io.github.rdiecv.paradiddle.input.InputProblem
+import io.github.rdiecv.paradiddle.input.LiveDrumInput
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -63,8 +68,15 @@ class PracticeViewModel(
         private set
     var rightFlash by mutableStateOf<Flash?>(null)
         private set
+    /** What the player plays on (always the screen in listen mode). */
+    var source by mutableStateOf(InputSource.SCREEN)
+        private set
+    /** Why real drums can't be used, when [phase] is [Phase.ERROR] because of them. */
+    var inputProblem by mutableStateOf<InputProblem?>(null)
+        private set
 
     private var playback: Playback? = null
+    private var live: LiveDrumInput? = null
     private var scorer: Scorer? = null
     private var calibrationNanos = 0L
     private var startedAtMillis = 0L
@@ -80,13 +92,21 @@ class PracticeViewModel(
         bpm = newBpm.coerceIn(Scoring.MIN_BPM, Scoring.MAX_BPM)
         viewModelScope.launch {
             val settings = app.settings.settings.first()
-            calibrationNanos = (settings.calibrationOffsetMs ?: 0) * NANOS_PER_MS
+            source = if (listen) InputSource.SCREEN else settings.inputSource
+            inputProblem = DrumInputs.problem(app, source)
+            if (inputProblem != null) {
+                phase = Phase.ERROR
+                return@launch
+            }
+            calibrationNanos = (settings.offsetMs(source) ?: 0) * NANOS_PER_MS
             val t = TimelineBuilder.build(rudiment, bpm, repetitions)
             val sound = SessionSound(Synth(AudioEngine.sampleRate))
             val voices = if (listen) {
                 sound.voices(t, clickGain = settings.clickVolume * 0.6f, patternGain = 0.9f)
             } else {
-                sound.voices(t, clickGain = settings.clickVolume, patternGain = if (settings.guideSound) 0.25f else 0f)
+                // No guide pattern for the microphone: it would hear the guide instead of the player.
+                val guide = settings.guideSound && source != InputSource.MICROPHONE
+                sound.voices(t, clickGain = settings.clickVolume, patternGain = if (guide) 0.25f else 0f)
             }
             judgements.clear()
             leftFlash = null
@@ -94,11 +114,23 @@ class PracticeViewModel(
             result = null
             liveAccuracy = 100.0
             timeline = t
-            scorer = if (listen) null else Scorer(t)
+            scorer = if (listen) null else Scorer(t, realDrums = source != InputSource.SCREEN)
             audioDone = false
-            playback = try {
+            val p = try {
                 AudioEngine.play(voices, sound.frameOf(t.endNanos)) { audioDone = true }
             } catch (e: IllegalStateException) {
+                phase = Phase.ERROR
+                return@launch
+            }
+            playback = p
+            live = DrumInputs.create(app, source)?.let { input ->
+                LiveDrumInput(input, p, t, mic = source == InputSource.MICROPHONE, calibrationNanos, ::onHit)
+            }
+            try {
+                live?.start()
+            } catch (e: IllegalStateException) {
+                stopPlayback()
+                inputProblem = if (source == InputSource.MIDI) InputProblem.NO_MIDI_DEVICE else InputProblem.MIC_UNAVAILABLE
                 phase = Phase.ERROR
                 return@launch
             }
@@ -134,6 +166,17 @@ class PracticeViewModel(
         liveAccuracy = s.liveAccuracy
     }
 
+    /** A hit on real drums, already in session time. */
+    private fun onHit(time: Long, level: Float, pad: Instrument?) {
+        val s = scorer ?: return
+        val t = timeline ?: return
+        if (phase != Phase.PLAYING) return
+        if (time < t.countInNanos - Scoring.MAX_WINDOW_NANOS) return
+        s.advanceTo(time).forEach(::show)
+        s.hit(time, level, pad)?.let(::show)
+        liveAccuracy = s.liveAccuracy
+    }
+
     private fun show(f: Feedback) {
         f.noteIndex?.let { judgements[it] = f.judgement }
         val flash = Flash(f, nowNanos)
@@ -143,6 +186,8 @@ class PracticeViewModel(
     private fun finish() {
         phase = Phase.FINISHED
         playback = null
+        live?.stop()
+        live = null
         val s = scorer ?: run {
             // Listen mode: go back to ready so it can be played again.
             phase = Phase.READY
@@ -182,6 +227,8 @@ class PracticeViewModel(
     }
 
     private fun stopPlayback() {
+        live?.stop()
+        live = null
         playback?.stop()
         playback = null
     }

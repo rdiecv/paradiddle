@@ -31,6 +31,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import io.github.rdiecv.paradiddle.R
 import io.github.rdiecv.paradiddle.ui.screens.CalibrationScreen
+import io.github.rdiecv.paradiddle.ui.screens.GroovePracticeScreen
+import io.github.rdiecv.paradiddle.ui.screens.GroovePracticeViewModel
 import io.github.rdiecv.paradiddle.ui.screens.KitGuideScreen
 import io.github.rdiecv.paradiddle.ui.screens.LogScreen
 import io.github.rdiecv.paradiddle.ui.screens.PracticeScreen
@@ -101,7 +103,26 @@ fun ParadiddleNavHost() {
             composable("style/{id}", listOf(navArgument("id") { type = NavType.StringType })) { entry ->
                 val style = app.style(entry.arguments?.getString("id").orEmpty()) ?: return@composable back()
                 val vm = viewModel { StyleViewModel(style) }
-                StyleDetailScreen(vm, onBack = ::back, onLearnSong = { nav.navigate("song/$it") })
+                StyleDetailScreen(
+                    vm,
+                    onBack = ::back,
+                    onLearnSong = { nav.navigate("song/$it") },
+                    onPractise = { beat, bpm -> nav.navigate("groove-practice/${style.id}/$beat/$bpm") },
+                )
+            }
+            composable(
+                "groove-practice/{style}/{beat}/{bpm}",
+                listOf(
+                    navArgument("style") { type = NavType.StringType },
+                    navArgument("beat") { type = NavType.IntType },
+                    navArgument("bpm") { type = NavType.IntType },
+                ),
+            ) { entry ->
+                val args = entry.arguments ?: return@composable back()
+                val style = app.style(args.getString("style").orEmpty()) ?: return@composable back()
+                val groove = style.grooves.getOrNull(args.getInt("beat")) ?: return@composable back()
+                val vm = viewModel { GroovePracticeViewModel(app, style, groove, args.getInt("bpm")) }
+                GroovePracticeScreen(vm, onBack = ::back, onSettings = { nav.navigate("settings") })
             }
             composable("song/{id}", listOf(navArgument("id") { type = NavType.StringType })) { entry ->
                 val (style, song) = app.song(entry.arguments?.getString("id").orEmpty()) ?: return@composable back()
