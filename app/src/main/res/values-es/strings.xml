@@ -147,11 +147,31 @@ Código fuente: github.com/rdiecv/paradiddle</string>
     <string name="kit_pad_kick">Bombo</string>
     <string name="foot_right">PD</string>
     <string name="kit_view_desc">Batería Alesis Nitro Mesh vista desde el asiento del batería. Los pads se iluminan cuando tienes que golpearlos.</string>
-    <string name="kit_view_hint">Pulsa Reproducir y golpea los pads cuando se iluminen. D = mano derecha, I = mano izquierda, PD = pie derecho (pedal del bombo). Si se ilumina el aro, es aro cruzado.</string>
+    <string name="kit_legend_button">Cómo leer la batería</string>
+    <string name="kit_legend_title">Cómo leer la batería</string>
+    <string name="kit_legend_close">Entendido</string>
+    <string name="kit_legend_body">Pulsa Reproducir y golpea cada pad cuando se ilumine.
+
+• D = mano derecha, I = mano izquierda, PD = pie derecho (pedal del bombo).
+• Brillante = acento, tenue = nota fantasma.
+• Solo el aro de la caja iluminado = aro cruzado.
+• Un aro sobre el hi-hat = hi-hat abierto (levanta el pie izquierdo).
+• Los pads con borde ámbar son los que usa este ritmo.</string>
 
     <plurals name="beats_count">
         <item quantity="one">%d ritmo</item>
         <item quantity="many">%d ritmos</item>
         <item quantity="other">%d ritmos</item>
     </plurals>
+
+    <!-- Canciones -->
+    <string name="songs_title">Canciones que lo usan</string>
+    <string name="songs_none">Todavía no hay canciones sugeridas para este ritmo. La guía de abajo sirve para cualquier canción que conozcas que lo use.</string>
+    <string name="song_listen">Escuchar %1$s</string>
+    <string name="song_no_app">No hay ninguna app para reproducir o buscar esta canción.</string>
+    <string name="songs_caveat">Las canciones suelen cambiar de ritmo entre partes: úsalas como ejemplos para escuchar.</string>
+    <string name="learn_song_title">Cómo aprender una canción entera</string>
+    <string name="learn_song_show">Mostrar la guía</string>
+    <string name="learn_song_hide">Ocultar la guía</string>
+    <string name="learn_song_body">1. Escucha la canción entera una vez sin tocar. Identifica sus partes: intro, estrofa, estribillo, puente, final.\n2. Busca el tempo: pulsa Reproducir aquí y cambia el tempo hasta que el bucle encaje con la canción.\n3. Cuenta los compases de cada parte (casi siempre 4, 8 o 16) y apunta un mapa, por ejemplo: Intro 4 · Estrofa 8 · Estribillo 8 · Estrofa 8 · Estribillo 8 · Final 4.\n4. Practica este ritmo con la app, más lento que la canción, hasta que te salga sin pensar.\n5. Toca encima de la canción. Mantén el ritmo en cada parte; en el último compás de una parte, haz un redoble corto (por ejemplo cuatro corcheas en la caja o los toms) y golpea el crash junto con el bombo en el 1 de la parte siguiente.\n6. Fíjate en los cambios: muchas canciones usan el hi-hat cerrado en la estrofa y el ride o un hi-hat más abierto en el estribillo.\n7. Para oír la canción y tu batería a la vez, conecta el móvil a Aux In (mira Mi batería). Toca de principio a fin sin pararte por los fallos.</string>
 </resources>

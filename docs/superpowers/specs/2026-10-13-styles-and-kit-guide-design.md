@@ -93,3 +93,27 @@ and peak ≤ 1. Then `./gradlew test lint assembleDebug`; device check by the us
   and ballad, punk driving 8ths, metal gallop and blast beat, bossa nova 2-3 clave, reggae
   rockers and steppers. D-beat, songo variations (cáscara) and cumbia variations were left out
   for lack of reliable sources.
+
+## Update: songs and a learning guide
+
+- Each beat may list `songs` (title, artist, optional per-language note). They are listening
+  examples only: no recordings, transcriptions or per-song arrangements ship with the app
+  (copyright, and arrangements written without listening would be unreliable). A song is
+  listed only when a source confirms the beat; tempos are left out because sources disagree.
+- Every beat shows a "Songs that use it" card (or "no suggestion yet") and a collapsible,
+  generic "How to learn a whole song" guide: listen and name the parts, match the tempo with
+  the loop, count bars into a road map, practise slowly, play along with fills and a crash
+  on the next 1, listen for hi-hat/ride changes, play through via Aux In.
+
+## Update: kit legend
+
+The text under the kit drawing became an ⓘ button in the kit's empty bottom-right corner. It
+opens a dialog explaining the symbols: R/L/RF, bright vs faint, lit rim = cross-stick, ring =
+open hi-hat, amber outline = pads used by the beat.
+
+## Update: listening to a song
+
+Each song has a play button that sends Android's standard `MEDIA_PLAY_FROM_SEARCH` intent (title,
+artist, query) so whichever music app the user has finds and plays it; if none answers, it falls
+back to `ACTION_WEB_SEARCH`, and then to a short message. No service (YouTube, Spotify…) is named,
+which keeps the app clear of F-Droid's NonFreeNet anti-feature and needs no permission.

@@ -17,7 +17,8 @@ A free, open source Android app for learning the **40 PAS drum rudiments**.
 - One-time latency calibration so scoring is fair on every phone
 - **Styles**: 18 named beats of rock, pop, punk, metal, bossa nova, songo, reggae and cumbia,
   shown on a drawing of the Alesis Nitro Mesh kit that lights up the pads to hit, plus a drum
-  grid, looping playback at any tempo and a recommended kit setup
+  grid, looping playback at any tempo, a recommended kit setup, songs that use each beat and a
+  guide to learning a whole song
 - **My kit**: how to set up an Alesis Nitro Mesh kit to practise with the app
 - English and Spanish · no ads, no tracking, no network, no permissions
 
@@ -107,6 +108,10 @@ one or two bars):
 | `x` / `X` | hit / accented hit |
 | `g` | ghost note |
 | `o` | open hi-hat (hi-hat track only) |
+
+A beat can list `songs` that use it (`title`, `artist` and an optional per-language `note`).
+They are listening examples only: the app never ships recordings or transcriptions, and a song
+is added only when a source confirms the beat.
 
 Instruments: `hihat`, `ride`, `cowbell`, `snare`, `cross_stick`, `tom`, `kick`. The songo and
 cumbia beats are simplified drum-kit versions; corrections and new beats are welcome, and

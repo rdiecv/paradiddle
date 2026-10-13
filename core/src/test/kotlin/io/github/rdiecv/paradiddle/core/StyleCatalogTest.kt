@@ -19,7 +19,9 @@ class StyleCatalogTest {
         maxBpm: Int = 120,
         id: String = "b",
         how: String = """{"en":"How","es":"Cómo"}""",
-    ) = """{"id":"$id","name":{"en":"B"},"bpm":$bpm,"minBpm":$minBpm,"maxBpm":$maxBpm,"how":$how,"tracks":$tracks}"""
+        songs: String = "",
+    ) = """{"id":"$id","name":{"en":"B"},"bpm":$bpm,"minBpm":$minBpm,"maxBpm":$maxBpm,"how":$how,"tracks":$tracks""" +
+        (if (songs.isEmpty()) "" else ""","songs":$songs""") + "}"
 
     private fun style(
         vararg beats: String = arrayOf(beat()),
@@ -87,6 +89,29 @@ class StyleCatalogTest {
         assertEquals("How", s.grooves.single().how.get("fr"))
     }
 
+    @Test
+    fun songsAreOptional() {
+        assertTrue(parse(style()).single().grooves.single().songs.isEmpty())
+    }
+
+    @Test
+    fun parsesSongs() {
+        val songs = parse(
+            style(beat(songs = """[{"title":"T","artist":"A"},{"title":"U","artist":"B","note":{"en":"Chorus only","es":"Solo el estribillo"}}]""")),
+        ).single().grooves.single().songs
+        assertEquals(listOf("T", "U"), songs.map { it.title })
+        assertEquals("A", songs[0].artist)
+        assertNull(songs[0].note)
+        assertEquals("Solo el estribillo", songs[1].note?.get("es"))
+    }
+
+    @Test
+    fun realFileSongsHaveTitleAndArtist() {
+        val songs = StyleCatalog.parse(realFile()).flatMap { s -> s.grooves.flatMap { it.songs } }
+        assertTrue(songs.size >= 10)
+        songs.forEach { assertTrue(it.title.isNotBlank() && it.artist.isNotBlank()) }
+    }
+
     private fun assertRejected(vararg styles: String) {
         try {
             parse(*styles)
@@ -113,5 +138,8 @@ class StyleCatalogTest {
     @Test fun rejectsTempoOutsideLimits() = assertRejected(style(beat(bpm = 300, minBpm = 290, maxBpm = 320)))
     @Test fun rejectsDuplicateBeatIds() = assertRejected(style(beat(), beat()))
     @Test fun rejectsBeatIdEqualToAStyleId() = assertRejected(style(beat(id = "s")))
+    @Test fun rejectsSongWithoutTitle() = assertRejected(style(beat(songs = """[{"title":" ","artist":"A"}]""")))
+    @Test fun rejectsSongNoteWithoutEnglish() =
+        assertRejected(style(beat(songs = """[{"title":"T","artist":"A","note":{"es":"Nota"}}]""")))
     @Test fun rejectsDuplicateStyleIds() = assertRejected(style(), style(beat(id = "c")))
 }

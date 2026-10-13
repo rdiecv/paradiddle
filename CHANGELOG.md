@@ -15,6 +15,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
   floor, ballad), punk (skank, driving 8ths), metal (double bass, gallop, blast beat), bossa
   nova (3-2 and 2-3 clave), songo, reggae (one drop, rockers, steppers) and cumbia, with a
   drum grid, a looping playback at any tempo, tips and a recommended Alesis Nitro Mesh setup.
+- Songs that use each beat (15 songs on 9 beats, only where a source confirms the beat) and a
+  step-by-step guide to learning a whole song. A play button next to each song asks your music
+  app to play it (Android's "play from search"; falls back to a web search, no permission
+  needed).
 - A top view of the Alesis Nitro Mesh kit on each style: while the groove plays, the pads to
   hit light up, with the hand or foot that plays them.
 - My kit: a guide to setting up the Alesis Nitro Mesh kit for practice (connections, kit,

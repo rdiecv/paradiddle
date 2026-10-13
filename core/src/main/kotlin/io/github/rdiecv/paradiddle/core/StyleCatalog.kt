@@ -26,7 +26,11 @@ object StyleCatalog {
         val maxBpm: Int,
         val how: Map<String, String>,
         val tracks: Map<String, String>,
+        val songs: List<SongEntry> = emptyList(),
     )
+
+    @Serializable
+    private data class SongEntry(val title: String, val artist: String, val note: Map<String, String>? = null)
 
     private val json = Json { ignoreUnknownKeys = true }
 
@@ -85,8 +89,12 @@ object StyleCatalog {
         if (steps == 0 || steps % Groove.STEPS_PER_BAR != 0) fail("$steps steps is not a whole number of bars")
         if (tracks.values.none { t -> t.any { it != null } }) fail("no hits")
 
+        val songs = e.songs.map { song ->
+            if (song.title.isBlank() || song.artist.isBlank()) fail("song without title or artist")
+            Song(song.title, song.artist, song.note?.let { note -> text(note) { fail("note of ${song.title}: $it") } })
+        }
         return Groove(
-            e.id, text(e.name) { fail("name: $it") }, e.bpm, e.minBpm, e.maxBpm, text(e.how) { fail("how: $it") }, tracks,
+            e.id, text(e.name) { fail("name: $it") }, e.bpm, e.minBpm, e.maxBpm, text(e.how) { fail("how: $it") }, tracks, songs,
         )
     }
 }

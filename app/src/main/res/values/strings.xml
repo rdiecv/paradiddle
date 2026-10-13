@@ -148,10 +148,30 @@ Source code: github.com/rdiecv/paradiddle</string>
     <string name="kit_pad_kick">Kick</string>
     <string name="foot_right">RF</string>
     <string name="kit_view_desc">Alesis Nitro Mesh kit seen from the drummer\'s seat. The pads light up when you have to hit them.</string>
-    <string name="kit_view_hint">Press Play and hit the pads as they light up. R = right hand, L = left hand, RF = right foot (kick pedal). A lit rim means cross-stick.</string>
+    <string name="kit_legend_button">How to read the kit</string>
+    <string name="kit_legend_title">How to read the kit</string>
+    <string name="kit_legend_close">Got it</string>
+    <string name="kit_legend_body">Press Play and hit each pad as it lights up.
+
+• R = right hand, L = left hand, RF = right foot (kick pedal).
+• Bright = accent, faint = ghost note.
+• Only the snare rim lit = cross-stick.
+• A ring above the hi-hat = open hi-hat (lift your left foot).
+• Pads with an amber outline are the ones this beat uses.</string>
 
     <plurals name="beats_count">
         <item quantity="one">%d beat</item>
         <item quantity="other">%d beats</item>
     </plurals>
+
+    <!-- Songs -->
+    <string name="songs_title">Songs that use it</string>
+    <string name="songs_none">No song suggestion yet for this beat. The guide below works with any song you know that uses it.</string>
+    <string name="song_listen">Listen to %1$s</string>
+    <string name="song_no_app">No app found to play or search for this song.</string>
+    <string name="songs_caveat">Songs often change the beat between sections: use them as listening examples.</string>
+    <string name="learn_song_title">How to learn a whole song</string>
+    <string name="learn_song_show">Show the guide</string>
+    <string name="learn_song_hide">Hide the guide</string>
+    <string name="learn_song_body">1. Listen to the whole song once without playing. Name its parts: intro, verse, chorus, bridge, ending.\n2. Find the tempo: press Play here and change the tempo until the loop matches the song.\n3. Count the bars of each part (most are 4, 8 or 16 bars) and write a road map, for example: Intro 4 · Verse 8 · Chorus 8 · Verse 8 · Chorus 8 · Ending 4.\n4. Practise this beat with the app, slower than the song, until you can play it without thinking.\n5. Play along with the song. Keep the beat through each part; in the last bar of a part, play a short fill (for example four 8th notes on the snare or the toms) and hit the crash together with the bass drum on the 1 of the next part.\n6. Listen for changes: songs often use a closed hi-hat in the verse and the ride or a more open hi-hat in the chorus.\n7. To hear the song and your kit together, connect the phone to Aux In (see My kit). Play from start to end without stopping on mistakes.</string>
 </resources>

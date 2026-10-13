@@ -4,10 +4,12 @@
    "beats": [
     {"id": "rock_basic", "name": {"en": "Basic rock beat", "es": "Ritmo básico de rock"}, "bpm": 110, "minBpm": 90, "maxBpm": 140,
      "how": {"en": "The backbone of rock: steady 8th notes on the hi-hat, snare on 2 and 4 (the backbeat) and bass drum on 1, 3 and the \"and\" of 3. Count out loud (1 & 2 & 3 & 4 &), keep the hi-hat even and make the backbeat the loudest note.", "es": "La base del rock: corcheas regulares en el hi-hat, caja en 2 y 4 (el backbeat) y bombo en 1, 3 y la «y» del 3. Cuenta en voz alta (1 y 2 y 3 y 4 y), mantén el hi-hat parejo y haz que el backbeat sea la nota más fuerte."},
-     "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "snare": "....X.......X...", "kick": "x.......x.x....."}},
+     "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "snare": "....X.......X...", "kick": "x.......x.x....."},
+     "songs": [{"title": "Back in Black", "artist": "AC/DC"}, {"title": "Highway to Hell", "artist": "AC/DC", "note": {"en": "Closed hi-hat in the verses.", "es": "Hi-hat cerrado en las estrofas."}}]},
     {"id": "rock_half_time", "name": {"en": "Half-time", "es": "Half-time (medio tiempo)"}, "bpm": 130, "minBpm": 100, "maxBpm": 160,
      "how": {"en": "The snare moves to beat 3 only, so the song feels twice as slow while the hi-hat keeps the same 8th notes. Bass drum on 1 and the \"and\" of 3. Common in heavy choruses and power ballads.", "es": "La caja pasa a sonar solo en el tiempo 3, así que la canción se siente el doble de lenta mientras el hi-hat sigue en corcheas. Bombo en el 1 y en la «y» del 3. Muy usado en estribillos potentes y baladas rock."},
-     "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "snare": "........X.......", "kick": "x.........x....."}},
+     "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "snare": "........X.......", "kick": "x.........x....."},
+     "songs": [{"title": "Human Nature", "artist": "Michael Jackson", "note": {"en": "Listen for the snare on beat 3.", "es": "Escucha la caja en el tiempo 3."}}, {"title": "Wrapped Around Your Finger", "artist": "The Police", "note": {"en": "The chorus is in half-time.", "es": "El estribillo va en half-time."}}]},
     {"id": "rock_open_hat", "name": {"en": "Open hi-hat on 4&", "es": "Hi-hat abierto en la «y» del 4"}, "bpm": 110, "minBpm": 90, "maxBpm": 140,
      "how": {"en": "The basic rock beat with the hi-hat opened on the \"and\" of 4: lift your left foot as you hit it and close the hi-hat again with your foot on beat 1. It gives a push into the next bar.", "es": "El ritmo básico de rock con el hi-hat abierto en la «y» del 4: levanta el pie izquierdo al golpearlo y vuelve a cerrarlo con el pie en el tiempo 1. Da un empujón hacia el siguiente compás."},
      "tracks": {"hihat": "x.x.x.x.x.x.x.o.", "snare": "....X.......X...", "kick": "x.......x.x....."}}
@@ -20,7 +22,8 @@
      "tracks": {"hihat": "XxXxXxXxXxXxXxXx", "snare": "....X.......X...", "kick": "x.....x.x......."}},
     {"id": "pop_four_floor", "name": {"en": "Four on the floor", "es": "Four on the floor (bombo en cada tiempo)"}, "bpm": 120, "minBpm": 100, "maxBpm": 130,
      "how": {"en": "The dance and disco beat: bass drum on every beat, snare on 2 and 4, closed hi-hat on the beats and open hi-hat on every \"and\". Open it by lifting your foot and close it on the next beat. Keep the bass drum steady and even.", "es": "El ritmo de baile y disco: bombo en cada tiempo, caja en 2 y 4, hi-hat cerrado en los tiempos y abierto en cada «y». Ábrelo levantando el pie y ciérralo en el siguiente tiempo. Mantén el bombo firme y regular."},
-     "tracks": {"hihat": "x.o.x.o.x.o.x.o.", "snare": "....X.......X...", "kick": "x...x...x...x..."}},
+     "tracks": {"hihat": "x.o.x.o.x.o.x.o.", "snare": "....X.......X...", "kick": "x...x...x...x..."},
+     "songs": [{"title": "I Will Survive", "artist": "Gloria Gaynor"}, {"title": "Stayin' Alive", "artist": "Bee Gees"}, {"title": "Another One Bites the Dust", "artist": "Queen", "note": {"en": "A clear four-on-the-floor bass drum.", "es": "Un bombo en cada tiempo muy claro."}}]},
     {"id": "pop_ballad", "name": {"en": "Ballad", "es": "Balada"}, "bpm": 70, "minBpm": 60, "maxBpm": 85,
      "how": {"en": "Slow and soft: hi-hat 8th notes, cross-stick on 2 and 4 and bass drum on 1, the \"and\" of 2 and 3. Let every note breathe; a ballad is about space and steady time, not volume.", "es": "Lenta y suave: corcheas en el hi-hat, aro cruzado en 2 y 4 y bombo en 1, la «y» del 2 y el 3. Deja respirar cada nota: en una balada importan el espacio y el tiempo firme, no el volumen."},
      "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "cross_stick": "....x.......x...", "kick": "x.....x.x......."}}
@@ -43,7 +46,8 @@
      "tracks": {"ride": "X...X...X...X...", "snare": "....X.......X...", "kick": "xxxxxxxxxxxxxxxx"}},
     {"id": "metal_gallop", "name": {"en": "Gallop", "es": "Galope"}, "bpm": 110, "minBpm": 90, "maxBpm": 140,
      "how": {"en": "The bass drum plays an 8th and two 16ths on every beat (\"dum, da-da\"), like a galloping horse, with snare on 2 and 4 and the ride on every beat. With one pedal, start slowly and use your ankle for the two quick notes.", "es": "El bombo toca una corchea y dos semicorcheas en cada tiempo («pum, pa-pa»), como un caballo al galope, con caja en 2 y 4 y ride en cada tiempo. Con un solo pedal, empieza despacio y usa el tobillo para las dos notas rápidas."},
-     "tracks": {"ride": "X...X...X...X...", "snare": "....X.......X...", "kick": "x.xxx.xxx.xxx.xx"}},
+     "tracks": {"ride": "X...X...X...X...", "snare": "....X.......X...", "kick": "x.xxx.xxx.xxx.xx"},
+     "songs": [{"title": "The Trooper", "artist": "Iron Maiden"}]},
     {"id": "metal_blast", "name": {"en": "Blast beat", "es": "Blast beat"}, "bpm": 120, "minBpm": 90, "maxBpm": 180,
      "how": {"en": "The traditional blast beat: ride and bass drum together on every 8th note and the snare on every 16th note in between. At speed it sounds like a wall of noise; practise it slowly until hands and foot alternate evenly.", "es": "El blast beat tradicional: ride y bombo juntos en cada corchea y la caja en cada semicorchea intermedia. A velocidad suena como un muro de ruido; practícalo despacio hasta que manos y pie se alternen de forma regular."},
      "tracks": {"ride": "x.x.x.x.x.x.x.x.", "snare": ".x.x.x.x.x.x.x.x", "kick": "x.x.x.x.x.x.x.x."}}
@@ -53,7 +57,8 @@
    "beats": [
     {"id": "bossa_nova_32", "name": {"en": "Bossa nova (3-2 clave)", "es": "Bossa nova (clave 3-2)"}, "bpm": 130, "minBpm": 110, "maxBpm": 150,
      "how": {"en": "Two bars long. Hi-hat (or ride) on all 8th notes, cross-stick on the snare following the bossa nova clave and bass drum on 1, the \"and\" of 2, 3 and the \"and\" of 4. Play softly, like a whisper under the guitar. Learn the hands and the feet separately before putting them together.", "es": "Dura dos compases. Hi-hat (o ride) en todas las corcheas, aro cruzado en la caja siguiendo la clave de bossa nova y bombo en 1, la «y» del 2, 3 y la «y» del 4. Toca suave, como un susurro bajo la guitarra. Aprende manos y pies por separado antes de juntarlos."},
-     "tracks": {"hihat": "x.x.x.x.x.x.x.x.x.x.x.x.x.x.x.x.", "cross_stick": "x.....x.....x.......x.....x.....", "kick": "x.....x.x.....x.x.....x.x.....x."}},
+     "tracks": {"hihat": "x.x.x.x.x.x.x.x.x.x.x.x.x.x.x.x.", "cross_stick": "x.....x.....x.......x.....x.....", "kick": "x.....x.x.....x.x.....x.x.....x."},
+     "songs": [{"title": "The Girl from Ipanema", "artist": "Antônio Carlos Jobim", "note": {"en": "Check whether the song feels 3-2 or 2-3 and switch beat if needed.", "es": "Comprueba si la canción va en 3-2 o 2-3 y cambia de ritmo si hace falta."}}, {"title": "Desafinado", "artist": "Antônio Carlos Jobim", "note": {"en": "Check whether the song feels 3-2 or 2-3 and switch beat if needed.", "es": "Comprueba si la canción va en 3-2 o 2-3 y cambia de ritmo si hace falta."}}]},
     {"id": "bossa_nova_23", "name": {"en": "Bossa nova (2-3 clave)", "es": "Bossa nova (clave 2-3)"}, "bpm": 130, "minBpm": 110, "maxBpm": 150,
      "how": {"en": "The same groove with the clave turned around: the bar with two cross-stick notes comes first, then the bar with three. Which one to use depends on the song; listen to where the strong notes of the melody fall.", "es": "El mismo ritmo con la clave al revés: primero el compás con dos golpes de aro y luego el de tres. Cuál usar depende de la canción; escucha dónde caen las notas fuertes de la melodía."},
      "tracks": {"hihat": "x.x.x.x.x.x.x.x.x.x.x.x.x.x.x.x.", "cross_stick": "....x.....x.....x.....x.....x...", "kick": "x.....x.x.....x.x.....x.x.....x."}}
@@ -63,26 +68,30 @@
    "beats": [
     {"id": "songo_basic", "name": {"en": "Basic songo (simplified)", "es": "Songo básico (simplificado)"}, "bpm": 110, "minBpm": 90, "maxBpm": 130,
      "how": {"en": "A simplified songo, the Cuban groove of Los Van Van and their drummer Changuito. Right hand: cowbell (or ride bell) on every beat. Left hand: soft ghost notes on the snare, an accent on the \"a\" of 2 and a floor tom note on the \"and\" of 4. Bass drum on the \"and\" of 2 and on 4. Real songo is freer and full of variations: take this as a starting point.", "es": "Un songo simplificado, el ritmo cubano de Los Van Van y su batería Changuito. Mano derecha: cencerro (o campana del ride) en cada tiempo. Mano izquierda: notas fantasma suaves en la caja, un acento en la «a» del 2 y una nota en el tom base en la «y» del 4. Bombo en la «y» del 2 y en el 4. El songo real es más libre y lleno de variaciones: tómalo como punto de partida."},
-     "tracks": {"cowbell": "X...X...X...X...", "snare": "..g..g.X..g..g..", "tom": "..............x.", "kick": "......x.....x..."}}
+     "tracks": {"cowbell": "X...X...X...X...", "snare": "..g..g.X..g..g..", "tom": "..............x.", "kick": "......x.....x..."},
+     "songs": [{"title": "La sandunguera", "artist": "Los Van Van", "note": {"en": "The drummer varies the groove a lot; listen for the bell and the bass drum.", "es": "El batería varía mucho el ritmo; escucha el cencerro y el bombo."}}]}
    ]},
   {"id": "reggae", "family": "latin", "name": "Reggae", "kit": 9,
    "setup": {"en": "Kit 01 (Acoustic) also works. Set up the cross-stick as in bossa nova (snare rim → Snare Stick, 87). At this slow tempo, set the click INT to 8th notes so you don't rush.", "es": "El kit 01 (Acoustic) también sirve. Configura el aro cruzado como en la bossa nova (aro de la caja → Snare Stick, 87). A este tempo lento, pon el INT del clic en corcheas para no correr."},
    "beats": [
     {"id": "reggae_one_drop", "name": {"en": "One drop", "es": "One drop"}, "bpm": 75, "minBpm": 60, "maxBpm": 90,
      "how": {"en": "One drop: nothing on beat 1. The bass drum and a cross-stick land together on beat 3 while the hi-hat plays 8th notes. It feels laid back; leaving space is the hard part, so don't add a kick on 1.", "es": "One drop: nada en el tiempo 1. Bombo y aro cruzado caen juntos en el tiempo 3 mientras el hi-hat toca corcheas. Es un ritmo relajado; lo difícil es dejar espacio, así que no metas bombo en el 1."},
-     "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "cross_stick": "........x.......", "kick": "........x......."}},
+     "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "cross_stick": "........x.......", "kick": "........x......."},
+     "songs": [{"title": "One Drop", "artist": "Bob Marley & The Wailers"}]},
     {"id": "reggae_rockers", "name": {"en": "Rockers", "es": "Rockers"}, "bpm": 80, "minBpm": 65, "maxBpm": 95,
      "how": {"en": "The bass drum adds beat 1 to the one drop: kick on 1 and 3, cross-stick on 3 and hi-hat 8th notes. It drives a little more than the one drop and became popular in roots reggae in the mid-1970s.", "es": "El bombo añade el tiempo 1 al one drop: bombo en 1 y 3, aro cruzado en 3 y corcheas en el hi-hat. Empuja algo más que el one drop y se hizo popular en el roots reggae a mediados de los 70."},
      "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "cross_stick": "........x.......", "kick": "x.......x......."}},
     {"id": "reggae_steppers", "name": {"en": "Steppers", "es": "Steppers"}, "bpm": 80, "minBpm": 65, "maxBpm": 95,
      "how": {"en": "Bass drum on every beat (four on the floor) with the cross-stick on 3 and hi-hat 8th notes. An insistent, marching feel used in roots reggae and dub; keep the kick soft and even.", "es": "Bombo en cada tiempo (four on the floor) con aro cruzado en 3 y corcheas en el hi-hat. Un pulso insistente, como de marcha, típico del roots reggae y el dub; toca el bombo suave y regular."},
-     "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "cross_stick": "........x.......", "kick": "x...x...x...x..."}}
+     "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "cross_stick": "........x.......", "kick": "x...x...x...x..."},
+     "songs": [{"title": "Exodus", "artist": "Bob Marley & The Wailers"}]}
    ]},
   {"id": "cumbia", "family": "latin", "name": "Cumbia", "kit": 17,
    "setup": {"en": "Set up the cross-stick as in bossa nova (snare rim → Snare Stick, 87). Practise with the click on every beat and check that the bass drum doesn't rush.", "es": "Configura el aro cruzado como en la bossa nova (aro de la caja → Snare Stick, 87). Practica con el clic en cada tiempo y comprueba que el bombo no corre."},
    "beats": [
     {"id": "cumbia_basic", "name": {"en": "Basic cumbia (simplified)", "es": "Cumbia básica (simplificada)"}, "bpm": 90, "minBpm": 80, "maxBpm": 110,
      "how": {"en": "A simplified drum-kit cumbia. The hi-hat copies the guacharaca scraper (an 8th and two 16ths on every beat: \"ch, chiki\"), the cross-stick plays the llamador drum on every \"and\" and the bass drum marks every beat. Keep the offbeats light and bouncy: the feel lives in the \"and\".", "es": "Una cumbia simplificada para batería. El hi-hat imita la guacharaca (una corchea y dos semicorcheas en cada tiempo: «ch, chiqui»), el aro cruzado hace el llamador en cada «y» y el bombo marca cada tiempo. Toca los contratiempos ligeros y con rebote: el sabor está en la «y»."},
-     "tracks": {"hihat": "x.xxx.xxx.xxx.xx", "cross_stick": "..x...x...x...x.", "kick": "x...x...x...x..."}}
+     "tracks": {"hihat": "x.xxx.xxx.xxx.xx", "cross_stick": "..x...x...x...x.", "kick": "x...x...x...x..."},
+     "songs": [{"title": "La pollera colorá", "artist": "Pedro Salcedo y su Orquesta"}, {"title": "Cumbia sampuesana", "artist": "José Joaquín Bettín"}]}
    ]}
 ]

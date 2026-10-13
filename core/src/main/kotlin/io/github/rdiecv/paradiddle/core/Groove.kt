@@ -38,6 +38,8 @@ data class Groove(
     val maxBpm: Int,
     val how: LocalizedText,
     val tracks: Map<Instrument, List<Hit?>>,
+    /** Well-known songs that use this beat, as listening examples. */
+    val songs: List<Song> = emptyList(),
 ) {
     val steps: Int get() = tracks.values.first().size
     val bars: Int get() = steps / STEPS_PER_BAR
@@ -48,3 +50,6 @@ data class Groove(
         const val MAX_BPM = 280
     }
 }
+
+/** A recorded song that uses a beat; [note] says where to listen, if needed. */
+data class Song(val title: String, val artist: String, val note: LocalizedText? = null)
