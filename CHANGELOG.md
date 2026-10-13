@@ -11,9 +11,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 ### Added
 
 - Bottom tabs: Rudiments, Styles and My kit.
-- Styles: the basic groove of rock, pop, punk, metal, bossa nova, songo, reggae (one drop) and
-  cumbia, with a drum grid, a looping playback at any tempo, tips and a recommended Alesis
-  Nitro Mesh setup for each one.
+- Styles: 18 named beats for rock (basic, half-time, open hi-hat), pop (16ths, four on the
+  floor, ballad), punk (skank, driving 8ths), metal (double bass, gallop, blast beat), bossa
+  nova (3-2 and 2-3 clave), songo, reggae (one drop, rockers, steppers) and cumbia, with a
+  drum grid, a looping playback at any tempo, tips and a recommended Alesis Nitro Mesh setup.
+- A top view of the Alesis Nitro Mesh kit on each style: while the groove plays, the pads to
+  hit light up, with the hand or foot that plays them.
 - My kit: a guide to setting up the Alesis Nitro Mesh kit for practice (connections, kit,
   metronome, pad sensitivity, Learning Mode).
 

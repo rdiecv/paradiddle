@@ -76,3 +76,20 @@ are simplified kit adaptations; they are marked as such in the text and, like
 `GrooveCatalogTest` (bundled file parses; each validation error), `GrooveSoundTest` (voice
 count and frame positions for a known groove, loops, instrument mapping), synth sounds finite
 and peak ≤ 1. Then `./gradlew test lint assembleDebug`; device check by the user.
+
+## Update: kit view and named beats
+
+- **Kit view**: each style screen shows a top view of the Nitro Mesh kit (crash, ride, hi-hat
+  and pedal, snare, toms 1–3, kick and pedal) on a dark stage. Pads used by the beat are
+  outlined; while playing, the pads hit on the current 16th light up (accent > normal > ghost,
+  fading over the step) with a badge for the limb (right-handed: cymbals = R, snare and toms =
+  L, kick = RF). Cross-stick lights the snare rim, an open hi-hat shows a lifted ring, the
+  cowbell is played on the ride pad and the tom track on tom 3.
+- **Named beats**: the data file is now `styles.json`: styles (id, family, name, kit, setup
+  text) with a list of beats (id, name, tempo, how-to text, tracks). Texts are per language in
+  the file, with English as the fallback; the `groove_*` strings left `strings.xml`. The style
+  screen picks a beat with chips; changing beat stops playback and resets the tempo.
+- Beats added only where sources agree: rock half-time and open hi-hat, pop four on the floor
+  and ballad, punk driving 8ths, metal gallop and blast beat, bossa nova 2-3 clave, reggae
+  rockers and steppers. D-beat, songo variations (cáscara) and cumbia variations were left out
+  for lack of reliable sources.

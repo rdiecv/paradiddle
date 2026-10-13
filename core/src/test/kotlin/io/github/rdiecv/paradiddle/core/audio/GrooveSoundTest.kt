@@ -3,7 +3,7 @@
 
 package io.github.rdiecv.paradiddle.core.audio
 
-import io.github.rdiecv.paradiddle.core.GrooveCatalog
+import io.github.rdiecv.paradiddle.core.StyleCatalog
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -11,10 +11,11 @@ import org.junit.Test
 class GrooveSoundTest {
     private val sound = GrooveSound(Synth(48_000))
 
-    private val groove = GrooveCatalog.parse(
-        """[{"id":"x","family":"rock","name":"X","bpm":120,"minBpm":60,"maxBpm":180,"kit":10,
-            "tracks":{"hihat":"x.x.x.x.x.x.x.o.","snare":"..g.X.......X...","kick":"x.......x......."}}]""",
-    ).single()
+    private val groove = StyleCatalog.parse(
+        """[{"id":"s","family":"rock","name":"S","kit":10,"setup":{"en":"Setup"},"beats":[
+            {"id":"x","name":{"en":"X"},"bpm":120,"minBpm":60,"maxBpm":180,"how":{"en":"How"},
+             "tracks":{"hihat":"x.x.x.x.x.x.x.o.","snare":"..g.X.......X...","kick":"x.......x......."}}]}]""",
+    ).single().grooves.single()
 
     @Test
     fun oneVoicePerHitPerLoop() {
@@ -58,5 +59,13 @@ class GrooveSoundTest {
         assertEquals(15, sound.stepAt(groove, 120, 1_999_000_000L))
         assertEquals(0, sound.stepAt(groove, 120, 2_000_000_000L))
         assertEquals(-1, sound.stepAt(groove, 120, -1L))
+    }
+
+    @Test
+    fun positionAtIncludesTheFractionOfTheStep() {
+        assertEquals(0.5, sound.positionAt(groove, 120, 62_500_000L), 1e-9)
+        // Step 17 and a half wraps to 1.5 in a 16-step groove.
+        assertEquals(1.5, sound.positionAt(groove, 120, 17 * 125_000_000L + 62_500_000L), 1e-9)
+        assertEquals(-1.0, sound.positionAt(groove, 120, -1L), 1e-9)
     }
 }

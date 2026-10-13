@@ -118,22 +118,6 @@ Source code: github.com/rdiecv/paradiddle</string>
     <string name="inst_tom">floor tom</string>
     <string name="inst_kick">bass drum</string>
 
-    <string name="groove_rock_how">The backbone of rock: steady 8th notes on the hi-hat, snare on 2 and 4 (the backbeat) and bass drum on 1, 3 and the \"and\" of 3. Count out loud (1 &amp; 2 &amp; 3 &amp; 4 &amp;), keep the hi-hat even and make the backbeat the loudest note.</string>
-    <string name="groove_rock_setup">For a fat backbeat, hit the snare head and rim at the same time (a rimshot); if the rim is too loud or too quiet, adjust R-S in Utility. Set the click to 8th notes: Click, then Page/Select to INT.</string>
-    <string name="groove_pop_how">A 16th-note hi-hat with the accent on each 8th note (loud on 1 &amp; 2 &amp;, soft on the e and a). Snare on 2 and 4, bass drum on 1, the \"and\" of 2 and 3. Play all the hi-hat notes with one hand and keep the soft ones close to the cymbal.</string>
-    <string name="groove_pop_setup">Set the click INT to 16th notes so you hear where the soft hi-hat notes go. If they don\'t sound, hit the hi-hat, press Utility and lower THR (threshold).</string>
-    <string name="groove_punk_how">Fast and driving: bass drum on every beat, snare on every \"and\" and hi-hat on all 8th notes (the skank or polka beat). Stay relaxed so you don\'t tire: play from the wrists, keep the sticks low and lock the snare and hi-hat together.</string>
-    <string name="groove_punk_setup">Kit 09 (Room) gives a rawer sound. At high tempos a pad can sound when you hit its neighbour: if that happens, raise CRO (crosstalk) in Utility. Turn up the click VOL so you hear it over the kit.</string>
-    <string name="groove_metal_how">A double-bass groove: non-stop 16th notes on the bass drum, snare on 2 and 4 and the ride (or a crash) on every beat. Practise the kick in 8th notes first (1 &amp; 2 &amp;) and move to 16ths only when they are even. A double pedal (not included with the kit) is the usual choice.</string>
-    <string name="groove_metal_setup">For a tighter kick, hit the kick pad, press Voice, go to NUM with Page/Select and choose Pwrbd Kick (26) or Rock Kick 3 (7). Keep it by saving a user kit: Save, choose 25–40 with &lt; and &gt;, Save. Fast kicks can make other pads sound: raise CRO if they do.</string>
-    <string name="groove_bossa_nova_how">Two bars long. Hi-hat (or ride) on all 8th notes, cross-stick on the snare following the bossa nova clave and bass drum on 1, the \"and\" of 2, 3 and the \"and\" of 4. Play softly, like a whisper under the guitar. Learn the hands and the feet separately before putting them together.</string>
-    <string name="groove_bossa_nova_setup">Kit 13 (Jazz Brush) is a softer option. For the cross-stick, rest your hand on the snare and hit the rim. If the rim doesn\'t sound like a side stick, hit the rim, press Voice and choose Snare Stick (87), then save a user kit. Lower R-S if the clicks are too loud.</string>
-    <string name="groove_songo_how">A simplified songo, the Cuban groove of Los Van Van and their drummer Changuito. Right hand: cowbell (or ride bell) on every beat. Left hand: soft ghost notes on the snare, an accent on the \"a\" of 2 and a floor tom note on the \"and\" of 4. Bass drum on the \"and\" of 2 and on 4. Real songo is freer and full of variations: take this as a starting point.</string>
-    <string name="groove_songo_setup">To get a cowbell, hit the ride, press Voice and choose Cowbell 1 (316), then save a user kit (Save, choose 25–40, Save). Lower THR on the snare so the ghost notes sound.</string>
-    <string name="groove_reggae_how">One drop: nothing on beat 1. The bass drum and a cross-stick land together on beat 3 while the hi-hat plays 8th notes. It feels laid back; leaving space is the hard part, so don\'t add a kick on 1.</string>
-    <string name="groove_reggae_setup">Kit 01 (Acoustic) also works. Set up the cross-stick as in bossa nova (snare rim → Snare Stick, 87). At this slow tempo, set the click INT to 8th notes so you don\'t rush.</string>
-    <string name="groove_cumbia_how">A simplified drum-kit cumbia. The hi-hat copies the guacharaca scraper (an 8th and two 16ths on every beat: \"ch, chiki\"), the cross-stick plays the llamador drum on every \"and\" and the bass drum marks every beat. Keep the offbeats light and bouncy: the feel lives in the \"and\".</string>
-    <string name="groove_cumbia_setup">Set up the cross-stick as in bossa nova (snare rim → Snare Stick, 87). Practise with the click on every beat and check that the bass drum doesn\'t rush.</string>
 
     <!-- Kit guide -->
     <string name="kit_title">Alesis Nitro Mesh setup</string>
@@ -151,4 +135,23 @@ Source code: github.com/rdiecv/paradiddle</string>
     <string name="kit_learning_title">6. Learning Mode (optional)</string>
     <string name="kit_learning_body">• Hold Page/Select for 1 second to switch between normal mode and Learning Mode.\n• Choose Beat (snare only), Rhythm (full kit) or Pattern (kit with music) and pick an exercise with &lt; and &gt;.\n• Play/Practice plays the exercise without a score; Start/Stop gives you a score at the end.</string>
     <string name="kit_source">Based on the official Alesis Nitro Mesh Kit user guide and Kit &amp; Voice List. If your module shows something different, check the manual at alesis.com.</string>
+
+    <!-- Drum kit view -->
+    <string name="kit_pad_crash">Crash</string>
+    <string name="kit_pad_ride">Ride</string>
+    <string name="kit_pad_cowbell">Cowbell</string>
+    <string name="kit_pad_hihat">Hi-hat</string>
+    <string name="kit_pad_tom1">Tom 1</string>
+    <string name="kit_pad_tom2">Tom 2</string>
+    <string name="kit_pad_tom3">Tom 3</string>
+    <string name="kit_pad_snare">Snare</string>
+    <string name="kit_pad_kick">Kick</string>
+    <string name="foot_right">RF</string>
+    <string name="kit_view_desc">Alesis Nitro Mesh kit seen from the drummer\'s seat. The pads light up when you have to hit them.</string>
+    <string name="kit_view_hint">Press Play and hit the pads as they light up. R = right hand, L = left hand, RF = right foot (kick pedal). A lit rim means cross-stick.</string>
+
+    <plurals name="beats_count">
+        <item quantity="one">%d beat</item>
+        <item quantity="other">%d beats</item>
+    </plurals>
 </resources>

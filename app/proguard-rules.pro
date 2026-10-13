@@ -1,4 +1,4 @@
-# kotlinx.serialization (used by :core to read rudiments.json and grooves.json)
+# kotlinx.serialization (used by :core to read rudiments.json and styles.json)
 -keepattributes *Annotation*, InnerClasses
 -keepclassmembers class io.github.rdiecv.paradiddle.core.** {
     *** Companion;

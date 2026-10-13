@@ -20,6 +20,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -29,11 +30,11 @@ import io.github.rdiecv.paradiddle.core.NitroMesh
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StylesScreen(onOpen: (String) -> Unit) {
-    val groups = app().grooves.groupBy { it.family }
+    val groups = app().styles.groupBy { it.family }
 
     Scaffold(topBar = { TopAppBar(title = { Text(stringResource(R.string.styles_title)) }) }) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding)) {
-            groups.forEach { (family, grooves) ->
+            groups.forEach { (family, styles) ->
                 item(key = family.name) {
                     Text(
                         stringResource(family.titleRes()),
@@ -42,21 +43,21 @@ fun StylesScreen(onOpen: (String) -> Unit) {
                         modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 20.dp, bottom = 4.dp),
                     )
                 }
-                items(grooves, key = { it.id }) { g ->
+                items(styles, key = { it.id }) { style ->
                     Row(
-                        Modifier.fillMaxWidth().clickable { onOpen(g.id) }.padding(horizontal = 16.dp, vertical = 12.dp),
+                        Modifier.fillMaxWidth().clickable { onOpen(style.id) }.padding(horizontal = 16.dp, vertical = 12.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Column(Modifier.weight(1f)) {
-                            Text(g.name, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Medium)
+                            Text(style.name, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Medium)
                             Text(
-                                stringResource(R.string.kit_short, g.kit, NitroMesh.kitName(g.kit)),
+                                stringResource(R.string.kit_short, style.kit, NitroMesh.kitName(style.kit)),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         }
                         Text(
-                            stringResource(R.string.bpm_range, g.minBpm, g.maxBpm),
+                            pluralStringResource(R.plurals.beats_count, style.grooves.size, style.grooves.size),
                             style = MaterialTheme.typography.labelLarge,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )

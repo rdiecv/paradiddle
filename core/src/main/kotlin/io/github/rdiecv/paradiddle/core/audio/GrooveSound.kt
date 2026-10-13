@@ -70,4 +70,11 @@ class GrooveSound(private val synth: Synth) {
     /** Step of the groove heard at [sessionNanos] since playback start, or -1 before it starts. */
     fun stepAt(groove: Groove, bpm: Int, sessionNanos: Long): Int =
         if (sessionNanos < 0) -1 else ((sessionNanos / stepNanos(bpm)) % groove.steps).toInt()
+
+    /** Like [stepAt], plus how far into that step we are (e.g. 3.25), or -1.0 before playback starts. */
+    fun positionAt(groove: Groove, bpm: Int, sessionNanos: Long): Double {
+        if (sessionNanos < 0) return -1.0
+        val step = stepNanos(bpm)
+        return stepAt(groove, bpm, sessionNanos) + (sessionNanos % step).toDouble() / step
+    }
 }

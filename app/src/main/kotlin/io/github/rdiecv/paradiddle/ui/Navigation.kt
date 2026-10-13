@@ -31,8 +31,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import io.github.rdiecv.paradiddle.R
 import io.github.rdiecv.paradiddle.ui.screens.CalibrationScreen
-import io.github.rdiecv.paradiddle.ui.screens.GrooveDetailScreen
-import io.github.rdiecv.paradiddle.ui.screens.GrooveViewModel
 import io.github.rdiecv.paradiddle.ui.screens.KitGuideScreen
 import io.github.rdiecv.paradiddle.ui.screens.LogScreen
 import io.github.rdiecv.paradiddle.ui.screens.PracticeScreen
@@ -40,6 +38,8 @@ import io.github.rdiecv.paradiddle.ui.screens.PracticeViewModel
 import io.github.rdiecv.paradiddle.ui.screens.RudimentDetailScreen
 import io.github.rdiecv.paradiddle.ui.screens.RudimentListScreen
 import io.github.rdiecv.paradiddle.ui.screens.SettingsScreen
+import io.github.rdiecv.paradiddle.ui.screens.StyleDetailScreen
+import io.github.rdiecv.paradiddle.ui.screens.StyleViewModel
 import io.github.rdiecv.paradiddle.ui.screens.StylesScreen
 import io.github.rdiecv.paradiddle.ui.screens.app
 
@@ -95,11 +95,11 @@ fun ParadiddleNavHost() {
                 }
                 PracticeScreen(vm, onBack = ::back)
             }
-            composable(Tab.STYLES.route) { StylesScreen(onOpen = { nav.navigate("groove/$it") }) }
-            composable("groove/{id}", listOf(navArgument("id") { type = NavType.StringType })) { entry ->
-                val groove = app.groove(entry.arguments?.getString("id").orEmpty()) ?: return@composable back()
-                val vm = viewModel { GrooveViewModel(groove) }
-                GrooveDetailScreen(vm, onBack = ::back)
+            composable(Tab.STYLES.route) { StylesScreen(onOpen = { nav.navigate("style/$it") }) }
+            composable("style/{id}", listOf(navArgument("id") { type = NavType.StringType })) { entry ->
+                val style = app.style(entry.arguments?.getString("id").orEmpty()) ?: return@composable back()
+                val vm = viewModel { StyleViewModel(style) }
+                StyleDetailScreen(vm, onBack = ::back)
             }
             composable(Tab.KIT.route) { KitGuideScreen() }
             composable("calibration") { CalibrationScreen(onBack = ::back) }

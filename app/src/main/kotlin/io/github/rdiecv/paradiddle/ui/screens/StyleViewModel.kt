@@ -11,17 +11,32 @@ import androidx.lifecycle.ViewModel
 import io.github.rdiecv.paradiddle.audio.AudioEngine
 import io.github.rdiecv.paradiddle.audio.Playback
 import io.github.rdiecv.paradiddle.core.Groove
+import io.github.rdiecv.paradiddle.core.Style
 import io.github.rdiecv.paradiddle.core.audio.GrooveSound
 import io.github.rdiecv.paradiddle.core.audio.Synth
 
-/** Loops a groove for up to [MAX_SECONDS] at the chosen tempo. */
-class GrooveViewModel(val groove: Groove) : ViewModel() {
+/** The chosen beat of a style, looped for up to [MAX_SECONDS] at the chosen tempo. */
+class StyleViewModel(val style: Style) : ViewModel() {
     private val sound by lazy { GrooveSound(Synth(AudioEngine.sampleRate)) }
     private var playback: Playback? = null
+
+    var selected by mutableIntStateOf(0)
+        private set
+
+    val groove: Groove get() = style.grooves[selected]
+
     private var playingBpm = groove.bpm
 
     var bpm by mutableIntStateOf(groove.bpm)
         private set
+
+    /** Switches to another beat of the style: stops playback and starts from that beat's tempo. */
+    fun select(index: Int) {
+        if (index == selected) return
+        stop()
+        selected = index
+        bpm = groove.bpm
+    }
 
     /** Written from the audio thread when the loop ends, so it is plain Compose state. */
     var playing by mutableStateOf(false)
@@ -61,11 +76,11 @@ class GrooveViewModel(val groove: Groove) : ViewModel() {
         playing = false
     }
 
-    /** Step being heard now, or -1 when not playing. */
-    fun currentStep(): Int {
-        val p = playback ?: return -1
-        if (!playing) return -1
-        return sound.stepAt(groove, playingBpm, p.sessionTimeAt(System.nanoTime()))
+    /** Step being heard now plus how far into it (e.g. 3.25), or -1.0 when not playing. */
+    fun currentPosition(): Double {
+        val p = playback ?: return -1.0
+        if (!playing) return -1.0
+        return sound.positionAt(groove, playingBpm, p.sessionTimeAt(System.nanoTime()))
     }
 
     override fun onCleared() = stop()

@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Scaffold
@@ -22,7 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameNanos
@@ -38,35 +40,53 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import io.github.rdiecv.paradiddle.R
 import io.github.rdiecv.paradiddle.core.Groove
 import io.github.rdiecv.paradiddle.core.NitroMesh
+import io.github.rdiecv.paradiddle.ui.components.DrumKitView
 import io.github.rdiecv.paradiddle.ui.components.GrooveGrid
 import kotlin.math.roundToInt
 
 @Composable
-fun GrooveDetailScreen(vm: GrooveViewModel, onBack: () -> Unit) {
+fun StyleDetailScreen(vm: StyleViewModel, onBack: () -> Unit) {
+    val style = vm.style
     val groove = vm.groove
     // Stop when the screen goes away (other tab, back) or the app goes to the background.
     DisposableEffect(vm) { onDispose { vm.stop() } }
     LifecycleEventEffect(Lifecycle.Event.ON_STOP) { vm.stop() }
 
-    var step by remember { mutableIntStateOf(-1) }
-    LaunchedEffect(vm.playing) {
+    var position by remember { mutableDoubleStateOf(-1.0) }
+    LaunchedEffect(vm.playing, vm.selected) {
         if (!vm.playing) {
-            step = -1
+            position = -1.0
             return@LaunchedEffect
         }
         while (true) {
             withFrameNanos { }
-            step = vm.currentStep()
+            position = vm.currentPosition()
         }
     }
 
-    Scaffold(topBar = { BackTopBar(groove.name, onBack) }) { padding ->
+    Scaffold(topBar = { BackTopBar(style.name, onBack) }) { padding ->
         Column(
             Modifier.fillMaxSize().padding(padding).verticalScroll(rememberScrollState()).padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
+            if (style.grooves.size > 1) {
+                Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    style.grooves.forEachIndexed { i, g ->
+                        FilterChip(selected = vm.selected == i, onClick = { vm.select(i) }, label = { Text(g.name.text()) })
+                    }
+                }
+            } else {
+                Text(groove.name.text(), style = MaterialTheme.typography.titleMedium)
+            }
             Card(Modifier.fillMaxWidth()) {
-                GrooveGrid(groove, step, Modifier.padding(12.dp))
+                Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    DrumKitView(groove, position)
+                    Text(
+                        stringResource(R.string.kit_view_hint),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
             }
 
             Text(
@@ -104,14 +124,14 @@ fun GrooveDetailScreen(vm: GrooveViewModel, onBack: () -> Unit) {
                 Text(stringResource(R.string.audio_error), color = MaterialTheme.colorScheme.error)
             }
 
-            val texts = grooveTexts(groove.id)
-            if (texts != null) {
-                InfoCard(stringResource(R.string.how_to_play), stringResource(texts.first))
+            Card(Modifier.fillMaxWidth()) {
+                GrooveGrid(groove, if (position < 0) -1 else position.toInt(), Modifier.padding(12.dp))
             }
+
+            InfoCard(stringResource(R.string.how_to_play), groove.how.text())
             InfoCard(
                 stringResource(R.string.nitro_setup),
-                stringResource(R.string.kit_select, groove.kit, NitroMesh.kitName(groove.kit)) +
-                    (texts?.let { "\n\n" + stringResource(it.second) } ?: ""),
+                stringResource(R.string.kit_select, style.kit, NitroMesh.kitName(style.kit)) + "\n\n" + style.setup.text(),
             )
         }
     }

@@ -12,6 +12,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import io.github.rdiecv.paradiddle.ParadiddleApp
@@ -19,6 +20,7 @@ import io.github.rdiecv.paradiddle.R
 import io.github.rdiecv.paradiddle.core.Category
 import io.github.rdiecv.paradiddle.core.GrooveFamily
 import io.github.rdiecv.paradiddle.core.Instrument
+import io.github.rdiecv.paradiddle.core.LocalizedText
 
 @Composable
 fun app(): ParadiddleApp = LocalContext.current.applicationContext as ParadiddleApp
@@ -67,18 +69,9 @@ fun Instrument.nameRes(): Int = when (this) {
     Instrument.KICK -> R.string.inst_kick
 }
 
-/** "How to play it" and "kit setup" texts of a groove, or null for an id without texts. */
-fun grooveTexts(id: String): Pair<Int, Int>? = when (id) {
-    "rock" -> R.string.groove_rock_how to R.string.groove_rock_setup
-    "pop" -> R.string.groove_pop_how to R.string.groove_pop_setup
-    "punk" -> R.string.groove_punk_how to R.string.groove_punk_setup
-    "metal" -> R.string.groove_metal_how to R.string.groove_metal_setup
-    "bossa_nova" -> R.string.groove_bossa_nova_how to R.string.groove_bossa_nova_setup
-    "songo" -> R.string.groove_songo_how to R.string.groove_songo_setup
-    "reggae" -> R.string.groove_reggae_how to R.string.groove_reggae_setup
-    "cumbia" -> R.string.groove_cumbia_how to R.string.groove_cumbia_setup
-    else -> null
-}
+/** A text in the app's current language. */
+@Composable
+fun LocalizedText.text(): String = get(LocalConfiguration.current.locales[0].language)
 
 @Composable
 fun formatDuration(seconds: Int): String {
