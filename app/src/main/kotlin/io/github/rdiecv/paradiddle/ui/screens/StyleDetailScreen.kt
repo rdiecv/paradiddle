@@ -55,7 +55,9 @@ import io.github.rdiecv.paradiddle.R
 import io.github.rdiecv.paradiddle.core.Groove
 import io.github.rdiecv.paradiddle.core.NitroMesh
 import io.github.rdiecv.paradiddle.core.Song
+import io.github.rdiecv.paradiddle.ui.components.BulletList
 import io.github.rdiecv.paradiddle.ui.components.DrumKitView
+import io.github.rdiecv.paradiddle.ui.components.FormattedText
 import io.github.rdiecv.paradiddle.ui.rememberFrameDelayNanos
 import io.github.rdiecv.paradiddle.ui.components.GrooveGrid
 import kotlin.math.roundToInt
@@ -115,7 +117,7 @@ fun StyleDetailScreen(
                     onDismissRequest = { showLegend = false },
                     confirmButton = { TextButton(onClick = { showLegend = false }) { Text(stringResource(R.string.kit_legend_close)) } },
                     title = { Text(stringResource(R.string.kit_legend_title)) },
-                    text = { Text(stringResource(R.string.kit_legend_body)) },
+                    text = { FormattedText(stringResource(R.string.kit_legend_body)) },
                 )
             }
 
@@ -163,10 +165,16 @@ fun StyleDetailScreen(
 
             InfoCard(stringResource(R.string.how_to_play), groove.how.text())
             SongsCard(groove.songs, onLearnSong)
-            InfoCard(
-                stringResource(R.string.nitro_setup),
-                stringResource(R.string.kit_select, style.kit, NitroMesh.kitName(style.kit)) + "\n\n" + style.setup.text(),
-            )
+            Card(Modifier.fillMaxWidth()) {
+                Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Text(stringResource(R.string.nitro_setup), style = MaterialTheme.typography.titleSmall)
+                    BulletList(
+                        listOf(stringResource(R.string.kit_select, style.kit, NitroMesh.kitName(style.kit))) +
+                            style.setup.text().lines().filter { it.isNotBlank() },
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                }
+            }
         }
     }
 }
@@ -176,7 +184,7 @@ private fun InfoCard(title: String, body: String) {
     Card(Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             Text(title, style = MaterialTheme.typography.titleSmall)
-            Text(body, style = MaterialTheme.typography.bodyMedium)
+            FormattedText(body, style = MaterialTheme.typography.bodyMedium)
         }
     }
 }

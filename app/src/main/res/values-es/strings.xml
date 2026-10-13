@@ -10,6 +10,10 @@
     <string name="tip_drag">El drag son dos notas de adorno rápidas y suaves (un pequeño doble golpe) justo antes del golpe principal. Mantenlas cerca del parche y pegadas a la nota principal.</string>
     <string name="calibration_banner">Calibra una vez para que tu tiempo se juzgue de forma justa en este móvil.</string>
     <string name="calibrate">Calibrar</string>
+    <string name="calibration_needed_title">¿Calibrar primero?</string>
+    <string name="calibration_needed_body">Cada móvil tarda un poco en registrar un toque y en sonar. Sin calibrar, tus golpes se juzgan tarde aunque vayan a tiempo. Se tarda unos 20 segundos.</string>
+    <string name="calibrate_now">Calibrar ahora</string>
+    <string name="practise_anyway">Practicar sin calibrar</string>
     <string name="log">Registro de práctica</string>
     <string name="settings">Ajustes</string>
     <string name="back">Atrás</string>
@@ -64,8 +68,11 @@
     <string name="try_bpm">Probar a %1$d BPM</string>
     <string name="done">Hecho</string>
     <string name="calibration_title">Calibración</string>
-    <string name="calibration_intro">Toca el pad a tiempo con los clics. Los 4 primeros son solo para coger el pulso. Usa los mismos auriculares o altavoz con los que practicas.</string>
-    <string name="calibration_result">Tu desfase: %1$d ms</string>
+    <string name="calibration_intro">• Usa los mismos auriculares o altavoz con los que practicas.\n• Pulsa Empezar: sonarán 16 clics.\n• Los 4 primeros son una cuenta atrás: solo escucha.\n• Después toca el recuadro grande justo con cada clic (12 toques).</string>
+    <string name="calibration_listen">Escucha…</string>
+    <string name="calibration_play_now">¡Ahora, con cada clic!</string>
+    <string name="calibration_done_title">Calibrado</string>
+    <string name="calibration_done_body">Retraso medido: %1$d ms. La app lo descuenta al puntuar, así tu tiempo se juzga de forma justa.</string>
     <string name="calibration_failed">No hay suficientes toques a tiempo con los clics. Inténtalo de nuevo.</string>
     <string name="tap_here">Toca aquí</string>
     <string name="settings_calibration">Calibración de latencia</string>
@@ -78,9 +85,16 @@
     <string name="separate_hands">Separar las manos en estéreo</string>
     <string name="separate_hands_desc">Con auriculares, la mano derecha suena un poco a la derecha y la izquierda un poco a la izquierda, para oír el orden de manos.</string>
     <string name="default_reps">Repeticiones por defecto</string>
+    <string name="difficulty">Dificultad del tiempo</string>
+    <string name="difficulty_desc">Lo cerca de la nota que tiene que estar un golpe para contar.</string>
+    <string name="difficulty_easy">Fácil</string>
+    <string name="difficulty_normal">Normal</string>
+    <string name="difficulty_hard">Difícil</string>
+    <string name="difficulty_easy_detail">Cuenta hasta ±150 ms, perfecto hasta ±50 ms. Ideal para aprender un rudimento nuevo.</string>
+    <string name="difficulty_normal_detail">Cuenta hasta ±100 ms, perfecto hasta ±25 ms.</string>
+    <string name="difficulty_hard_detail">Cuenta hasta ±70 ms, perfecto hasta ±15 ms.</string>
     <string name="about">Acerca de</string>
-    <string name="about_text">Paradiddle %1$s. Software libre bajo la licencia GPL-3.0 o posterior.
-Código fuente: github.com/rdiecv/paradiddle</string>
+    <string name="about_text">Paradiddle %1$s. Software libre bajo la licencia GPL-3.0 o posterior.\nCódigo fuente: github.com/rdiecv/paradiddle</string>
     <string name="log_empty">Aún no hay sesiones. Elige un rudimento y pulsa Practicar.</string>
     <string name="total_time">Práctica total: %1$s</string>
     <string name="session_line">%1$d BPM · %2$d%%</string>
@@ -126,17 +140,17 @@ Código fuente: github.com/rdiecv/paradiddle</string>
     <string name="kit_title">Configurar la Alesis Nitro Mesh</string>
     <string name="kit_intro">Cómo configurar tu batería Alesis Nitro Mesh para practicar con Paradiddle. Los nombres de los botones son los que vienen impresos en el módulo.</string>
     <string name="kit_connect_title">1. Conexiones</string>
-    <string name="kit_connect_body">• Los auriculares van en Phones, en el lateral del módulo.\n• Para oír la app y la batería en los mismos auriculares, conecta la salida de auriculares del móvil (o un adaptador USB-C) a Aux In con un cable estéreo de 3,5 mm (1/8\"). Ajusta primero el volumen del móvil y luego el Volume del módulo.\n• El puerto USB solo envía MIDI a un ordenador; Paradiddle no lo usa.</string>
+    <string name="kit_connect_body">• Auriculares: van en Phones, en el lateral del módulo.\n• Para oír la app y la batería en los mismos auriculares, conecta la salida de auriculares del móvil (o un adaptador USB-C) a Aux In con un cable estéreo de 3,5 mm (1/8\").\n• Ajusta primero el volumen del móvil y luego el Volume del módulo.\n• El puerto USB conecta el módulo al móvil para que la app te puntúe (mira el paso 5).</string>
     <string name="kit_choose_title">2. Elegir un kit</string>
-    <string name="kit_choose_body">• Pulsa Kit hasta que salga NUM y elige el kit con &lt; y &gt;.\n• Los kits 01–24 son de fábrica; los 25–40 son de usuario, donde guardas tus cambios (Save, elige 25–40, Save).\n• Para rudimentos va mejor una caja seca: prueba 01 (Acoustic), 02 (Standard 1) o 09 (Room).\n• La pestaña Estilos recomienda un kit para cada estilo.</string>
+    <string name="kit_choose_body">• Pulsa Kit hasta que salga NUM y elige el kit con &lt; y &gt;.\n• Los kits 01–24 son de fábrica. Los 25–40 son de usuario, donde guardas tus cambios: Save, elige 25–40, Save.\n• Para rudimentos va mejor una caja seca: prueba 01 (Acoustic), 02 (Standard 1) o 09 (Room).\n• La pestaña Estilos recomienda un kit para cada estilo.</string>
     <string name="kit_click_title">3. Metrónomo</string>
-    <string name="kit_click_body">• Click enciende y apaga el metrónomo.\n• Pulsa Tempo y luego &lt; y &gt; para fijar los BPM.\n• Pulsa Click y luego Page/Select para llegar a SIG (compás), INT (subdivisión), VOL (volumen) y VOC (sonido); cambia cada uno con &lt; y &gt;.\n• Usa los mismos BPM que en la app, o baja el volumen del metrónomo de la app en Ajustes y usa el clic de la batería.</string>
+    <string name="kit_click_body">• Click enciende y apaga el metrónomo.\n• Tempo y luego &lt; y &gt;: fija los BPM.\n• Click y luego Page/Select: recorre SIG (compás), INT (subdivisión), VOL (volumen) y VOC (sonido). Cambia cada uno con &lt; y &gt;.\n• Usa los mismos BPM que en la app, o baja el volumen del metrónomo de la app en Ajustes y usa el clic de la batería.</string>
     <string name="kit_pads_title">4. Respuesta de la caja</string>
-    <string name="kit_pads_body">Golpea la caja (o pulsa su botón Pad Select), pulsa Utility y recorre los ajustes con Page/Select; cámbialos con &lt; y &gt;:\n• SEN (sensibilidad): más alto = suena fuerte con menos fuerza.\n• THR (umbral): más alto = hay que golpear más fuerte para que suene. Bájalo hasta que suenen las notas de adorno suaves (flams, drags, notas fantasma), pero no tanto que otros pads hagan sonar la caja.\n• CRO (crosstalk): súbelo si al golpear un pad suena otro.\n• CUR (curva): cómo sigue el volumen a la fuerza del golpe.\n• R-S: sensibilidad del aro. S-S: sensibilidad del splash del hi-hat.\nPulsa Save para guardar los cambios; si no, se pierden al apagar el módulo.</string>
+    <string name="kit_pads_body">Golpea la caja (o pulsa su botón Pad Select), pulsa Utility y recorre estos ajustes con Page/Select. Cámbialos con &lt; y &gt;.\n• SEN (sensibilidad): más alto = suena fuerte con menos fuerza.\n• THR (umbral): más alto = hay que golpear más fuerte para que suene. Bájalo hasta que suenen las notas de adorno suaves (flams, drags, notas fantasma), pero no tanto que otros pads hagan sonar la caja.\n• CRO (crosstalk): súbelo si al golpear un pad suena otro.\n• CUR (curva): cómo sigue el volumen a la fuerza del golpe.\n• R-S: sensibilidad del aro.\n• S-S: sensibilidad del splash del hi-hat.\nPulsa Save para guardar los cambios. Si no, se pierden al apagar el módulo.</string>
     <string name="kit_practice_title">5. Practicar con Paradiddle</string>
-    <string name="kit_practice_body">• Pon el móvil en un soporte donde veas la notación.\n• Para que puntúe lo que tocas en la batería, conecta el módulo al móvil (un cable USB desde el puerto USB del módulo y un adaptador USB OTG) y elige Ajustes → Tocar en → Batería electrónica. Así la app sabe qué pad golpeas y con qué fuerza. Un pad de práctica también vale, con Tocar en → Micrófono.\n• Calibra una vez para la forma en que tocas (Ajustes → Calibrar).</string>
+    <string name="kit_practice_body">• Pon el móvil en un soporte donde veas la notación.\n• Para que puntúe lo que tocas en la batería, conecta el puerto USB del módulo al móvil con un cable USB y un adaptador USB OTG.\n• Después elige Ajustes → Tocar en → Batería electrónica. La app sabe qué pad golpeas y con qué fuerza.\n• Un pad de práctica también vale, con Ajustes → Tocar en → Micrófono.\n• Calibra una vez para la forma en que tocas: Ajustes → Calibrar.</string>
     <string name="kit_learning_title">6. Modo de aprendizaje (opcional)</string>
-    <string name="kit_learning_body">• Mantén Page/Select pulsado 1 segundo para cambiar entre el modo normal y el modo de aprendizaje.\n• Elige Beat (solo caja), Rhythm (batería completa) o Pattern (batería con música) y escoge un ejercicio con &lt; y &gt;.\n• Play/Practice toca el ejercicio sin puntuación; Start/Stop te da una puntuación al final.</string>
+    <string name="kit_learning_body">• Mantén Page/Select pulsado 1 segundo para cambiar entre el modo normal y el modo de aprendizaje.\n• Elige Beat (solo caja), Rhythm (batería completa) o Pattern (batería con música) y escoge un ejercicio con &lt; y &gt;.\n• Play/Practice toca el ejercicio sin puntuación.\n• Start/Stop te da una puntuación al final.</string>
     <string name="kit_source">Basado en la guía de usuario oficial de la Alesis Nitro Mesh Kit y su lista de kits y sonidos. Si tu módulo muestra algo distinto, consulta el manual en alesis.com.</string>
 
     <!-- Vista de la batería -->
@@ -154,13 +168,7 @@ Código fuente: github.com/rdiecv/paradiddle</string>
     <string name="kit_legend_button">Cómo leer la batería</string>
     <string name="kit_legend_title">Cómo leer la batería</string>
     <string name="kit_legend_close">Entendido</string>
-    <string name="kit_legend_body">Pulsa Reproducir y golpea cada pad cuando se ilumine.
-
-• D = mano derecha, I = mano izquierda, PD = pie derecho (pedal del bombo).
-• Brillante = acento, tenue = nota fantasma.
-• Solo el aro de la caja iluminado = aro cruzado.
-• Un aro sobre el hi-hat = hi-hat abierto (levanta el pie izquierdo).
-• Los pads con borde ámbar son los que usa este ritmo.</string>
+    <string name="kit_legend_body">Pulsa Reproducir y golpea cada pad cuando se ilumine.\n• D = mano derecha, I = mano izquierda, PD = pie derecho (pedal del bombo).\n• Brillante = acento, tenue = nota fantasma.\n• Solo el aro de la caja iluminado = aro cruzado.\n• Un aro sobre el hi-hat = hi-hat abierto (levanta el pie izquierdo).\n• Los pads con borde ámbar son los que usa este ritmo.</string>
 
     <plurals name="beats_count">
         <item quantity="one">%d ritmo</item>
@@ -205,8 +213,8 @@ Código fuente: github.com/rdiecv/paradiddle</string>
     <string name="midi_connected">Conectada: %1$s</string>
     <string name="midi_none">No hay batería conectada. Conecta el puerto USB del módulo al móvil con un cable USB y un adaptador OTG, y enciende el módulo.</string>
     <string name="calibration_for">Calibración de: %1$s</string>
-    <string name="calibration_intro_mic">Toca el pad a tiempo con los clics. Quédate en silencio los 4 primeros clics para que la app oiga el clic solo y luego toca encima. Usa los mismos auriculares o altavoz con los que practicas.</string>
-    <string name="calibration_intro_midi">Golpea la caja a tiempo con los clics. Los 4 primeros son solo para coger el pulso.</string>
+    <string name="calibration_intro_mic">• Pon el móvil cerca del pad y usa los mismos auriculares o altavoz con los que practicas.\n• Pulsa Empezar: sonarán 16 clics.\n• Los 4 primeros son una cuenta atrás: quédate en silencio para que la app oiga el clic solo.\n• Después toca tu pad justo con cada clic (12 golpes).</string>
+    <string name="calibration_intro_midi">• Comprueba que el módulo está conectado y encendido.\n• Pulsa Empezar: sonarán 16 clics.\n• Los 4 primeros son una cuenta atrás: solo escucha.\n• Después golpea la caja justo con cada clic (12 golpes).</string>
     <string name="play_here">Toca en tu batería</string>
     <string name="input_problem_screen">Para puntuar lo que tocas en tu batería, elige el micrófono o tu batería electrónica en Ajustes → Tocar en.</string>
     <string name="input_problem_midi">No se encuentra ninguna batería electrónica. Conecta el puerto USB del módulo al móvil con un cable USB y un adaptador OTG, enciéndelo y vuelve a intentarlo.</string>

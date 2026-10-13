@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import io.github.rdiecv.paradiddle.R
+import io.github.rdiecv.paradiddle.ui.components.FormattedText
 
 private val SECTIONS = listOf(
     R.string.kit_connect_title to R.string.kit_connect_body,
@@ -45,7 +46,7 @@ fun KitGuideScreen() {
                 Card(Modifier.fillMaxWidth()) {
                     Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                         Text(stringResource(title), style = MaterialTheme.typography.titleSmall)
-                        Text(stringResource(body), style = MaterialTheme.typography.bodyMedium)
+                        FormattedText(stringResource(body), style = MaterialTheme.typography.bodyMedium)
                     }
                 }
             }

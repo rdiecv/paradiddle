@@ -27,6 +27,9 @@ import io.github.rdiecv.paradiddle.ui.theme.PadColors
 private const val LOOKAHEAD_NANOS = 2_000L * NANOS_PER_MS
 private const val FLASH_NANOS = 250L * NANOS_PER_MS
 
+/** How far from a note's time a hit still counts, is good and is perfect (the scorer's limits). */
+data class HitZone(val windowNanos: Long, val goodNanos: Long, val perfectNanos: Long)
+
 fun judgementColor(j: Judgement): Color = when (j) {
     Judgement.PERFECT, Judgement.GRACE_HIT -> PadColors.perfect
     Judgement.GOOD, Judgement.OK -> PadColors.good
@@ -36,7 +39,8 @@ fun judgementColor(j: Judgement): Color = when (j) {
 /**
  * Two lanes (left hand, right hand) with notes falling toward a hit line near the bottom.
  * A note is centred on the hit line at its session time; [nowNanos] is the session time this
- * frame will be on screen.
+ * frame will be on screen. With a [hitZone], bands around the hit line show where a hit counts,
+ * is good and is perfect, and the hit line sits low enough for the outer band to end at the bottom.
  */
 @Composable
 fun LanesView(
@@ -47,12 +51,16 @@ fun LanesView(
     rightFlash: Flash?,
     flashLabel: (Flash) -> String?,
     modifier: Modifier = Modifier,
+    hitZone: HitZone? = null,
 ) {
     val measurer = rememberTextMeasurer()
     val ink = MaterialTheme.colorScheme.onBackground
     Canvas(modifier) {
         val u = density
-        val lanes = LaneGeometry(hitY = size.height - 18f * u, topY = 8f * u, lookaheadNanos = LOOKAHEAD_NANOS)
+        val topY = 8f * u
+        // Room below the hit line: the lower half of the outer band (in time, at the lane's speed).
+        val below = hitZone?.let { it.windowNanos * (size.height - topY) / (LOOKAHEAD_NANOS + it.windowNanos) } ?: (18f * u)
+        val lanes = LaneGeometry(hitY = size.height - below, topY = topY, lookaheadNanos = LOOKAHEAD_NANOS)
         val hitY = lanes.hitY
         val laneW = size.width / 2
         fun laneX(hand: Hand) = if (hand == Hand.LEFT) 0f else laneW
@@ -62,6 +70,18 @@ fun LanesView(
         drawRect(PadColors.left.copy(alpha = 0.06f), Offset(0f, 0f), Size(laneW, size.height))
         drawRect(PadColors.right.copy(alpha = 0.06f), Offset(laneW, 0f), Size(laneW, size.height))
         drawLine(ink.copy(alpha = 0.15f), Offset(laneW, 0f), Offset(laneW, size.height), 1f * u)
+
+        // Where a hit counts, is good and is perfect.
+        hitZone?.let { z ->
+            listOf(
+                z.windowNanos to ink.copy(alpha = 0.07f),
+                z.goodNanos to PadColors.good.copy(alpha = 0.16f),
+                z.perfectNanos to PadColors.perfect.copy(alpha = 0.24f),
+            ).forEach { (nanos, color) ->
+                val top = yOf(nowNanos + nanos)
+                drawRect(color, Offset(0f, top), Size(size.width, yOf(nowNanos - nanos) - top))
+            }
+        }
 
         // Beat lines.
         timeline.clicks.forEach { c ->

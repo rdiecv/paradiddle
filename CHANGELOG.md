@@ -11,10 +11,22 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Separate hands in stereo (Settings, on by default): when a rudiment plays, the right hand
   sounds a little to the right and the left hand a little to the left, so the sticking can be
   heard with headphones. The metronome and the style beats stay centred.
+- Timing difficulty (Settings): Easy (counts within ±150 ms, perfect within ±50 ms), Normal (the
+  previous limits, ±100 ms and ±25 ms) or Hard (±70 ms and ±15 ms). Easy is the default.
+- Practising an input that was never calibrated now asks to calibrate first, or to practise
+  anyway.
 
 ### Changed
 
 - New app icon: two crossed drumsticks on a white background, also as a themed icon.
+- Practice on the screen: bands around the hit line show where a hit counts, is good and is
+  perfect; the notes land on the pads, and the lanes can be tapped too (left half = left hand).
+- Calibration is easier to follow: short steps, a 4-3-2-1 countdown on the pad during the
+  warm-up clicks, a counter of the clicks to play, the pad pulsing on each click, and a result
+  that says what the number means.
+- Clearer texts: the "How to read the kit" legend and "About" show their line breaks again,
+  the Alesis Nitro Mesh guide and each style's setup are lists with one step per line, and the
+  guide no longer says the module's USB port isn't used.
 
 ## [1.1.0] - 2026-10-13
 

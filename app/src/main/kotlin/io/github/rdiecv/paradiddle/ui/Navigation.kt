@@ -97,7 +97,7 @@ fun ParadiddleNavHost() {
                 val vm = viewModel {
                     PracticeViewModel(app, rudiment, args.getInt("bpm"), args.getInt("reps"), args.getBoolean("listen"))
                 }
-                PracticeScreen(vm, onBack = ::back)
+                PracticeScreen(vm, onBack = ::back, onCalibrate = { nav.navigate("calibration") })
             }
             composable(Tab.STYLES.route) { StylesScreen(onOpen = { nav.navigate("style/$it") }) }
             composable("style/{id}", listOf(navArgument("id") { type = NavType.StringType })) { entry ->

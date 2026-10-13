@@ -17,6 +17,7 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -26,6 +27,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -57,6 +61,7 @@ import io.github.rdiecv.paradiddle.input.InputProblem
 import io.github.rdiecv.paradiddle.input.LiveDrumInput
 import io.github.rdiecv.paradiddle.ui.theme.PadColors
 import kotlinx.coroutines.launch
+import io.github.rdiecv.paradiddle.ui.components.FormattedText
 
 private enum class CalState { IDLE, RUNNING, DONE, FAILED }
 
@@ -134,78 +139,125 @@ fun CalibrationScreen(onBack: () -> Unit) {
         state = CalState.RUNNING
     }
 
+    // Session time of the current frame while running: drives the countdown, counter and pulse.
+    var now by remember { mutableLongStateOf(Long.MIN_VALUE) }
+    LaunchedEffect(state) {
+        while (state == CalState.RUNNING) {
+            withFrameNanos { frame -> playback?.let { now = it.sessionTimeAt(frame) } }
+        }
+    }
+    val heard = clickTimes.count { it <= now }
+    val pulse = state == CalState.RUNNING && clickTimes.any { now - it in 0..PULSE_NANOS }
+
     Scaffold(topBar = { BackTopBar(stringResource(R.string.calibration_title), onBack) }) { padding ->
         Column(
             Modifier.fillMaxSize().padding(padding).padding(24.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text(
-                stringResource(
-                    when (source) {
-                        InputSource.SCREEN -> R.string.calibration_intro
-                        InputSource.MICROPHONE -> R.string.calibration_intro_mic
-                        InputSource.MIDI -> R.string.calibration_intro_midi
-                    },
-                ),
-                textAlign = TextAlign.Center,
-            )
-            when (state) {
-                CalState.DONE -> Text(
-                    stringResource(R.string.calibration_result, resultMs),
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.Bold,
+            if (state != CalState.DONE) {
+                FormattedText(
+                    stringResource(
+                        when (source) {
+                            InputSource.SCREEN -> R.string.calibration_intro
+                            InputSource.MICROPHONE -> R.string.calibration_intro_mic
+                            InputSource.MIDI -> R.string.calibration_intro_midi
+                        },
+                    ),
+                    Modifier.fillMaxWidth(),
                 )
-                CalState.FAILED -> Text(
-                    stringResource(problem?.let(::inputProblemText) ?: R.string.calibration_failed),
-                    color = PadColors.bad,
-                    textAlign = TextAlign.Center,
-                )
-                else -> Unit
             }
-            if (state == CalState.RUNNING) {
-                LinearProgressIndicator(
-                    progress = { taps.size.coerceAtMost(Calibration.CLICKS) / Calibration.CLICKS.toFloat() },
+            when (state) {
+                CalState.DONE -> {
+                    Text(
+                        stringResource(R.string.calibration_done_title),
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.Bold,
+                    )
+                    Text(stringResource(R.string.calibration_done_body, resultMs), textAlign = TextAlign.Center)
+                    Button(onClick = onBack) { Text(stringResource(R.string.done)) }
+                    TextButton(onClick = ::start) { Text(stringResource(R.string.retry)) }
+                }
+                CalState.FAILED -> {
+                    Text(
+                        stringResource(problem?.let(::inputProblemText) ?: R.string.calibration_failed),
+                        color = PadColors.bad,
+                        textAlign = TextAlign.Center,
+                    )
+                    Button(onClick = ::start) { Text(stringResource(R.string.retry)) }
+                }
+                CalState.IDLE -> Button(onClick = ::start) { Text(stringResource(R.string.start)) }
+                CalState.RUNNING -> LinearProgressIndicator(
+                    progress = { heard / Calibration.CLICKS.toFloat() },
                     modifier = Modifier.fillMaxWidth(),
                 )
-            } else {
-                Button(onClick = ::start) {
-                    Text(stringResource(if (state == CalState.IDLE) R.string.calibrate else R.string.retry))
-                }
             }
-            val shape = RoundedCornerShape(24.dp)
-            Box(
-                Modifier
-                    .fillMaxWidth()
-                    .height(220.dp)
-                    .clip(shape)
-                    .background(PadColors.left.copy(alpha = if (state == CalState.RUNNING) 0.3f else 0.1f))
-                    .pointerInput(Unit) {
-                        awaitPointerEventScope {
-                            while (true) {
-                                val event = awaitPointerEvent()
-                                event.changes.forEach { c ->
-                                    if (c.changedToDown()) {
-                                        val p = playback
-                                        if (source == InputSource.SCREEN && p != null && p.isRunning) {
-                                            taps += p.sessionTimeAt(AudioEngine.uptimeMillisToNanoTime(c.uptimeMillis))
+            if (state != CalState.DONE) {
+                val shape = RoundedCornerShape(24.dp)
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .height(220.dp)
+                        .clip(shape)
+                        .background(
+                            PadColors.left.copy(
+                                alpha = when {
+                                    pulse -> 0.55f
+                                    state == CalState.RUNNING -> 0.25f
+                                    else -> 0.1f
+                                },
+                            ),
+                        )
+                        .pointerInput(Unit) {
+                            awaitPointerEventScope {
+                                while (true) {
+                                    val event = awaitPointerEvent()
+                                    event.changes.forEach { c ->
+                                        if (c.changedToDown()) {
+                                            val p = playback
+                                            if (source == InputSource.SCREEN && p != null && p.isRunning) {
+                                                taps += p.sessionTimeAt(AudioEngine.uptimeMillisToNanoTime(c.uptimeMillis))
+                                            }
+                                            c.consume()
                                         }
-                                        c.consume()
                                     }
                                 }
                             }
+                        },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        when {
+                            state != CalState.RUNNING -> PadText(
+                                stringResource(if (source == InputSource.SCREEN) R.string.tap_here else R.string.play_here),
+                            )
+                            // Count down the warm-up clicks; switch right after the last one, in time for the next.
+                            heard < Calibration.IGNORED_CLICKS -> {
+                                PadText(stringResource(R.string.calibration_listen))
+                                PadText("${Calibration.IGNORED_CLICKS - heard}", big = true)
+                            }
+                            else -> {
+                                PadText(stringResource(R.string.calibration_play_now))
+                                val played = Calibration.CLICKS - Calibration.IGNORED_CLICKS
+                                PadText("${(heard - Calibration.IGNORED_CLICKS).coerceAtMost(played)} / $played", big = true)
+                            }
                         }
-                    },
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(
-                    stringResource(if (source == InputSource.SCREEN) R.string.tap_here else R.string.play_here),
-                    fontSize = 28.sp,
-                    color = PadColors.left,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center,
-                )
+                    }
+                }
             }
         }
     }
+}
+
+private const val PULSE_NANOS = 120L * NANOS_PER_MS
+
+@Composable
+private fun PadText(text: String, big: Boolean = false) {
+    Text(
+        text,
+        fontSize = if (big) 44.sp else 26.sp,
+        color = PadColors.left,
+        fontWeight = FontWeight.Bold,
+        textAlign = TextAlign.Center,
+    )
 }

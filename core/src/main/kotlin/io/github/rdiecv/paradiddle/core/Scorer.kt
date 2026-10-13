@@ -46,9 +46,19 @@ data class SessionResult(
 /** Notes played at the right loudness: accents loud, the others soft. */
 data class AccentResult(val right: Int, val total: Int)
 
+/**
+ * How much timing slack a hit gets: it counts within [windowMs] of the note, is "perfect"
+ * within [perfectMs] and "good" within [goodMs]. At fast tempos the window also shrinks so
+ * neighbouring notes never overlap.
+ */
+enum class Difficulty(val windowMs: Int, val perfectMs: Int, val goodMs: Int) {
+    EASY(150, 50, 90),
+    NORMAL(100, 25, 50),
+    HARD(70, 15, 35),
+}
+
 object Scoring {
     const val CLEAN_ACCURACY = 90.0
-    const val MAX_WINDOW_NANOS = 100 * NANOS_PER_MS
     const val GRACE_BEFORE_NANOS = 180 * NANOS_PER_MS
     const val GRACE_AFTER_NANOS = 10 * NANOS_PER_MS
     const val STEADY_MS = 10.0
@@ -62,7 +72,8 @@ object Scoring {
     /** An accent must be this much louder than the typical unaccented note. */
     const val ACCENT_RATIO = 1.25f
 
-    fun windowNanos(slotNanos: Long): Long = min(MAX_WINDOW_NANOS, slotNanos * 45 / 100)
+    fun windowNanos(slotNanos: Long, difficulty: Difficulty = Difficulty.NORMAL): Long =
+        min(difficulty.windowMs * NANOS_PER_MS, slotNanos * 45 / 100)
 
     /** Next tempo to try after a session. */
     fun suggestedBpm(bpm: Int, accuracy: Double): Int = when {
@@ -85,10 +96,17 @@ object Scoring {
  * main note, as are a buzz stroke's bounces), the pad is checked when known, and the loudness
  * of each note is kept to judge the accents.
  */
-class Scorer(private val timeline: Timeline, private val realDrums: Boolean = false) {
-    private val window = Scoring.windowNanos(timeline.slotNanos)
-    private val perfectLimit = min(25 * NANOS_PER_MS, window / 2)
-    private val goodLimit = min(50 * NANOS_PER_MS, window)
+class Scorer(
+    private val timeline: Timeline,
+    private val realDrums: Boolean = false,
+    difficulty: Difficulty = Difficulty.NORMAL,
+) {
+    /** A hit counts within this distance of its note. */
+    val windowNanos = Scoring.windowNanos(timeline.slotNanos, difficulty)
+    /** A hit within this distance is perfect. */
+    val perfectNanos = min(difficulty.perfectMs * NANOS_PER_MS, windowNanos / 2)
+    /** A hit within this distance is good. */
+    val goodNanos = min(difficulty.goodMs * NANOS_PER_MS, windowNanos)
 
     private class Grace(val hand: Hand, val nominal: Long, val mainTime: Long) {
         var done = false
@@ -116,7 +134,7 @@ class Scorer(private val timeline: Timeline, private val realDrums: Boolean = fa
     /** Reports notes and graces whose windows closed before [nowNanos]. */
     fun advanceTo(nowNanos: Long): List<Feedback> {
         val out = ArrayList<Feedback>()
-        while (nextOpenNote < notes.size && notes[nextOpenNote].timeNanos + window < nowNanos) {
+        while (nextOpenNote < notes.size && notes[nextOpenNote].timeNanos + windowNanos < nowNanos) {
             val n = notes[nextOpenNote]
             if (!noteDone[n.index]) {
                 noteDone[n.index] = true
@@ -143,8 +161,8 @@ class Scorer(private val timeline: Timeline, private val realDrums: Boolean = fa
         var bestNote: NoteEvent? = null
         for (i in nextOpenNote until notes.size) {
             val n = notes[i]
-            if (n.timeNanos - window > timeNanos) break
-            if (!noteDone[i] && n.hand == hand && abs(timeNanos - n.timeNanos) <= window) {
+            if (n.timeNanos - windowNanos > timeNanos) break
+            if (!noteDone[i] && n.hand == hand && abs(timeNanos - n.timeNanos) <= windowNanos) {
                 bestNote = n
                 break
             }
@@ -169,8 +187,8 @@ class Scorer(private val timeline: Timeline, private val realDrums: Boolean = fa
             noteDone[bestNote.index] = true
             val offset = timeNanos - bestNote.timeNanos
             val j = when {
-                abs(offset) <= perfectLimit -> Judgement.PERFECT
-                abs(offset) <= goodLimit -> Judgement.GOOD
+                abs(offset) <= perfectNanos -> Judgement.PERFECT
+                abs(offset) <= goodNanos -> Judgement.GOOD
                 else -> Judgement.OK
             }
             val p = when (j) {
@@ -186,8 +204,8 @@ class Scorer(private val timeline: Timeline, private val realDrums: Boolean = fa
         var wrong: NoteEvent? = null
         for (i in nextOpenNote until notes.size) {
             val n = notes[i]
-            if (n.timeNanos - window > timeNanos) break
-            if (!noteDone[i] && abs(timeNanos - n.timeNanos) <= window &&
+            if (n.timeNanos - windowNanos > timeNanos) break
+            if (!noteDone[i] && abs(timeNanos - n.timeNanos) <= windowNanos &&
                 (wrong == null || abs(timeNanos - n.timeNanos) < abs(timeNanos - wrong.timeNanos))
             ) wrong = n
         }
@@ -213,10 +231,10 @@ class Scorer(private val timeline: Timeline, private val realDrums: Boolean = fa
         var otherDistance = Long.MAX_VALUE
         for (i in nextOpenNote until notes.size) {
             val n = notes[i]
-            if (n.timeNanos - window > timeNanos + spanBefore(n)) break
+            if (n.timeNanos - windowNanos > timeNanos + spanBefore(n)) break
             if (noteDone[i]) continue
             val d = distance(n, timeNanos)
-            if (d > window) continue
+            if (d > windowNanos) continue
             if (pad == null || n.pad == null || sameGroup(pad, n.pad)) {
                 // Earliest matching note wins, like taps.
                 if (best == null) { best = n; bestDistance = d }
@@ -233,8 +251,8 @@ class Scorer(private val timeline: Timeline, private val realDrums: Boolean = fa
             absorbUntil = absorbEnd(best)
             val signed = if (timeNanos < best.timeNanos) -bestDistance else bestDistance
             val j = when {
-                bestDistance <= perfectLimit -> Judgement.PERFECT
-                bestDistance <= goodLimit -> Judgement.GOOD
+                bestDistance <= perfectNanos -> Judgement.PERFECT
+                bestDistance <= goodNanos -> Judgement.GOOD
                 else -> Judgement.OK
             }
             record(j, pointsFor(j), Scoring.POINTS_PERFECT)
@@ -267,7 +285,7 @@ class Scorer(private val timeline: Timeline, private val realDrums: Boolean = fa
             n.graces.isNotEmpty() -> n.timeNanos + ABSORB_AFTER_MAIN_NANOS
             else -> return Long.MIN_VALUE
         }
-        val next = notes.getOrNull(n.index + 1)?.let { it.timeNanos - spanBefore(it) - window } ?: Long.MAX_VALUE
+        val next = notes.getOrNull(n.index + 1)?.let { it.timeNanos - spanBefore(it) - windowNanos } ?: Long.MAX_VALUE
         return min(own, next)
     }
 

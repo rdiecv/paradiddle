@@ -34,10 +34,15 @@ import io.github.rdiecv.paradiddle.data.PracticeSession
 import io.github.rdiecv.paradiddle.input.DrumInputs
 import io.github.rdiecv.paradiddle.input.InputProblem
 import io.github.rdiecv.paradiddle.input.LiveDrumInput
+import io.github.rdiecv.paradiddle.ui.components.HitZone
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-enum class Phase { STARTING, READY, PLAYING, FINISHED, ERROR }
+enum class Phase {
+    STARTING, READY, PLAYING, FINISHED, ERROR,
+    /** The chosen input has never been calibrated: offer to calibrate before scoring. */
+    NEEDS_CALIBRATION,
+}
 
 /** Last tap/miss shown on a lane, with the session time it happened. */
 data class Flash(val feedback: Feedback, val atNanos: Long)
@@ -74,11 +79,16 @@ class PracticeViewModel(
     /** Why real drums can't be used, when [phase] is [Phase.ERROR] because of them. */
     var inputProblem by mutableStateOf<InputProblem?>(null)
         private set
+    /** Where a hit counts around the hit line; null in listen mode. */
+    var hitZone by mutableStateOf<HitZone?>(null)
+        private set
 
     private var playback: Playback? = null
     private var live: LiveDrumInput? = null
     private var scorer: Scorer? = null
     private var calibrationNanos = 0L
+    /** The player chose to practise without calibrating. */
+    private var skipCalibration = false
     private var startedAtMillis = 0L
     @Volatile private var audioDone = false
 
@@ -98,6 +108,10 @@ class PracticeViewModel(
                 phase = Phase.ERROR
                 return@launch
             }
+            if (!listen && settings.offsetMs(source) == null && !skipCalibration) {
+                phase = Phase.NEEDS_CALIBRATION
+                return@launch
+            }
             calibrationNanos = (settings.offsetMs(source) ?: 0) * NANOS_PER_MS
             val t = TimelineBuilder.build(rudiment, bpm, repetitions)
             val sound = SessionSound(Synth(AudioEngine.sampleRate))
@@ -115,7 +129,8 @@ class PracticeViewModel(
             result = null
             liveAccuracy = 100.0
             timeline = t
-            scorer = if (listen) null else Scorer(t, realDrums = source != InputSource.SCREEN)
+            scorer = if (listen) null else Scorer(t, realDrums = source != InputSource.SCREEN, difficulty = settings.difficulty)
+            hitZone = scorer?.let { HitZone(it.windowNanos, it.goodNanos, it.perfectNanos) }
             audioDone = false
             val p = try {
                 AudioEngine.play(voices, sound.frameOf(t.endNanos)) { audioDone = true }
@@ -161,7 +176,7 @@ class PracticeViewModel(
         val t = timeline ?: return
         val time = p.sessionTimeAt(AudioEngine.uptimeMillisToNanoTime(uptimeMillis)) - calibrationNanos
         // Taps during the count-in are warm-up, not extra taps.
-        if (time < t.countInNanos - Scoring.MAX_WINDOW_NANOS - Scoring.GRACE_BEFORE_NANOS) return
+        if (time < t.countInNanos - s.windowNanos - Scoring.GRACE_BEFORE_NANOS) return
         s.advanceTo(time).forEach(::show)
         show(s.tap(hand, time))
         liveAccuracy = s.liveAccuracy
@@ -172,7 +187,7 @@ class PracticeViewModel(
         val s = scorer ?: return
         val t = timeline ?: return
         if (phase != Phase.PLAYING) return
-        if (time < t.countInNanos - Scoring.MAX_WINDOW_NANOS) return
+        if (time < t.countInNanos - s.windowNanos) return
         s.advanceTo(time).forEach(::show)
         s.hit(time, level, pad)?.let(::show)
         liveAccuracy = s.liveAccuracy
@@ -217,6 +232,12 @@ class PracticeViewModel(
                 ),
             )
         }
+    }
+
+    /** Starts without a calibration; timing is then judged as if the input had no delay. */
+    fun practiseUncalibrated() {
+        skipCalibration = true
+        start()
     }
 
     /** Stops without saving (back button, app in background). */

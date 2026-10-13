@@ -11,6 +11,7 @@ import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import io.github.rdiecv.paradiddle.core.Difficulty
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -25,6 +26,8 @@ data class Settings(
     /** Plays the right hand's strokes a little to the right and the left hand's to the left. */
     val separateHands: Boolean = true,
     val defaultRepetitions: Int = 8,
+    /** Timing slack when scoring. Easy by default, so learning a rudiment isn't a fight with the screen. */
+    val difficulty: Difficulty = Difficulty.EASY,
     val inputSource: InputSource = InputSource.SCREEN,
     val micOffsetMs: Int? = null,
     val midiOffsetMs: Int? = null,
@@ -46,6 +49,7 @@ class SettingsRepository(private val context: Context) {
         val guideSound = booleanPreferencesKey("guide_sound")
         val separateHands = booleanPreferencesKey("separate_hands")
         val defaultRepetitions = intPreferencesKey("default_repetitions")
+        val difficulty = stringPreferencesKey("difficulty")
         val inputSource = stringPreferencesKey("input_source")
         val micOffset = intPreferencesKey("mic_offset_ms")
         val midiOffset = intPreferencesKey("midi_offset_ms")
@@ -65,6 +69,7 @@ class SettingsRepository(private val context: Context) {
             guideSound = p[Keys.guideSound] ?: defaults.guideSound,
             separateHands = p[Keys.separateHands] ?: defaults.separateHands,
             defaultRepetitions = p[Keys.defaultRepetitions] ?: defaults.defaultRepetitions,
+            difficulty = Difficulty.entries.firstOrNull { it.name == p[Keys.difficulty] } ?: defaults.difficulty,
             inputSource = InputSource.entries.firstOrNull { it.name == p[Keys.inputSource] } ?: defaults.inputSource,
             micOffsetMs = p[Keys.micOffset],
             midiOffsetMs = p[Keys.midiOffset],
@@ -85,4 +90,6 @@ class SettingsRepository(private val context: Context) {
     suspend fun setSeparateHands(on: Boolean) = context.dataStore.edit { it[Keys.separateHands] = on }
 
     suspend fun setDefaultRepetitions(reps: Int) = context.dataStore.edit { it[Keys.defaultRepetitions] = reps }
+
+    suspend fun setDifficulty(difficulty: Difficulty) = context.dataStore.edit { it[Keys.difficulty] = difficulty.name }
 }

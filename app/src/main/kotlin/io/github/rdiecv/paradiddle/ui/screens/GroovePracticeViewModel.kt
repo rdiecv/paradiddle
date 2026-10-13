@@ -20,7 +20,6 @@ import io.github.rdiecv.paradiddle.core.GrooveTimeline
 import io.github.rdiecv.paradiddle.core.Instrument
 import io.github.rdiecv.paradiddle.core.NANOS_PER_MS
 import io.github.rdiecv.paradiddle.core.Scorer
-import io.github.rdiecv.paradiddle.core.Scoring
 import io.github.rdiecv.paradiddle.core.SessionResult
 import io.github.rdiecv.paradiddle.core.Style
 import io.github.rdiecv.paradiddle.core.Timeline
@@ -106,7 +105,7 @@ class GroovePracticeViewModel(
             lastFeedback = null
             liveAccuracy = 100.0
             timeline = t
-            scorer = Scorer(t, realDrums = true)
+            scorer = Scorer(t, realDrums = true, difficulty = settings.difficulty)
             audioDone = false
             val p = try {
                 AudioEngine.play(clicks + guide, SessionSound(synth).frameOf(t.endNanos)) { audioDone = true }
@@ -163,7 +162,7 @@ class GroovePracticeViewModel(
         val s = scorer ?: return
         val t = timeline ?: return
         if (phase != Phase.PLAYING) return
-        if (time < t.countInNanos - Scoring.MAX_WINDOW_NANOS) return
+        if (time < t.countInNanos - s.windowNanos) return
         s.advanceTo(time).forEach(::show)
         s.hit(time, level, pad)?.let(::show)
         liveAccuracy = s.liveAccuracy

@@ -62,7 +62,7 @@ import kotlin.math.abs
 import kotlin.math.roundToInt
 
 @Composable
-fun PracticeScreen(vm: PracticeViewModel, onBack: () -> Unit) {
+fun PracticeScreen(vm: PracticeViewModel, onBack: () -> Unit, onCalibrate: () -> Unit) {
     // Keep the screen on and stop (without saving) when the app goes to the background.
     val view = LocalView.current
     DisposableEffect(Unit) {
@@ -70,6 +70,8 @@ fun PracticeScreen(vm: PracticeViewModel, onBack: () -> Unit) {
         onDispose { view.keepScreenOn = false }
     }
     LifecycleEventEffect(Lifecycle.Event.ON_STOP) { vm.abort() }
+    // Back from calibrating: start again with the new calibration.
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) { if (vm.phase == Phase.NEEDS_CALIBRATION) vm.start() }
 
     val frameDelay by rememberFrameDelayNanos(active = vm.phase == Phase.PLAYING)
     LaunchedEffect(vm.phase) {
@@ -89,6 +91,7 @@ fun PracticeScreen(vm: PracticeViewModel, onBack: () -> Unit) {
                     )
                 }
                 Phase.ERROR -> ErrorContent(vm.inputProblem, onBack)
+                Phase.NEEDS_CALIBRATION -> CalibrationNeeded(onCalibrate = onCalibrate, onSkip = vm::practiseUncalibrated)
                 else -> PlayingContent(vm)
             }
         }
@@ -107,6 +110,9 @@ private fun PlayingContent(vm: PracticeViewModel) {
     val wrongPad = stringResource(R.string.wrong_pad)
     val miss = stringResource(R.string.miss)
     val extra = stringResource(R.string.extra)
+    // On-screen pads: the lanes and the pads are one tap area, so a note can be hit where it lands.
+    val onScreen = !vm.listen && vm.source == InputSource.SCREEN
+    val tapModifier = Modifier.handTaps(vm::onTap)
 
     Column(Modifier.fillMaxSize()) {
         Row(
@@ -153,7 +159,8 @@ private fun PlayingContent(vm: PracticeViewModel) {
                         else -> null
                     }
                 },
-                modifier = Modifier.fillMaxWidth().weight(1f),
+                modifier = Modifier.fillMaxWidth().weight(1f).then(if (onScreen) tapModifier else Modifier),
+                hitZone = vm.hitZone,
             )
         } else {
             Box(Modifier.fillMaxWidth().weight(1f))
@@ -166,35 +173,38 @@ private fun PlayingContent(vm: PracticeViewModel) {
         }
         when {
             vm.listen -> Unit
-            vm.source == InputSource.SCREEN -> Pads(onTap = vm::onTap)
+            onScreen -> Pads(tapModifier)
             else -> RealDrumsPanel(vm.source, Modifier.fillMaxWidth().height(160.dp).padding(8.dp))
         }
     }
 }
 
+/** Taps anywhere in the area: the left half is the left hand, the right half the right hand. */
+private fun Modifier.handTaps(onTap: (Hand, Long) -> Unit): Modifier = pointerInput(Unit) {
+    awaitPointerEventScope {
+        while (true) {
+            val event = awaitPointerEvent()
+            event.changes.forEach { c ->
+                if (c.changedToDown()) {
+                    val hand = if (c.position.x < size.width / 2f) Hand.LEFT else Hand.RIGHT
+                    onTap(hand, c.uptimeMillis)
+                    c.consume()
+                }
+            }
+        }
+    }
+}
+
+/** The two pads, right under the lanes so the notes land on them. */
 @Composable
-private fun Pads(onTap: (Hand, Long) -> Unit) {
+private fun Pads(modifier: Modifier = Modifier) {
     val leftDesc = stringResource(R.string.pad_left_desc)
     val rightDesc = stringResource(R.string.pad_right_desc)
     Row(
-        Modifier
+        modifier
             .fillMaxWidth()
-            .height(200.dp)
-            .padding(8.dp)
-            .pointerInput(Unit) {
-                awaitPointerEventScope {
-                    while (true) {
-                        val event = awaitPointerEvent()
-                        event.changes.forEach { c ->
-                            if (c.changedToDown()) {
-                                val hand = if (c.position.x < size.width / 2f) Hand.LEFT else Hand.RIGHT
-                                onTap(hand, c.uptimeMillis)
-                                c.consume()
-                            }
-                        }
-                    }
-                }
-            },
+            .height(160.dp)
+            .padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Pad(stringResource(R.string.pad_left), leftDesc, PadColors.left, Modifier.weight(1f))
@@ -215,6 +225,21 @@ private fun Pad(label: String, description: String, color: androidx.compose.ui.g
         contentAlignment = Alignment.Center,
     ) {
         Text(label, color = color, fontSize = 40.sp, fontWeight = FontWeight.Bold)
+    }
+}
+
+/** The input has never been calibrated: calibrate first, or practise anyway. */
+@Composable
+private fun CalibrationNeeded(onCalibrate: () -> Unit, onSkip: () -> Unit) {
+    Column(
+        Modifier.fillMaxSize().padding(24.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(stringResource(R.string.calibration_needed_title), style = MaterialTheme.typography.titleLarge)
+        Text(stringResource(R.string.calibration_needed_body), style = MaterialTheme.typography.bodyMedium)
+        Button(onClick = onCalibrate) { Text(stringResource(R.string.calibrate_now)) }
+        TextButton(onClick = onSkip) { Text(stringResource(R.string.practise_anyway)) }
     }
 }
 

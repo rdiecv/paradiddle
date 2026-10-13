@@ -46,6 +46,35 @@ class ScorerTest {
     }
 
     @Test
+    fun easyCountsLateTapsThatNormalMisses() {
+        // 40 BPM 16ths: slot 375 ms, so the 150 ms easy window isn't capped.
+        val t = TimelineBuilder.build(rudiment("R L R L"), bpm = 40, repetitions = 1)
+        val late = t.notes[0].timeNanos + 130 * MS
+        assertEquals(Judgement.OK, Scorer(t, difficulty = Difficulty.EASY).tap(Hand.RIGHT, late).judgement)
+        assertEquals(Judgement.EXTRA, Scorer(t, difficulty = Difficulty.NORMAL).tap(Hand.RIGHT, late).judgement)
+    }
+
+    @Test
+    fun difficultyMovesThePerfectAndGoodLimits() {
+        val t = singles()
+        val at40 = t.notes[0].timeNanos + 40 * MS
+        assertEquals(Judgement.PERFECT, Scorer(t, difficulty = Difficulty.EASY).tap(Hand.RIGHT, at40).judgement)
+        assertEquals(Judgement.GOOD, Scorer(t, difficulty = Difficulty.NORMAL).tap(Hand.RIGHT, at40).judgement)
+        assertEquals(Judgement.OK, Scorer(t, difficulty = Difficulty.HARD).tap(Hand.RIGHT, at40).judgement)
+    }
+
+    @Test
+    fun fastTemposKeepWindowsApartOnEveryDifficulty() {
+        // 200 BPM 16ths: slot 75 ms, so no window may reach the next note.
+        val t = TimelineBuilder.build(rudiment("R L R L"), bpm = 200, repetitions = 1)
+        Difficulty.entries.forEach { d ->
+            val s = Scorer(t, difficulty = d)
+            assertTrue(d.name, s.windowNanos < t.slotNanos / 2)
+            assertTrue(d.name, s.perfectNanos <= s.goodNanos && s.goodNanos <= s.windowNanos)
+        }
+    }
+
+    @Test
     fun wrongHandAndExtraAndMissed() {
         val t = singles()
         val s = Scorer(t)

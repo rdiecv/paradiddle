@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.rdiecv.paradiddle.BuildConfig
 import io.github.rdiecv.paradiddle.R
+import io.github.rdiecv.paradiddle.core.Difficulty
 import io.github.rdiecv.paradiddle.data.InputSource
 import io.github.rdiecv.paradiddle.data.Settings
 import io.github.rdiecv.paradiddle.input.DrumInputs
@@ -136,6 +137,19 @@ fun SettingsScreen(onBack: () -> Unit, onCalibrate: () -> Unit) {
                     }
                 }
             }
+            Section(stringResource(R.string.difficulty)) {
+                Text(stringResource(R.string.difficulty_desc), style = MaterialTheme.typography.bodySmall)
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Difficulty.entries.forEach { d ->
+                        FilterChip(
+                            selected = s.difficulty == d,
+                            onClick = { scope.launch { app.settings.setDifficulty(d) } },
+                            label = { Text(stringResource(d.label())) },
+                        )
+                    }
+                }
+                Text(stringResource(s.difficulty.detail()), style = MaterialTheme.typography.bodySmall)
+            }
             HorizontalDivider()
             Section(stringResource(R.string.about)) {
                 Text(stringResource(R.string.about_text, BuildConfig.VERSION_NAME), style = MaterialTheme.typography.bodySmall)
@@ -178,4 +192,16 @@ private fun Section(title: String, content: @Composable () -> Unit) {
         Text(title, style = MaterialTheme.typography.titleSmall)
         content()
     }
+}
+
+private fun Difficulty.label(): Int = when (this) {
+    Difficulty.EASY -> R.string.difficulty_easy
+    Difficulty.NORMAL -> R.string.difficulty_normal
+    Difficulty.HARD -> R.string.difficulty_hard
+}
+
+private fun Difficulty.detail(): Int = when (this) {
+    Difficulty.EASY -> R.string.difficulty_easy_detail
+    Difficulty.NORMAL -> R.string.difficulty_normal_detail
+    Difficulty.HARD -> R.string.difficulty_hard_detail
 }
