@@ -51,7 +51,7 @@ class Playback internal constructor(
     private val bufferFrames: Int
 
     init {
-        val minBytes = AudioTrack.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_FLOAT)
+        val minBytes = AudioTrack.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_FLOAT)
         check(minBytes > 0) { "Audio output not available" }
         track = AudioTrack.Builder()
             .setAudioAttributes(
@@ -64,7 +64,7 @@ class Playback internal constructor(
                 AudioFormat.Builder()
                     .setEncoding(AudioFormat.ENCODING_PCM_FLOAT)
                     .setSampleRate(sampleRate)
-                    .setChannelMask(AudioFormat.CHANNEL_OUT_MONO)
+                    .setChannelMask(AudioFormat.CHANNEL_OUT_STEREO)
                     .build(),
             )
             .setTransferMode(AudioTrack.MODE_STREAM)
@@ -82,21 +82,22 @@ class Playback internal constructor(
 
     private fun renderLoop() {
         Process.setThreadPriority(Process.THREAD_PRIORITY_URGENT_AUDIO)
-        val buf = FloatArray(chunkFrames)
+        // Interleaved stereo; track.write counts floats, two per frame.
+        val buf = FloatArray(chunkFrames * 2)
         val ts = AudioTimestamp()
         var written = 0L
         var lastTimestampCheck = 0L
         try {
             // Prime the buffer so playback starts with session frame 0.
             mixer.render(written, buf)
-            written += track.write(buf, 0, buf.size, AudioTrack.WRITE_BLOCKING)
+            written += track.write(buf, 0, buf.size, AudioTrack.WRITE_BLOCKING) / 2
             startNanos = System.nanoTime()
             track.play()
             while (running && written < lengthFrames) {
                 mixer.render(written, buf)
                 val n = track.write(buf, 0, buf.size, AudioTrack.WRITE_BLOCKING)
                 if (n <= 0) break
-                written += n
+                written += n / 2
                 val now = System.nanoTime()
                 if (now - lastTimestampCheck > 50_000_000L && track.getTimestamp(ts) && ts.framePosition > 0) {
                     anchorNanos = ts.nanoTime

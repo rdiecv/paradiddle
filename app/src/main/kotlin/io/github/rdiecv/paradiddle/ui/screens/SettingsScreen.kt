@@ -118,6 +118,13 @@ fun SettingsScreen(onBack: () -> Unit, onCalibrate: () -> Unit) {
                 }
                 Switch(checked = s.guideSound, onCheckedChange = { on -> scope.launch { app.settings.setGuideSound(on) } })
             }
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Column(Modifier.weight(1f)) {
+                    Text(stringResource(R.string.separate_hands), style = MaterialTheme.typography.titleSmall)
+                    Text(stringResource(R.string.separate_hands_desc), style = MaterialTheme.typography.bodySmall)
+                }
+                Switch(checked = s.separateHands, onCheckedChange = { on -> scope.launch { app.settings.setSeparateHands(on) } })
+            }
             Section(stringResource(R.string.default_reps)) {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     listOf(4, 8, 16).forEach { n ->

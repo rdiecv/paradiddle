@@ -22,6 +22,8 @@ data class Settings(
     val calibrationOffsetMs: Int? = null,
     val clickVolume: Float = 0.8f,
     val guideSound: Boolean = false,
+    /** Plays the right hand's strokes a little to the right and the left hand's to the left. */
+    val separateHands: Boolean = true,
     val defaultRepetitions: Int = 8,
     val inputSource: InputSource = InputSource.SCREEN,
     val micOffsetMs: Int? = null,
@@ -42,6 +44,7 @@ class SettingsRepository(private val context: Context) {
         val calibration = intPreferencesKey("calibration_offset_ms")
         val clickVolume = floatPreferencesKey("click_volume")
         val guideSound = booleanPreferencesKey("guide_sound")
+        val separateHands = booleanPreferencesKey("separate_hands")
         val defaultRepetitions = intPreferencesKey("default_repetitions")
         val inputSource = stringPreferencesKey("input_source")
         val micOffset = intPreferencesKey("mic_offset_ms")
@@ -60,6 +63,7 @@ class SettingsRepository(private val context: Context) {
             calibrationOffsetMs = p[Keys.calibration],
             clickVolume = p[Keys.clickVolume] ?: defaults.clickVolume,
             guideSound = p[Keys.guideSound] ?: defaults.guideSound,
+            separateHands = p[Keys.separateHands] ?: defaults.separateHands,
             defaultRepetitions = p[Keys.defaultRepetitions] ?: defaults.defaultRepetitions,
             inputSource = InputSource.entries.firstOrNull { it.name == p[Keys.inputSource] } ?: defaults.inputSource,
             micOffsetMs = p[Keys.micOffset],
@@ -77,6 +81,8 @@ class SettingsRepository(private val context: Context) {
     suspend fun setClickVolume(volume: Float) = context.dataStore.edit { it[Keys.clickVolume] = volume.coerceIn(0f, 1f) }
 
     suspend fun setGuideSound(on: Boolean) = context.dataStore.edit { it[Keys.guideSound] = on }
+
+    suspend fun setSeparateHands(on: Boolean) = context.dataStore.edit { it[Keys.separateHands] = on }
 
     suspend fun setDefaultRepetitions(reps: Int) = context.dataStore.edit { it[Keys.defaultRepetitions] = reps }
 }

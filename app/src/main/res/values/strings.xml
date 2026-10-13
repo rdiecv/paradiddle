@@ -76,6 +76,8 @@
     <string name="click_volume">Metronome volume</string>
     <string name="guide_sound">Guide sound while practising</string>
     <string name="guide_sound_desc">Plays the pattern softly under the clicks (not with the microphone, which would hear it).</string>
+    <string name="separate_hands">Separate hands in stereo</string>
+    <string name="separate_hands_desc">With headphones, the right hand sounds a little to the right and the left hand a little to the left, so you can hear the sticking.</string>
     <string name="default_reps">Default repetitions</string>
     <string name="about">About</string>
     <string name="about_text">Paradiddle %1$s. Free software under the GPL-3.0-or-later license.

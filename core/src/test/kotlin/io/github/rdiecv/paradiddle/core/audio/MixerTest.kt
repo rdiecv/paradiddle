@@ -11,27 +11,46 @@ import org.junit.Test
 class MixerTest {
     private val sound = floatArrayOf(0.5f, 0.25f, 0.125f)
 
+    /** Left channel of an interleaved stereo buffer. */
+    private fun FloatArray.left() = FloatArray(size / 2) { this[it * 2] }
+
     @Test
     fun placesVoiceOnExactFrameAcrossBuffers() {
         val mixer = Mixer(listOf(Voice(6, sound)))
-        val a = FloatArray(4)
-        val b = FloatArray(4)
+        val a = FloatArray(8)
+        val b = FloatArray(8)
         mixer.render(0, a)
         mixer.render(4, b)
-        assertArrayEquals(floatArrayOf(0f, 0f, 0f, 0f), a, 0f)
-        assertArrayEquals(floatArrayOf(0f, 0f, 0.5f, 0.25f), b, 0f)
-        val c = FloatArray(4)
+        assertArrayEquals(floatArrayOf(0f, 0f, 0f, 0f), a.left(), 0f)
+        assertArrayEquals(floatArrayOf(0f, 0f, 0.5f, 0.25f), b.left(), 0f)
+        val c = FloatArray(8)
         mixer.render(8, c)
-        assertArrayEquals(floatArrayOf(0.125f, 0f, 0f, 0f), c, 0f)
+        assertArrayEquals(floatArrayOf(0.125f, 0f, 0f, 0f), c.left(), 0f)
     }
 
     @Test
     fun sumsAndClips() {
         val mixer = Mixer(listOf(Voice(0, floatArrayOf(0.8f, 0.1f)), Voice(0, floatArrayOf(0.8f, 0.1f), gain = 0.5f)))
-        val out = FloatArray(2)
+        val out = FloatArray(4)
         mixer.render(0, out)
         assertEquals(1f, out[0], 0f)
-        assertEquals(0.15f, out[1], 1e-6f)
+        assertEquals(1f, out[1], 0f)
+        assertEquals(0.15f, out[2], 1e-6f)
+        assertEquals(0.15f, out[3], 1e-6f)
+    }
+
+    @Test
+    fun centredVoicePlaysFullOnBothSides() {
+        val out = FloatArray(2)
+        Mixer(listOf(Voice(0, floatArrayOf(0.5f)))).render(0, out)
+        assertArrayEquals(floatArrayOf(0.5f, 0.5f), out, 0f)
+    }
+
+    @Test
+    fun panTurnsTheFarSideDown() {
+        val out = FloatArray(4)
+        Mixer(listOf(Voice(0, floatArrayOf(0.8f), pan = 0.5f), Voice(1, floatArrayOf(0.8f), pan = -1f))).render(0, out)
+        assertArrayEquals(floatArrayOf(0.4f, 0.8f, 0.8f, 0f), out, 1e-6f)
     }
 
     @Test

@@ -6,6 +6,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+### Added
+
+- Separate hands in stereo (Settings, on by default): when a rudiment plays, the right hand
+  sounds a little to the right and the left hand a little to the left, so the sticking can be
+  heard with headphones. The metronome and the style beats stay centred.
+
+### Changed
+
+- New app icon: two crossed drumsticks on a white background, also as a themed icon.
+
 ## [1.1.0] - 2026-10-13
 
 ### Added

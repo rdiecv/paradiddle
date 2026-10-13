@@ -3,6 +3,7 @@
 
 package io.github.rdiecv.paradiddle.core.audio
 
+import io.github.rdiecv.paradiddle.core.Hand
 import io.github.rdiecv.paradiddle.core.NANOS_PER_SECOND
 import io.github.rdiecv.paradiddle.core.Timeline
 
@@ -19,8 +20,10 @@ class SessionSound(private val synth: Synth) {
     /**
      * @param clickGain metronome volume, 0 = no clicks
      * @param patternGain volume of the played pattern, 0 = don't play it
+     * @param handPan how far each hand's strokes sit to its side, 0 = both centred
      */
-    fun voices(timeline: Timeline, clickGain: Float, patternGain: Float): List<Voice> {
+    fun voices(timeline: Timeline, clickGain: Float, patternGain: Float, handPan: Float = 0f): List<Voice> {
+        fun pan(hand: Hand) = if (hand == Hand.RIGHT) handPan else -handPan
         val out = ArrayList<Voice>()
         if (clickGain > 0f) {
             timeline.clicks.forEach { c ->
@@ -29,15 +32,20 @@ class SessionSound(private val synth: Synth) {
         }
         if (patternGain > 0f) {
             timeline.notes.forEach { n ->
-                n.graces.forEach { g -> out += Voice(frameOf(g.timeNanos), grace, patternGain) }
+                n.graces.forEach { g -> out += Voice(frameOf(g.timeNanos), grace, patternGain, pan(g.hand)) }
                 val samples = when {
                     n.buzz -> synth.buzz(if (n.accent) 1f else 0.55f, n.durationNanos.toDouble() / NANOS_PER_SECOND)
                     n.accent -> accent
                     else -> normal
                 }
-                out += Voice(frameOf(n.timeNanos), samples, patternGain)
+                out += Voice(frameOf(n.timeNanos), samples, patternGain, pan(n.hand))
             }
         }
         return out
+    }
+
+    companion object {
+        /** Hand separation when it is on: the far side plays at half volume. */
+        const val HAND_PAN = 0.5f
     }
 }

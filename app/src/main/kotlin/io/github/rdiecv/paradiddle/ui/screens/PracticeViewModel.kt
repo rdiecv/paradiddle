@@ -101,12 +101,13 @@ class PracticeViewModel(
             calibrationNanos = (settings.offsetMs(source) ?: 0) * NANOS_PER_MS
             val t = TimelineBuilder.build(rudiment, bpm, repetitions)
             val sound = SessionSound(Synth(AudioEngine.sampleRate))
+            val handPan = if (settings.separateHands) SessionSound.HAND_PAN else 0f
             val voices = if (listen) {
-                sound.voices(t, clickGain = settings.clickVolume * 0.6f, patternGain = 0.9f)
+                sound.voices(t, clickGain = settings.clickVolume * 0.6f, patternGain = 0.9f, handPan = handPan)
             } else {
                 // No guide pattern for the microphone: it would hear the guide instead of the player.
                 val guide = settings.guideSound && source != InputSource.MICROPHONE
-                sound.voices(t, clickGain = settings.clickVolume, patternGain = if (guide) 0.25f else 0f)
+                sound.voices(t, clickGain = settings.clickVolume, patternGain = if (guide) 0.25f else 0f, handPan = handPan)
             }
             judgements.clear()
             leftFlash = null

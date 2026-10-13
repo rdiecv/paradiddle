@@ -75,6 +75,8 @@
     <string name="click_volume">Volumen del metrónomo</string>
     <string name="guide_sound">Sonido guía al practicar</string>
     <string name="guide_sound_desc">Toca el patrón suave por debajo de los clics (no con el micrófono, que lo oiría).</string>
+    <string name="separate_hands">Separar las manos en estéreo</string>
+    <string name="separate_hands_desc">Con auriculares, la mano derecha suena un poco a la derecha y la izquierda un poco a la izquierda, para oír el orden de manos.</string>
     <string name="default_reps">Repeticiones por defecto</string>
     <string name="about">Acerca de</string>
     <string name="about_text">Paradiddle %1$s. Software libre bajo la licencia GPL-3.0 o posterior.

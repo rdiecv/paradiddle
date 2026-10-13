@@ -98,7 +98,7 @@ class GroovePracticeViewModel(
             val guide = if (settings.guideSound && source == InputSource.MIDI) {
                 val sound = GrooveSound(synth)
                 val shift = SessionSound(synth).frameOf(t.countInNanos)
-                sound.voices(groove, bpm, loops).map { Voice(it.startFrame + shift, it.samples, it.gain * GUIDE_GAIN) }
+                sound.voices(groove, bpm, loops).map { Voice(it.startFrame + shift, it.samples, it.gain * GUIDE_GAIN, it.pan) }
             } else {
                 emptyList()
             }
