@@ -60,6 +60,7 @@ import io.github.rdiecv.paradiddle.ui.components.DrumKitView
 import io.github.rdiecv.paradiddle.ui.components.FormattedText
 import io.github.rdiecv.paradiddle.ui.rememberFrameDelayNanos
 import io.github.rdiecv.paradiddle.ui.components.GrooveGrid
+import io.github.rdiecv.paradiddle.ui.components.BeatBall
 import kotlin.math.roundToInt
 
 @Composable
@@ -103,6 +104,7 @@ fun StyleDetailScreen(
                 Text(groove.name.text(), style = MaterialTheme.typography.titleMedium)
             }
             var showLegend by rememberSaveable { mutableStateOf(false) }
+            BeatBall(if (position < 0) null else position / (Groove.STEPS_PER_BAR / 4))
             Card(Modifier.fillMaxWidth()) {
                 Box(Modifier.padding(12.dp)) {
                     DrumKitView(groove, position)
@@ -119,6 +121,10 @@ fun StyleDetailScreen(
                     title = { Text(stringResource(R.string.kit_legend_title)) },
                     text = { FormattedText(stringResource(R.string.kit_legend_body)) },
                 )
+            }
+            // The grid right under the kit, so both can be followed while the beat plays.
+            Card(Modifier.fillMaxWidth()) {
+                GrooveGrid(groove, if (position < 0) -1 else position.toInt(), Modifier.padding(12.dp))
             }
 
             Text(
@@ -159,9 +165,6 @@ fun StyleDetailScreen(
                 Text(stringResource(R.string.audio_error), color = MaterialTheme.colorScheme.error)
             }
 
-            Card(Modifier.fillMaxWidth()) {
-                GrooveGrid(groove, if (position < 0) -1 else position.toInt(), Modifier.padding(12.dp))
-            }
 
             InfoCard(stringResource(R.string.how_to_play), groove.how.text())
             SongsCard(groove.songs, onLearnSong)

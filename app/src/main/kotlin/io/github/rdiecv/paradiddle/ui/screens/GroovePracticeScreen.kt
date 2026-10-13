@@ -36,7 +36,10 @@ import io.github.rdiecv.paradiddle.R
 import io.github.rdiecv.paradiddle.core.Judgement
 import io.github.rdiecv.paradiddle.core.NANOS_PER_MS
 import io.github.rdiecv.paradiddle.ui.components.DrumKitView
+import io.github.rdiecv.paradiddle.ui.components.GrooveGrid
 import io.github.rdiecv.paradiddle.ui.components.judgementColor
+import io.github.rdiecv.paradiddle.ui.components.BeatBall
+import io.github.rdiecv.paradiddle.ui.components.beatsAt
 import io.github.rdiecv.paradiddle.ui.rememberFrameDelayNanos
 import kotlin.math.roundToInt
 
@@ -94,8 +97,13 @@ private fun PlayingGroove(vm: GroovePracticeViewModel) {
                 fontWeight = FontWeight.Bold,
             )
         }
+        val position = vm.position()
+        BeatBall(vm.timeline?.takeIf { vm.phase == Phase.PLAYING }?.beatsAt(vm.nowNanos))
         Card(Modifier.fillMaxWidth()) {
-            DrumKitView(vm.groove, vm.position(), Modifier.padding(12.dp))
+            DrumKitView(vm.groove, position, Modifier.padding(12.dp))
+        }
+        Card(Modifier.fillMaxWidth()) {
+            GrooveGrid(vm.groove, if (position < 0) -1 else position.toInt(), Modifier.padding(12.dp))
         }
         FeedbackText(vm)
         if (vm.phase == Phase.READY) {

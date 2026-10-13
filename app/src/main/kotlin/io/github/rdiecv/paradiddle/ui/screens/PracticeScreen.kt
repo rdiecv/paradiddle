@@ -57,6 +57,8 @@ import io.github.rdiecv.paradiddle.input.InputProblem
 import io.github.rdiecv.paradiddle.input.MidiDrumInput
 import io.github.rdiecv.paradiddle.ui.components.LanesView
 import io.github.rdiecv.paradiddle.ui.components.NotationView
+import io.github.rdiecv.paradiddle.ui.components.BeatBall
+import io.github.rdiecv.paradiddle.ui.components.beatsAt
 import io.github.rdiecv.paradiddle.ui.theme.PadColors
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -139,6 +141,10 @@ private fun PlayingContent(vm: PracticeViewModel) {
                 )
             }
         }
+        BeatBall(
+            if (t == null || vm.phase != Phase.PLAYING) null else t.beatsAt(now),
+            Modifier.padding(horizontal = 16.dp),
+        )
         NotationView(vm.rudiment, Modifier.fillMaxWidth(), highlight = currentNote, slotWidth = 18.dp)
 
         if (t != null) {

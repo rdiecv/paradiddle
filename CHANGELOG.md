@@ -15,12 +15,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
   previous limits, ±100 ms and ±25 ms) or Hard (±70 ms and ±15 ms). Easy is the default.
 - Practising an input that was never calibrated now asks to calibrate first, or to practise
   anyway.
+- A visual metronome like the Alesis Nitro's swinging ball: a ball swings from end to end and
+  touches an end on every beat, so the next beat can be seen coming. Shown when practising a
+  rudiment, playing or practising a style beat, and calibrating.
 
 ### Changed
 
 - New app icon: two crossed drumsticks on a white background, also as a themed icon.
 - Practice on the screen: bands around the hit line show where a hit counts, is good and is
   perfect; the notes land on the pads, and the lanes can be tapped too (left half = left hand).
+- Style beats: the drum grid is right under the kit, also when practising on real drums, so the
+  beat can be followed on both while it plays.
 - Calibration is easier to follow: short steps, a 4-3-2-1 countdown on the pad during the
   warm-up clicks, a counter of the clicks to play, the pad pulsing on each click, and a result
   that says what the number means.

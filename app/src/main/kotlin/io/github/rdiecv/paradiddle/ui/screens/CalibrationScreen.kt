@@ -62,6 +62,8 @@ import io.github.rdiecv.paradiddle.input.LiveDrumInput
 import io.github.rdiecv.paradiddle.ui.theme.PadColors
 import kotlinx.coroutines.launch
 import io.github.rdiecv.paradiddle.ui.components.FormattedText
+import io.github.rdiecv.paradiddle.ui.components.BeatBall
+import io.github.rdiecv.paradiddle.ui.components.beatsAt
 import io.github.rdiecv.paradiddle.ui.rememberFrameDelayNanos
 
 private enum class CalState { IDLE, RUNNING, DONE, FAILED }
@@ -197,6 +199,7 @@ fun CalibrationScreen(onBack: () -> Unit) {
                 )
             }
             if (state != CalState.DONE) {
+                BeatBall(if (state == CalState.RUNNING) timeline.beatsAt(now) else null)
                 val shape = RoundedCornerShape(24.dp)
                 Box(
                     Modifier
