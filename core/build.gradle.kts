@@ -15,7 +15,8 @@ dependencies {
     testImplementation(libs.junit)
 }
 
-// The catalog test reads the real rudiments file shipped in the app.
+// The catalog tests read the real rudiments and grooves files shipped in the app.
 tasks.test {
     systemProperty("rudimentsJson", rootProject.file("app/src/main/assets/rudiments.json").absolutePath)
+    systemProperty("groovesJson", rootProject.file("app/src/main/assets/grooves.json").absolutePath)
 }

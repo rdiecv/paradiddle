@@ -5,6 +5,8 @@ package io.github.rdiecv.paradiddle
 
 import android.app.Application
 import androidx.room.Room
+import io.github.rdiecv.paradiddle.core.Groove
+import io.github.rdiecv.paradiddle.core.GrooveCatalog
 import io.github.rdiecv.paradiddle.core.Rudiment
 import io.github.rdiecv.paradiddle.core.RudimentCatalog
 import io.github.rdiecv.paradiddle.data.AppDatabase
@@ -15,6 +17,10 @@ class ParadiddleApp : Application() {
         RudimentCatalog.parse(assets.open("rudiments.json").bufferedReader().use { it.readText() })
     }
 
+    val grooves: List<Groove> by lazy {
+        GrooveCatalog.parse(assets.open("grooves.json").bufferedReader().use { it.readText() })
+    }
+
     val database: AppDatabase by lazy {
         Room.databaseBuilder(this, AppDatabase::class.java, "paradiddle.db").build()
     }
@@ -22,4 +28,6 @@ class ParadiddleApp : Application() {
     val settings: SettingsRepository by lazy { SettingsRepository(this) }
 
     fun rudiment(id: String): Rudiment? = rudiments.firstOrNull { it.id == id }
+
+    fun groove(id: String): Groove? = grooves.firstOrNull { it.id == id }
 }

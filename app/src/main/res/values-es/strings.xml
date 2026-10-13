@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="category_roll">Rudimentos de redoble</string>
     <string name="category_diddle">Rudimentos de diddle</string>
     <string name="category_flam">Rudimentos de flam</string>
@@ -82,4 +82,72 @@ Código fuente: github.com/rdiecv/paradiddle</string>
     <string name="log_empty">Aún no hay sesiones. Elige un rudimento y pulsa Practicar.</string>
     <string name="total_time">Práctica total: %1$s</string>
     <string name="session_line">%1$d BPM · %2$d%%</string>
+
+    <!-- Pestañas -->
+    <string name="tab_rudiments">Rudimentos</string>
+    <string name="tab_styles">Estilos</string>
+    <string name="tab_kit">Mi batería</string>
+
+    <!-- Estilos -->
+    <string name="styles_title">Estilos musicales</string>
+    <string name="family_rock">Familia rock</string>
+    <string name="family_latin">Latino y del mundo</string>
+    <string name="bpm_range">%1$d–%2$d BPM</string>
+    <string name="kit_short">Kit %1$02d · %2$s</string>
+    <string name="play">Reproducir</string>
+    <string name="stop">Parar</string>
+    <string name="how_to_play">Cómo se toca</string>
+    <string name="nitro_setup">Configuración de la Alesis Nitro Mesh</string>
+    <string name="kit_select" tools:ignore="PluralsCandidate">Kit %1$02d (%2$s): pulsa Kit hasta que salga NUM y elige %1$02d con &lt; y &gt;.</string>
+    <string name="grid_legend">Punto grande: acento · punto pequeño: nota fantasma · aro: hi-hat abierto</string>
+    <string name="grid_counts">1 e y a 2 e y a 3 e y a 4 e y a</string>
+    <string name="bar_n">Compás %1$d</string>
+    <string name="inst_hihat_short">HH</string>
+    <string name="inst_ride_short">RD</string>
+    <string name="inst_cowbell_short">CE</string>
+    <string name="inst_snare_short">CA</string>
+    <string name="inst_cross_stick_short">AR</string>
+    <string name="inst_tom_short">TB</string>
+    <string name="inst_kick_short">BO</string>
+    <string name="inst_hihat">hi-hat (charles)</string>
+    <string name="inst_ride">ride</string>
+    <string name="inst_cowbell">cencerro</string>
+    <string name="inst_snare">caja</string>
+    <string name="inst_cross_stick">aro cruzado</string>
+    <string name="inst_tom">tom base</string>
+    <string name="inst_kick">bombo</string>
+
+    <string name="groove_rock_how">La base del rock: corcheas regulares en el hi-hat, caja en 2 y 4 (el backbeat) y bombo en 1, 3 y la «y» del 3. Cuenta en voz alta (1 y 2 y 3 y 4 y), mantén el hi-hat parejo y haz que el backbeat sea la nota más fuerte.</string>
+    <string name="groove_rock_setup">Para un backbeat con cuerpo, golpea a la vez el parche y el aro de la caja (rimshot); si el aro suena demasiado fuerte o flojo, ajusta R-S en Utility. Pon el clic en corcheas: Click y luego Page/Select hasta INT.</string>
+    <string name="groove_pop_how">Hi-hat en semicorcheas con el acento en cada corchea (fuerte en 1 y 2 y, suave en la «e» y la «a»). Caja en 2 y 4, bombo en 1, la «y» del 2 y el 3. Toca todas las notas del hi-hat con una mano y deja las suaves cerca del plato.</string>
+    <string name="groove_pop_setup">Pon el INT del clic en semicorcheas para oír dónde van las notas suaves del hi-hat. Si no suenan, golpea el hi-hat, pulsa Utility y baja THR (umbral).</string>
+    <string name="groove_punk_how">Rápido y con empuje: bombo en cada tiempo, caja en cada «y» y hi-hat en todas las corcheas (el ritmo skank o polka). Mantente relajado para no cansarte: toca con las muñecas, con las baquetas bajas, y encaja caja y hi-hat.</string>
+    <string name="groove_punk_setup">El kit 09 (Room) da un sonido más crudo. A tempos altos un pad puede sonar al golpear el de al lado: si pasa, sube CRO (crosstalk) en Utility. Sube el VOL del clic para oírlo por encima de la batería.</string>
+    <string name="groove_metal_how">Groove de doble bombo: semicorcheas sin parar en el bombo, caja en 2 y 4 y ride (o un crash) en cada tiempo. Practica primero el bombo en corcheas (1 y 2 y) y pasa a semicorcheas solo cuando estén parejas. Lo habitual es un doble pedal (no viene con la batería).</string>
+    <string name="groove_metal_setup">Para un bombo más seco, golpea el pad del bombo, pulsa Voice, ve a NUM con Page/Select y elige Pwrbd Kick (26) o Rock Kick 3 (7). Guárdalo en un kit de usuario: Save, elige 25–40 con &lt; y &gt;, Save. Si el bombo rápido hace sonar otros pads, sube CRO.</string>
+    <string name="groove_bossa_nova_how">Dura dos compases. Hi-hat (o ride) en todas las corcheas, aro cruzado en la caja siguiendo la clave de bossa nova y bombo en 1, la «y» del 2, 3 y la «y» del 4. Toca suave, como un susurro bajo la guitarra. Aprende manos y pies por separado antes de juntarlos.</string>
+    <string name="groove_bossa_nova_setup">El kit 13 (Jazz Brush) es una opción más suave. Para el aro cruzado, apoya la mano en la caja y golpea el aro. Si el aro no suena a side stick, golpea el aro, pulsa Voice y elige Snare Stick (87); luego guarda un kit de usuario. Baja R-S si los golpes de aro suenan muy fuertes.</string>
+    <string name="groove_songo_how">Un songo simplificado, el ritmo cubano de Los Van Van y su batería Changuito. Mano derecha: cencerro (o campana del ride) en cada tiempo. Mano izquierda: notas fantasma suaves en la caja, un acento en la «a» del 2 y una nota en el tom base en la «y» del 4. Bombo en la «y» del 2 y en el 4. El songo real es más libre y lleno de variaciones: tómalo como punto de partida.</string>
+    <string name="groove_songo_setup">Para tener cencerro, golpea el ride, pulsa Voice y elige Cowbell 1 (316); luego guarda un kit de usuario (Save, elige 25–40, Save). Baja THR en la caja para que suenen las notas fantasma.</string>
+    <string name="groove_reggae_how">One drop: nada en el tiempo 1. Bombo y aro cruzado caen juntos en el tiempo 3 mientras el hi-hat toca corcheas. Es un ritmo relajado; lo difícil es dejar espacio, así que no metas bombo en el 1.</string>
+    <string name="groove_reggae_setup">El kit 01 (Acoustic) también sirve. Configura el aro cruzado como en la bossa nova (aro de la caja → Snare Stick, 87). A este tempo lento, pon el INT del clic en corcheas para no correr.</string>
+    <string name="groove_cumbia_how">Una cumbia simplificada para batería. El hi-hat imita la guacharaca (una corchea y dos semicorcheas en cada tiempo: «ch, chiqui»), el aro cruzado hace el llamador en cada «y» y el bombo marca cada tiempo. Toca los contratiempos ligeros y con rebote: el sabor está en la «y».</string>
+    <string name="groove_cumbia_setup">Configura el aro cruzado como en la bossa nova (aro de la caja → Snare Stick, 87). Practica con el clic en cada tiempo y comprueba que el bombo no corre.</string>
+
+    <!-- Guía de la batería -->
+    <string name="kit_title">Configurar la Alesis Nitro Mesh</string>
+    <string name="kit_intro">Cómo configurar tu batería Alesis Nitro Mesh para practicar con Paradiddle. Los nombres de los botones son los que vienen impresos en el módulo.</string>
+    <string name="kit_connect_title">1. Conexiones</string>
+    <string name="kit_connect_body">• Los auriculares van en Phones, en el lateral del módulo.\n• Para oír la app y la batería en los mismos auriculares, conecta la salida de auriculares del móvil (o un adaptador USB-C) a Aux In con un cable estéreo de 3,5 mm (1/8\"). Ajusta primero el volumen del móvil y luego el Volume del módulo.\n• El puerto USB solo envía MIDI a un ordenador; Paradiddle no lo usa.</string>
+    <string name="kit_choose_title">2. Elegir un kit</string>
+    <string name="kit_choose_body">• Pulsa Kit hasta que salga NUM y elige el kit con &lt; y &gt;.\n• Los kits 01–24 son de fábrica; los 25–40 son de usuario, donde guardas tus cambios (Save, elige 25–40, Save).\n• Para rudimentos va mejor una caja seca: prueba 01 (Acoustic), 02 (Standard 1) o 09 (Room).\n• La pestaña Estilos recomienda un kit para cada estilo.</string>
+    <string name="kit_click_title">3. Metrónomo</string>
+    <string name="kit_click_body">• Click enciende y apaga el metrónomo.\n• Pulsa Tempo y luego &lt; y &gt; para fijar los BPM.\n• Pulsa Click y luego Page/Select para llegar a SIG (compás), INT (subdivisión), VOL (volumen) y VOC (sonido); cambia cada uno con &lt; y &gt;.\n• Usa los mismos BPM que en la app, o baja el volumen del metrónomo de la app en Ajustes y usa el clic de la batería.</string>
+    <string name="kit_pads_title">4. Respuesta de la caja</string>
+    <string name="kit_pads_body">Golpea la caja (o pulsa su botón Pad Select), pulsa Utility y recorre los ajustes con Page/Select; cámbialos con &lt; y &gt;:\n• SEN (sensibilidad): más alto = suena fuerte con menos fuerza.\n• THR (umbral): más alto = hay que golpear más fuerte para que suene. Bájalo hasta que suenen las notas de adorno suaves (flams, drags, notas fantasma), pero no tanto que otros pads hagan sonar la caja.\n• CRO (crosstalk): súbelo si al golpear un pad suena otro.\n• CUR (curva): cómo sigue el volumen a la fuerza del golpe.\n• R-S: sensibilidad del aro. S-S: sensibilidad del splash del hi-hat.\nPulsa Save para guardar los cambios; si no, se pierden al apagar el módulo.</string>
+    <string name="kit_practice_title">5. Practicar con Paradiddle</string>
+    <string name="kit_practice_body">• Pon el móvil en un soporte donde veas la notación.\n• La app puntúa los toques en la pantalla del móvil, no los golpes en la batería. Para tener puntuación, toca los pads de la pantalla; para entrenar en la batería, pulsa Escuchar en un rudimento (o Reproducir en un estilo) y toca encima.\n• Calibra la app con los mismos auriculares que usas con la batería.</string>
+    <string name="kit_learning_title">6. Modo de aprendizaje (opcional)</string>
+    <string name="kit_learning_body">• Mantén Page/Select pulsado 1 segundo para cambiar entre el modo normal y el modo de aprendizaje.\n• Elige Beat (solo caja), Rhythm (batería completa) o Pattern (batería con música) y escoge un ejercicio con &lt; y &gt;.\n• Play/Practice toca el ejercicio sin puntuación; Start/Stop te da una puntuación al final.</string>
+    <string name="kit_source">Basado en la guía de usuario oficial de la Alesis Nitro Mesh Kit y su lista de kits y sonidos. Si tu módulo muestra algo distinto, consulta el manual en alesis.com.</string>
 </resources>

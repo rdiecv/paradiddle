@@ -42,7 +42,11 @@ class MixerTest {
     @Test
     fun synthSoundsAreFiniteAndInRange() {
         val synth = Synth(48_000)
-        listOf(synth.click(true), synth.click(false), synth.snare(1f), synth.snare(0.3f), synth.buzz(1f, 0.25))
+        listOf(
+            synth.click(true), synth.click(false), synth.snare(1f), synth.snare(0.3f), synth.buzz(1f, 0.25),
+            synth.kick(), synth.hihat(open = false), synth.hihat(open = true), synth.ride(), synth.cowbell(),
+            synth.crossStick(), synth.tom(),
+        )
             .forEach { s ->
                 assertTrue(s.isNotEmpty())
                 assertTrue(s.all { it.isFinite() && it in -1f..1f })

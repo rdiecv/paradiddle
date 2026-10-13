@@ -17,6 +17,8 @@ import androidx.compose.ui.res.stringResource
 import io.github.rdiecv.paradiddle.ParadiddleApp
 import io.github.rdiecv.paradiddle.R
 import io.github.rdiecv.paradiddle.core.Category
+import io.github.rdiecv.paradiddle.core.GrooveFamily
+import io.github.rdiecv.paradiddle.core.Instrument
 
 @Composable
 fun app(): ParadiddleApp = LocalContext.current.applicationContext as ParadiddleApp
@@ -35,6 +37,47 @@ fun Category.tipRes(): Int = when (this) {
     Category.DIDDLE -> R.string.tip_diddle
     Category.FLAM -> R.string.tip_flam
     Category.DRAG -> R.string.tip_drag
+}
+
+@StringRes
+fun GrooveFamily.titleRes(): Int = when (this) {
+    GrooveFamily.ROCK -> R.string.family_rock
+    GrooveFamily.LATIN -> R.string.family_latin
+}
+
+@StringRes
+fun Instrument.shortRes(): Int = when (this) {
+    Instrument.HIHAT -> R.string.inst_hihat_short
+    Instrument.RIDE -> R.string.inst_ride_short
+    Instrument.COWBELL -> R.string.inst_cowbell_short
+    Instrument.SNARE -> R.string.inst_snare_short
+    Instrument.CROSS_STICK -> R.string.inst_cross_stick_short
+    Instrument.TOM -> R.string.inst_tom_short
+    Instrument.KICK -> R.string.inst_kick_short
+}
+
+@StringRes
+fun Instrument.nameRes(): Int = when (this) {
+    Instrument.HIHAT -> R.string.inst_hihat
+    Instrument.RIDE -> R.string.inst_ride
+    Instrument.COWBELL -> R.string.inst_cowbell
+    Instrument.SNARE -> R.string.inst_snare
+    Instrument.CROSS_STICK -> R.string.inst_cross_stick
+    Instrument.TOM -> R.string.inst_tom
+    Instrument.KICK -> R.string.inst_kick
+}
+
+/** "How to play it" and "kit setup" texts of a groove, or null for an id without texts. */
+fun grooveTexts(id: String): Pair<Int, Int>? = when (id) {
+    "rock" -> R.string.groove_rock_how to R.string.groove_rock_setup
+    "pop" -> R.string.groove_pop_how to R.string.groove_pop_setup
+    "punk" -> R.string.groove_punk_how to R.string.groove_punk_setup
+    "metal" -> R.string.groove_metal_how to R.string.groove_metal_setup
+    "bossa_nova" -> R.string.groove_bossa_nova_how to R.string.groove_bossa_nova_setup
+    "songo" -> R.string.groove_songo_how to R.string.groove_songo_setup
+    "reggae" -> R.string.groove_reggae_how to R.string.groove_reggae_setup
+    "cumbia" -> R.string.groove_cumbia_how to R.string.groove_cumbia_setup
+    else -> null
 }
 
 @Composable

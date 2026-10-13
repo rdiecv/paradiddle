@@ -15,6 +15,9 @@ A free, open source Android app for learning the **40 PAS drum rudiments**.
 - Results with rushing/dragging tendency and a suggested next tempo
 - Local progress: best clean tempo (≥ 90 %), accuracy, practice time, daily log
 - One-time latency calibration so scoring is fair on every phone
+- **Styles**: the basic groove of rock, pop, punk, metal, bossa nova, songo, reggae and cumbia,
+  as a drum grid you can loop at any tempo, with a recommended Alesis Nitro Mesh setup
+- **My kit**: how to set up an Alesis Nitro Mesh kit to practise with the app
 - English and Spanish · no ads, no tracking, no network, no permissions
 
 ## Install on your phone
@@ -88,6 +91,22 @@ written in a compact sticking notation:
 `grid` is the number of slots per beat (1, 2, 3, 4, 6 or 8). Patterns are written in their usual
 open (slow) form. If you spot a pattern that doesn't match the PAS sheet, corrections are very
 welcome: `./gradlew :core:test` checks the file is valid.
+
+## Groove data
+
+The styles live in [`app/src/main/assets/grooves.json`](app/src/main/assets/grooves.json). Each
+track has one character per 16th note (16 per 4/4 bar, one or two bars):
+
+| Symbol | Meaning |
+|---|---|
+| `.` | rest |
+| `x` / `X` | hit / accented hit |
+| `g` | ghost note |
+| `o` | open hi-hat (hi-hat track only) |
+
+Instruments: `hihat`, `ride`, `cowbell`, `snare`, `cross_stick`, `tom`, `kick`. `kit` is the
+recommended Alesis Nitro Mesh preset kit (1–24). The songo and cumbia grooves are simplified
+drum-kit versions; corrections are welcome, and `./gradlew :core:test` checks the file.
 
 ## Contributing
 

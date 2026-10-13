@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name" translatable="false">Paradiddle</string>
     <string name="category_roll">Roll rudiments</string>
     <string name="category_diddle">Diddle rudiments</string>
@@ -83,4 +83,72 @@ Source code: github.com/rdiecv/paradiddle</string>
     <string name="log_empty">No sessions yet. Pick a rudiment and press Practice.</string>
     <string name="total_time">Total practice: %1$s</string>
     <string name="session_line">%1$d BPM · %2$d%%</string>
+
+    <!-- Tabs -->
+    <string name="tab_rudiments">Rudiments</string>
+    <string name="tab_styles">Styles</string>
+    <string name="tab_kit">My kit</string>
+
+    <!-- Styles -->
+    <string name="styles_title">Music styles</string>
+    <string name="family_rock">Rock family</string>
+    <string name="family_latin">Latin &amp; world</string>
+    <string name="bpm_range">%1$d–%2$d BPM</string>
+    <string name="kit_short">Kit %1$02d · %2$s</string>
+    <string name="play">Play</string>
+    <string name="stop">Stop</string>
+    <string name="how_to_play">How to play it</string>
+    <string name="nitro_setup">Alesis Nitro Mesh setup</string>
+    <string name="kit_select" tools:ignore="PluralsCandidate">Kit %1$02d (%2$s): press Kit until NUM shows, then choose %1$02d with &lt; and &gt;.</string>
+    <string name="grid_legend">Big dot: accent · small dot: ghost note · ring: open hi-hat</string>
+    <string name="grid_counts">1 e &amp; a 2 e &amp; a 3 e &amp; a 4 e &amp; a</string>
+    <string name="bar_n">Bar %1$d</string>
+    <string name="inst_hihat_short">HH</string>
+    <string name="inst_ride_short">RD</string>
+    <string name="inst_cowbell_short">CB</string>
+    <string name="inst_snare_short">SN</string>
+    <string name="inst_cross_stick_short">XS</string>
+    <string name="inst_tom_short">FT</string>
+    <string name="inst_kick_short">BD</string>
+    <string name="inst_hihat">hi-hat</string>
+    <string name="inst_ride">ride</string>
+    <string name="inst_cowbell">cowbell</string>
+    <string name="inst_snare">snare</string>
+    <string name="inst_cross_stick">cross-stick</string>
+    <string name="inst_tom">floor tom</string>
+    <string name="inst_kick">bass drum</string>
+
+    <string name="groove_rock_how">The backbone of rock: steady 8th notes on the hi-hat, snare on 2 and 4 (the backbeat) and bass drum on 1, 3 and the \"and\" of 3. Count out loud (1 &amp; 2 &amp; 3 &amp; 4 &amp;), keep the hi-hat even and make the backbeat the loudest note.</string>
+    <string name="groove_rock_setup">For a fat backbeat, hit the snare head and rim at the same time (a rimshot); if the rim is too loud or too quiet, adjust R-S in Utility. Set the click to 8th notes: Click, then Page/Select to INT.</string>
+    <string name="groove_pop_how">A 16th-note hi-hat with the accent on each 8th note (loud on 1 &amp; 2 &amp;, soft on the e and a). Snare on 2 and 4, bass drum on 1, the \"and\" of 2 and 3. Play all the hi-hat notes with one hand and keep the soft ones close to the cymbal.</string>
+    <string name="groove_pop_setup">Set the click INT to 16th notes so you hear where the soft hi-hat notes go. If they don\'t sound, hit the hi-hat, press Utility and lower THR (threshold).</string>
+    <string name="groove_punk_how">Fast and driving: bass drum on every beat, snare on every \"and\" and hi-hat on all 8th notes (the skank or polka beat). Stay relaxed so you don\'t tire: play from the wrists, keep the sticks low and lock the snare and hi-hat together.</string>
+    <string name="groove_punk_setup">Kit 09 (Room) gives a rawer sound. At high tempos a pad can sound when you hit its neighbour: if that happens, raise CRO (crosstalk) in Utility. Turn up the click VOL so you hear it over the kit.</string>
+    <string name="groove_metal_how">A double-bass groove: non-stop 16th notes on the bass drum, snare on 2 and 4 and the ride (or a crash) on every beat. Practise the kick in 8th notes first (1 &amp; 2 &amp;) and move to 16ths only when they are even. A double pedal (not included with the kit) is the usual choice.</string>
+    <string name="groove_metal_setup">For a tighter kick, hit the kick pad, press Voice, go to NUM with Page/Select and choose Pwrbd Kick (26) or Rock Kick 3 (7). Keep it by saving a user kit: Save, choose 25–40 with &lt; and &gt;, Save. Fast kicks can make other pads sound: raise CRO if they do.</string>
+    <string name="groove_bossa_nova_how">Two bars long. Hi-hat (or ride) on all 8th notes, cross-stick on the snare following the bossa nova clave and bass drum on 1, the \"and\" of 2, 3 and the \"and\" of 4. Play softly, like a whisper under the guitar. Learn the hands and the feet separately before putting them together.</string>
+    <string name="groove_bossa_nova_setup">Kit 13 (Jazz Brush) is a softer option. For the cross-stick, rest your hand on the snare and hit the rim. If the rim doesn\'t sound like a side stick, hit the rim, press Voice and choose Snare Stick (87), then save a user kit. Lower R-S if the clicks are too loud.</string>
+    <string name="groove_songo_how">A simplified songo, the Cuban groove of Los Van Van and their drummer Changuito. Right hand: cowbell (or ride bell) on every beat. Left hand: soft ghost notes on the snare, an accent on the \"a\" of 2 and a floor tom note on the \"and\" of 4. Bass drum on the \"and\" of 2 and on 4. Real songo is freer and full of variations: take this as a starting point.</string>
+    <string name="groove_songo_setup">To get a cowbell, hit the ride, press Voice and choose Cowbell 1 (316), then save a user kit (Save, choose 25–40, Save). Lower THR on the snare so the ghost notes sound.</string>
+    <string name="groove_reggae_how">One drop: nothing on beat 1. The bass drum and a cross-stick land together on beat 3 while the hi-hat plays 8th notes. It feels laid back; leaving space is the hard part, so don\'t add a kick on 1.</string>
+    <string name="groove_reggae_setup">Kit 01 (Acoustic) also works. Set up the cross-stick as in bossa nova (snare rim → Snare Stick, 87). At this slow tempo, set the click INT to 8th notes so you don\'t rush.</string>
+    <string name="groove_cumbia_how">A simplified drum-kit cumbia. The hi-hat copies the guacharaca scraper (an 8th and two 16ths on every beat: \"ch, chiki\"), the cross-stick plays the llamador drum on every \"and\" and the bass drum marks every beat. Keep the offbeats light and bouncy: the feel lives in the \"and\".</string>
+    <string name="groove_cumbia_setup">Set up the cross-stick as in bossa nova (snare rim → Snare Stick, 87). Practise with the click on every beat and check that the bass drum doesn\'t rush.</string>
+
+    <!-- Kit guide -->
+    <string name="kit_title">Alesis Nitro Mesh setup</string>
+    <string name="kit_intro">How to set up your Alesis Nitro Mesh kit to practise with Paradiddle. The button names are the ones printed on the module.</string>
+    <string name="kit_connect_title">1. Connect</string>
+    <string name="kit_connect_body">• Headphones go in Phones, on the side of the module.\n• To hear the app and the drums in the same headphones, connect the phone\'s headphone output (or a USB-C adapter) to Aux In with a 3.5 mm (1/8\") stereo cable. Set the phone volume first, then the module\'s Volume.\n• The USB port only sends MIDI to a computer; Paradiddle doesn\'t use it.</string>
+    <string name="kit_choose_title">2. Choose a kit</string>
+    <string name="kit_choose_body">• Press Kit until NUM shows, then choose a kit with &lt; and &gt;.\n• Kits 01–24 are presets; 25–40 are user kits where you keep your own changes (Save, choose 25–40, Save).\n• For rudiments a dry snare works best: try 01 (Acoustic), 02 (Standard 1) or 09 (Room).\n• The Styles tab suggests a kit for each style.</string>
+    <string name="kit_click_title">3. Metronome</string>
+    <string name="kit_click_body">• Click turns the metronome on and off.\n• Press Tempo, then &lt; and &gt;, to set the BPM.\n• Press Click and then Page/Select to reach SIG (time signature), INT (subdivision), VOL (volume) and VOC (sound); change each one with &lt; and &gt;.\n• Use the same BPM as the app, or lower the app\'s metronome volume in Settings and use the kit\'s click.</string>
+    <string name="kit_pads_title">4. Snare pad feel</string>
+    <string name="kit_pads_body">Hit the snare (or press its Pad Select button), press Utility and step through the settings with Page/Select; change them with &lt; and &gt;:\n• SEN (sensitivity): higher = loud sounds with less force.\n• THR (threshold): higher = you must hit harder to get any sound. Lower it until soft grace notes (flams, drags, ghost notes) sound, but not so low that other pads trigger the snare.\n• CRO (crosstalk): raise it if hitting one pad makes another sound.\n• CUR (curve): how the volume follows how hard you hit.\n• R-S: rim sensitivity. S-S: hi-hat splash sensitivity.\nPress Save to keep the changes; otherwise they are lost when you turn the module off.</string>
+    <string name="kit_practice_title">5. Practise with Paradiddle</string>
+    <string name="kit_practice_body">• Put the phone on a stand where you can see the notation.\n• The app scores taps on the phone screen, not hits on the kit. To get a score, tap the on-screen pads; to train on the kit, press Listen in a rudiment (or Play in a style) and play along.\n• Calibrate the app with the same headphones you use with the kit.</string>
+    <string name="kit_learning_title">6. Learning Mode (optional)</string>
+    <string name="kit_learning_body">• Hold Page/Select for 1 second to switch between normal mode and Learning Mode.\n• Choose Beat (snare only), Rhythm (full kit) or Pattern (kit with music) and pick an exercise with &lt; and &gt;.\n• Play/Practice plays the exercise without a score; Start/Stop gives you a score at the end.</string>
+    <string name="kit_source">Based on the official Alesis Nitro Mesh Kit user guide and Kit &amp; Voice List. If your module shows something different, check the manual at alesis.com.</string>
 </resources>
