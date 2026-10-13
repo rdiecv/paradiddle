@@ -1,20 +1,117 @@
 [
-  {"id": "rock", "family": "rock", "name": "Rock", "kit": 10,
+  {"id": "rock", "family": "rock", "name": "Rock", "kit": 10, "sound": "rock",
    "setup": {"en": "For a fat backbeat, hit the snare head and rim at the same time (a rimshot); if the rim is too loud or too quiet, adjust R-S in Utility. Set the click to 8th notes: Click, then Page/Select to INT.", "es": "Para un backbeat con cuerpo, golpea a la vez el parche y el aro de la caja (rimshot); si el aro suena demasiado fuerte o flojo, ajusta R-S en Utility. Pon el clic en corcheas: Click y luego Page/Select hasta INT."},
    "beats": [
     {"id": "rock_basic", "name": {"en": "Basic rock beat", "es": "Ritmo básico de rock"}, "bpm": 110, "minBpm": 90, "maxBpm": 140,
      "how": {"en": "The backbone of rock: steady 8th notes on the hi-hat, snare on 2 and 4 (the backbeat) and bass drum on 1, 3 and the \"and\" of 3. Count out loud (1 & 2 & 3 & 4 &), keep the hi-hat even and make the backbeat the loudest note.", "es": "La base del rock: corcheas regulares en el hi-hat, caja en 2 y 4 (el backbeat) y bombo en 1, 3 y la «y» del 3. Cuenta en voz alta (1 y 2 y 3 y 4 y), mantén el hi-hat parejo y haz que el backbeat sea la nota más fuerte."},
      "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "snare": "....X.......X...", "kick": "x.......x.x....."},
-     "songs": [{"title": "Back in Black", "artist": "AC/DC"}, {"title": "Highway to Hell", "artist": "AC/DC", "note": {"en": "Closed hi-hat in the verses.", "es": "Hi-hat cerrado en las estrofas."}}]},
+     "songs": [
+      {"id": "song_back_in_black", "title": "Back in Black", "artist": "AC/DC", "sources": ["https://www.bonedo.de/artikel/drum-play-alike-acdc-workshop", "https://thedrumninja.com/how-to-play-black-in-black-on-drums/", "Songsterr song 1024 (bar counts)"],
+       "lesson": {"bpm": 94,
+        "sections": [
+         {"name": {"en": "Intro (hi-hat count)", "es": "Intro (cuenta en el hi-hat)"}, "tracks": {"hihat": "x...x...x...x..."}, "bars": 2, "note": {"en": "Only the hi-hat on every beat.", "es": "Solo el hi-hat en cada tiempo."}},
+         {"name": {"en": "Intro", "es": "Intro"}, "beat": "rock_basic", "bars": 8, "note": {"en": "Every 4th bar the band plays accents with the riff: follow the guitar.", "es": "Cada 4.º compás la banda marca acentos con el riff: sigue a la guitarra."}},
+         {"name": {"en": "Verse 1", "es": "Estrofa 1"}, "beat": "rock_basic", "bars": 8, "note": {"en": "Closed hi-hat; short snare fill on bars 4 and 8.", "es": "Hi-hat cerrado; redoble corto de caja en los compases 4 y 8."}},
+         {"name": {"en": "Chorus 1", "es": "Estribillo 1"}, "beat": "rock_open_wash", "bars": 8, "note": {"en": "Crash on every 1. Last bar: three crash and kick hits, then snare on 4.", "es": "Crash en cada 1. Último compás: tres golpes de crash y bombo y caja en el 4."}},
+         {"name": {"en": "Verse 2", "es": "Estrofa 2"}, "beat": "rock_basic", "bars": 8},
+         {"name": {"en": "Chorus 2", "es": "Estribillo 2"}, "beat": "rock_open_wash", "bars": 8},
+         {"name": {"en": "Solo", "es": "Solo"}, "beat": "rock_open_wash", "bars": 16, "note": {"en": "Every 4th bar, a crash and kick push with the riff.", "es": "Cada 4.º compás, un empujón de crash y bombo con el riff."}},
+         {"name": {"en": "Chorus 3", "es": "Estribillo 3"}, "beat": "rock_open_wash", "bars": 8},
+         {"name": {"en": "Bridge (hits)", "es": "Puente (golpes)"}, "tracks": {"crash": "x...............", "kick": "x..............."}, "bars": 2, "note": {"en": "Crash hits with the band.", "es": "Golpes de crash con la banda."}},
+         {"name": {"en": "Build-up", "es": "Subida"}, "tracks": {"hihat": "o...o...o...o...", "snare": "X...X...X...X...", "kick": "x...x...x...x..."}, "bars": 5, "note": {"en": "Snare and kick on every beat, getting stronger.", "es": "Caja y bombo en cada tiempo, cada vez más fuerte."}},
+         {"name": {"en": "Fill", "es": "Redoble"}, "tracks": {"snare": "xxxxxxxxxxxxxxx.", "tom": "...............x"}, "bars": 1, "note": {"en": "16th notes on the snare, ending on the floor tom.", "es": "Semicorcheas en la caja, terminando en el tom base."}},
+         {"name": {"en": "Chorus 4", "es": "Estribillo 4"}, "beat": "rock_open_wash", "bars": 8},
+         {"name": {"en": "Outro (break)", "es": "Final (corte)"}, "tracks": {"crash": "x...............", "kick": "x..............."}, "bars": 2, "note": {"en": "Crash, then count with the hi-hat pedal.", "es": "Crash y luego cuenta con el pedal del hi-hat."}},
+         {"name": {"en": "Outro", "es": "Final"}, "beat": "rock_open_wash", "bars": 16, "note": {"en": "Accent bar with the riff every 4th bar, until the fade.", "es": "Compás de acentos con el riff cada 4, hasta que se apaga."}}
+        ],
+        "steps": [
+         {"en": "Learn the Basic rock beat at 80 BPM, then 94, with the bass drum only on 1 and 3.", "es": "Aprende el Ritmo básico de rock a 80 BPM y luego a 94, con el bombo solo en 1 y 3."},
+         {"en": "Practise the 4th-bar accents: listen to the riff and hit crash and kick with it while your foot keeps time.", "es": "Practica los acentos del 4.º compás: escucha el riff y golpea crash y bombo con él mientras el pie marca el tiempo."},
+         {"en": "Learn the Open hi-hat chorus with a crash on every 1, and the chorus ending: three hits, then snare on 4.", "es": "Aprende el Estribillo con hi-hat abierto, con crash en cada 1, y el final del estribillo: tres golpes y caja en el 4."},
+         {"en": "Practise the bridge: two bars of hits, five bars of snare and kick on every beat, one bar of 16ths to the floor tom.", "es": "Practica el puente: dos compases de golpes, cinco de caja y bombo en cada tiempo y uno de semicorcheas hasta el tom base."},
+         {"en": "Play the whole song with the app, then along with the record.", "es": "Toca la canción entera con la app y luego encima del disco."}
+        ]}},
+      {"id": "song_highway_to_hell", "title": "Highway to Hell", "artist": "AC/DC", "note": {"en": "Closed hi-hat in the verses.", "es": "Hi-hat cerrado en las estrofas."}, "sources": ["https://www.bonedo.de/artikel/drum-play-alike-acdc-workshop", "https://www.musicradar.com/news/easy-beginner-drum-songs", "Songsterr songs 289, 2113901, 573729, 23713 (bar counts)"],
+       "lesson": {"bpm": 116,
+        "sections": [
+         {"name": {"en": "Intro (guitar)", "es": "Intro (guitarra)"}, "bars": 5, "note": {"en": "Guitar alone: count the bars.", "es": "Guitarra sola: cuenta los compases."}},
+         {"name": {"en": "Intro (drums in)", "es": "Intro (entra la batería)"}, "beat": "rock_basic", "bars": 4},
+         {"name": {"en": "Verse 1", "es": "Estrofa 1"}, "tracks": {"hihat": "X.x.X.x.X.x.X.x.", "snare": "....X.......X...", "kick": "x.......x.....x."}, "bars": 15, "note": {"en": "Loud half-open hi-hat on the beat, soft on the \"and\".", "es": "Hi-hat medio abierto fuerte en el tiempo y suave en la «y»."}},
+         {"name": {"en": "Build-up", "es": "Subida"}, "tracks": {"tom": "x.x.x.x.x.x.x.x.", "snare": "x.x.x.x.x.x.X.x.", "kick": "x...x...x...x..."}, "bars": 2, "note": {"en": "Snare and floor tom together in 8ths, kick on every beat.", "es": "Caja y tom base juntos en corcheas, bombo en cada tiempo."}},
+         {"name": {"en": "Chorus 1", "es": "Estribillo 1"}, "beat": "rock_open_wash", "bars": 7, "note": {"en": "Crashes on the chord changes.", "es": "Crashes en los cambios de acorde."}},
+         {"name": {"en": "Stop", "es": "Parón"}, "bars": 2, "note": {"en": "Only the hi-hat pedal, then a pickup into the verse.", "es": "Solo el pedal del hi-hat y una entrada a la estrofa."}},
+         {"name": {"en": "Verse 2", "es": "Estrofa 2"}, "tracks": {"hihat": "X.x.X.x.X.x.X.x.", "snare": "....X.......X...", "kick": "x.......x.....x."}, "bars": 15},
+         {"name": {"en": "Build-up", "es": "Subida"}, "tracks": {"tom": "x.x.x.x.x.x.x.x.", "snare": "x.x.x.x.x.x.X.x.", "kick": "x...x...x...x..."}, "bars": 2},
+         {"name": {"en": "Chorus 2", "es": "Estribillo 2"}, "beat": "rock_open_wash", "bars": 8, "note": {"en": "The last bar stops: only the hi-hat pedal.", "es": "El último compás para: solo el pedal del hi-hat."}},
+         {"name": {"en": "Bridge", "es": "Puente"}, "tracks": {"crash": "x...............", "kick": "x..............."}, "bars": 4, "note": {"en": "Crash and kick hits with the band.", "es": "Golpes de crash y bombo con la banda."}},
+         {"name": {"en": "Solo", "es": "Solo"}, "beat": "rock_open_wash", "bars": 8},
+         {"name": {"en": "Chorus 3", "es": "Estribillo 3"}, "beat": "rock_open_wash", "bars": 8, "note": {"en": "The last two bars thin out into a short pause.", "es": "Los dos últimos compases se vacían en una pausa corta."}},
+         {"name": {"en": "Chorus 4", "es": "Estribillo 4"}, "beat": "rock_open_wash", "bars": 6},
+         {"name": {"en": "Ending", "es": "Final"}, "tracks": {"crash": "x...............", "kick": "x..............."}, "bars": 9, "note": {"en": "Band hits and a long chord; the tempo slows. Watch the band, not the click.", "es": "Golpes de la banda y un acorde largo; el tempo baja. Sigue a la banda, no al clic."}}
+        ],
+        "steps": [
+         {"en": "Play the Basic rock beat with a loud hi-hat on the beat and a soft one on the \"and\", at 100 then 116 BPM.", "es": "Toca el Ritmo básico de rock con el hi-hat fuerte en el tiempo y suave en la «y», a 100 y luego a 116 BPM."},
+         {"en": "Learn the 2-bar build-up into the chorus: snare and floor tom together in 8ths, kick on every beat.", "es": "Aprende la subida de 2 compases al estribillo: caja y tom base juntos en corcheas y bombo en cada tiempo."},
+         {"en": "Play the chorus with crashes on the chord changes.", "es": "Toca el estribillo con crashes en los cambios de acorde."},
+         {"en": "Practise the stops and the bridge hits, counting through the gaps with the hi-hat pedal.", "es": "Practica los parones y los golpes del puente, contando los huecos con el pedal del hi-hat."},
+         {"en": "Play the whole song; at the end the band slows down, so follow the record.", "es": "Toca la canción entera; al final la banda frena, así que sigue al disco."}
+        ]}}
+     ]},
     {"id": "rock_half_time", "name": {"en": "Half-time", "es": "Half-time (medio tiempo)"}, "bpm": 130, "minBpm": 100, "maxBpm": 160,
      "how": {"en": "The snare moves to beat 3 only, so the song feels twice as slow while the hi-hat keeps the same 8th notes. Bass drum on 1 and the \"and\" of 3. Common in heavy choruses and power ballads.", "es": "La caja pasa a sonar solo en el tiempo 3, así que la canción se siente el doble de lenta mientras el hi-hat sigue en corcheas. Bombo en el 1 y en la «y» del 3. Muy usado en estribillos potentes y baladas rock."},
      "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "snare": "........X.......", "kick": "x.........x....."},
-     "songs": [{"title": "Human Nature", "artist": "Michael Jackson", "note": {"en": "Listen for the snare on beat 3.", "es": "Escucha la caja en el tiempo 3."}}, {"title": "Wrapped Around Your Finger", "artist": "The Police", "note": {"en": "The chorus is in half-time.", "es": "El estribillo va en half-time."}}]},
+     "songs": [
+      {"id": "song_human_nature", "title": "Human Nature", "artist": "Michael Jackson", "note": {"en": "Listen for the snare on beat 3.", "es": "Escucha la caja en el tiempo 3."}, "sources": ["https://www.puremix.com/blog/human-nature-michael-jackson", "https://songbpm.com/@michael-jackson/human-nature", "Songsterr song 10462 (bar counts)"],
+       "lesson": {"bpm": 93,
+        "sections": [
+         {"name": {"en": "Intro", "es": "Intro"}, "tracks": {"hihat": "XxXxXxXxXxXxXxXx", "snare": "........X.......", "kick": "x..............x"}, "bars": 4, "note": {"en": "The half-time beat starts from bar 1.", "es": "El ritmo a medio tiempo empieza desde el compás 1."}},
+         {"name": {"en": "Verse 1", "es": "Estrofa 1"}, "tracks": {"hihat": "XxXxXxXxXxXxXxXx", "snare": "........X.......", "kick": "x..............x"}, "bars": 16, "note": {"en": "Soft and steady; a small two-tom accent every second bar.", "es": "Suave y regular; un pequeño acento de dos toms cada dos compases."}},
+         {"name": {"en": "Chorus 1", "es": "Estribillo 1"}, "tracks": {"hihat": "XxXxXxXxXxXxXxXx", "snare": "........X.......", "kick": "x..............x"}, "bars": 8, "note": {"en": "Same groove: the chorus doesn't build up.", "es": "El mismo ritmo: el estribillo no sube."}},
+         {"name": {"en": "Verse 2", "es": "Estrofa 2"}, "tracks": {"hihat": "XxXxXxXxXxXxXxXx", "snare": "........X.......", "kick": "x..............x"}, "bars": 8},
+         {"name": {"en": "Chorus 2", "es": "Estribillo 2"}, "tracks": {"hihat": "XxXxXxXxXxXxXxXx", "snare": "........X.......", "kick": "x..............x"}, "bars": 10, "note": {"en": "8 bars plus a short tag.", "es": "8 compases más una coda corta."}},
+         {"name": {"en": "Bridge", "es": "Puente"}, "tracks": {"hihat": "XxXxXxXxXxXxXxXx", "snare": "........X.......", "kick": "x..............x"}, "bars": 6},
+         {"name": {"en": "Verse 3", "es": "Estrofa 3"}, "tracks": {"hihat": "XxXxXxXxXxXxXxXx", "snare": "........X.......", "kick": "x..............x"}, "bars": 8},
+         {"name": {"en": "Chorus 3", "es": "Estribillo 3"}, "tracks": {"hihat": "XxXxXxXxXxXxXxXx", "snare": "........X.......", "kick": "x..............x"}, "bars": 25, "note": {"en": "Long last chorus: stay relaxed and identical.", "es": "Último estribillo largo: mantente relajado e igual."}},
+         {"name": {"en": "Outro", "es": "Final"}, "tracks": {"hihat": "XxXxXxXxXxXxXxXx", "snare": "........X.......", "kick": "x..............x"}, "bars": 11, "note": {"en": "Fade out.", "es": "Se apaga."}}
+        ],
+        "steps": [
+         {"en": "Feel the half-time: snare only on beat 3 at 93 BPM, counting 16ths.", "es": "Siente el medio tiempo: caja solo en el tiempo 3 a 93 BPM, contando semicorcheas."},
+         {"en": "Add even, quiet 16th notes on the hi-hat, and the kick pickup just before the next 1.", "es": "Añade semicorcheas suaves y regulares en el hi-hat y la nota de bombo justo antes del siguiente 1."},
+         {"en": "Add a small two-tom accent every second bar without rushing.", "es": "Añade un pequeño acento de dos toms cada dos compases sin correr."},
+         {"en": "Play the whole song: the groove barely changes, so focus on keeping it relaxed through the long last chorus.", "es": "Toca la canción entera: el ritmo casi no cambia, así que céntrate en mantenerlo relajado en el largo estribillo final."}
+        ]}},
+      {"id": "song_wrapped_around_your_finger", "title": "Wrapped Around Your Finger", "artist": "The Police", "note": {"en": "The chorus is in half-time.", "es": "El estribillo va en half-time."}, "sources": ["https://songbpm.com/@the-police/wrapped-around-your-finger", "https://en.wikipedia.org/wiki/Wrapped_Around_Your_Finger", "Songsterr song 56149 (bar counts)"],
+       "lesson": {"bpm": 128,
+        "sections": [
+         {"name": {"en": "Intro", "es": "Intro"}, "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "cross_stick": "............x...", "kick": "......x.x......."}, "bars": 17, "note": {"en": "Slow half-time feel (count 128, feel 64). No kick on 1.", "es": "Medio tiempo lento (cuenta a 128, siente 64). Sin bombo en el 1."}},
+         {"name": {"en": "Verse 1", "es": "Estrofa 1"}, "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "cross_stick": "............x...", "kick": "......x.x......."}, "bars": 16},
+         {"name": {"en": "Verse 2", "es": "Estrofa 2"}, "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "cross_stick": "............x...", "kick": "......x.x......."}, "bars": 16},
+         {"name": {"en": "Chorus 1", "es": "Estribillo 1"}, "tracks": {"ride": "x...x...x...x...", "snare": "............X...", "kick": "x.....x.x......."}, "bars": 10, "note": {"en": "Ride bell on the beats, snare only on 4. Last bar: tom fill.", "es": "Campana del ride en los tiempos y caja solo en el 4. Último compás: redoble de toms."}},
+         {"name": {"en": "Interlude 1", "es": "Interludio 1"}, "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "cross_stick": "............x...", "kick": "......x.x......."}, "bars": 8},
+         {"name": {"en": "Verse 3", "es": "Estrofa 3"}, "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "cross_stick": "............x...", "kick": "......x.x......."}, "bars": 16},
+         {"name": {"en": "Chorus 2", "es": "Estribillo 2"}, "tracks": {"ride": "x...x...x...x...", "snare": "............X...", "kick": "x.....x.x......."}, "bars": 10},
+         {"name": {"en": "Interlude 2", "es": "Interludio 2"}, "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "cross_stick": "............x...", "kick": "......x.x......."}, "bars": 8},
+         {"name": {"en": "Verse 4", "es": "Estrofa 4"}, "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "cross_stick": "............x...", "kick": "......x.x......."}, "bars": 8},
+         {"name": {"en": "Build-up", "es": "Subida"}, "beat": "rock_basic", "bars": 8, "note": {"en": "The groove opens up into a full backbeat. End with a short fill.", "es": "El ritmo se abre a un backbeat completo. Termina con un redoble corto."}},
+         {"name": {"en": "Chorus 3", "es": "Estribillo 3"}, "beat": "rock_basic", "bars": 14, "note": {"en": "Full backbeat, played on the ride. Tom fill on the last bar.", "es": "Backbeat completo tocado en el ride. Redoble de toms en el último compás."}},
+         {"name": {"en": "Outro", "es": "Final"}, "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "cross_stick": "............x...", "kick": "......x.x......."}, "bars": 36, "note": {"en": "Back to the sparse groove until the fade.", "es": "Vuelve al ritmo escaso hasta que se apaga."}}
+        ],
+        "steps": [
+         {"en": "Count 128 but feel 64. Play the sparse groove with no kick on beat 1, at 100 then 128 BPM.", "es": "Cuenta a 128 pero siente 64. Toca el ritmo escaso sin bombo en el 1, a 100 y luego a 128 BPM."},
+         {"en": "For the chorus, move to the ride bell and play the snare only on beat 4.", "es": "En el estribillo, pasa a la campana del ride y toca la caja solo en el tiempo 4."},
+         {"en": "Practise the change from verse to chorus and the one-bar tom fill.", "es": "Practica el cambio de estrofa a estribillo y el redoble de toms de un compás."},
+         {"en": "Practise the last verse building into the full-backbeat chorus, the only part with snare on 2 and 4.", "es": "Practica la última estrofa que sube al estribillo con backbeat completo, la única parte con caja en 2 y 4."},
+         {"en": "Play the whole song and keep the long outro restrained.", "es": "Toca la canción entera y mantén contenido el final largo."}
+        ]}}
+     ]},
     {"id": "rock_open_hat", "name": {"en": "Open hi-hat on 4&", "es": "Hi-hat abierto en la «y» del 4"}, "bpm": 110, "minBpm": 90, "maxBpm": 140,
      "how": {"en": "The basic rock beat with the hi-hat opened on the \"and\" of 4: lift your left foot as you hit it and close the hi-hat again with your foot on beat 1. It gives a push into the next bar.", "es": "El ritmo básico de rock con el hi-hat abierto en la «y» del 4: levanta el pie izquierdo al golpearlo y vuelve a cerrarlo con el pie en el tiempo 1. Da un empujón hacia el siguiente compás."},
-     "tracks": {"hihat": "x.x.x.x.x.x.x.o.", "snare": "....X.......X...", "kick": "x.......x.x....."}}
+     "tracks": {"hihat": "x.x.x.x.x.x.x.o.", "snare": "....X.......X...", "kick": "x.......x.x....."}},
+    {"id": "rock_open_wash", "name": {"en": "Open hi-hat chorus", "es": "Estribillo con hi-hat abierto"}, "bpm": 110, "minBpm": 90, "maxBpm": 140,
+     "how": {"en": "The loose, loud sound of many rock choruses: the hi-hat half open on every 8th note, snare on 2 and 4, bass drum on 1 and 3, and usually a crash on the 1 of each phrase. Keep your left foot slightly lifted so the cymbals wash together.", "es": "El sonido suelto y potente de muchos estribillos de rock: hi-hat medio abierto en cada corchea, caja en 2 y 4, bombo en 1 y 3 y normalmente un crash en el 1 de cada frase. Levanta un poco el pie izquierdo para que los platos suenen juntos."},
+     "tracks": {"hihat": "o.o.o.o.o.o.o.o.", "snare": "....X.......X...", "kick": "x.......x......."}}
    ]},
-  {"id": "pop", "family": "rock", "name": "Pop", "kit": 11,
+  {"id": "pop", "family": "rock", "name": "Pop", "kit": 11, "sound": "pop",
    "setup": {"en": "Set the click INT to 16th notes so you hear where the soft hi-hat notes go. If they don't sound, hit the hi-hat, press Utility and lower THR (threshold). For the ballad, set up the cross-stick as in bossa nova (snare rim → Snare Stick, 87).", "es": "Pon el INT del clic en semicorcheas para oír dónde van las notas suaves del hi-hat. Si no suenan, golpea el hi-hat, pulsa Utility y baja THR (umbral). Para la balada, configura el aro cruzado como en la bossa nova (aro de la caja → Snare Stick, 87)."},
    "beats": [
     {"id": "pop_basic", "name": {"en": "16th-note pop beat", "es": "Pop en semicorcheas"}, "bpm": 100, "minBpm": 85, "maxBpm": 120,
@@ -23,12 +120,86 @@
     {"id": "pop_four_floor", "name": {"en": "Four on the floor", "es": "Four on the floor (bombo en cada tiempo)"}, "bpm": 120, "minBpm": 100, "maxBpm": 130,
      "how": {"en": "The dance and disco beat: bass drum on every beat, snare on 2 and 4, closed hi-hat on the beats and open hi-hat on every \"and\". Open it by lifting your foot and close it on the next beat. Keep the bass drum steady and even.", "es": "El ritmo de baile y disco: bombo en cada tiempo, caja en 2 y 4, hi-hat cerrado en los tiempos y abierto en cada «y». Ábrelo levantando el pie y ciérralo en el siguiente tiempo. Mantén el bombo firme y regular."},
      "tracks": {"hihat": "x.o.x.o.x.o.x.o.", "snare": "....X.......X...", "kick": "x...x...x...x..."},
-     "songs": [{"title": "I Will Survive", "artist": "Gloria Gaynor"}, {"title": "Stayin' Alive", "artist": "Bee Gees"}, {"title": "Another One Bites the Dust", "artist": "Queen", "note": {"en": "A clear four-on-the-floor bass drum.", "es": "Un bombo en cada tiempo muy claro."}}]},
+     "songs": [
+      {"id": "song_i_will_survive", "title": "I Will Survive", "artist": "Gloria Gaynor", "sources": ["https://songbpm.com/@gloria-gaynor/i-will-survive", "https://en.wikipedia.org/wiki/I_Will_Survive", "Songsterr song 36566 (bar counts)"],
+       "lesson": {"bpm": 117,
+        "sections": [
+         {"name": {"en": "Verse 1", "es": "Estrofa 1"}, "beat": "pop_four_floor", "bars": 8, "note": {"en": "The drums drop in here, after the free-time piano and voice intro.", "es": "La batería entra aquí, tras la intro libre de piano y voz."}},
+         {"name": {"en": "Chorus 1", "es": "Estribillo 1"}, "beat": "pop_four_floor", "bars": 8, "note": {"en": "Small snare and tom fill on the last bar.", "es": "Pequeño redoble de caja y toms en el último compás."}},
+         {"name": {"en": "Chorus 2 (and tag)", "es": "Estribillo 2 (y coda)"}, "beat": "pop_four_floor", "bars": 16, "note": {"en": "Crash on 1; small fill at the end.", "es": "Crash en el 1; pequeño redoble al final."}},
+         {"name": {"en": "Verse 2", "es": "Estrofa 2"}, "beat": "pop_four_floor", "bars": 16},
+         {"name": {"en": "Chorus 3", "es": "Estribillo 3"}, "beat": "pop_four_floor", "bars": 8},
+         {"name": {"en": "Chorus 4", "es": "Estribillo 4"}, "beat": "pop_four_floor", "bars": 5},
+         {"name": {"en": "Stop", "es": "Parón"}, "tracks": {"crash": "x...............", "kick": "x..............."}, "bars": 1, "note": {"en": "Full stop: crash and kick on 1.", "es": "Parón total: crash y bombo en el 1."}},
+         {"name": {"en": "Stop (silence)", "es": "Parón (silencio)"}, "bars": 2, "note": {"en": "Two silent bars: count and come back exactly on 1.", "es": "Dos compases en silencio: cuenta y vuelve justo en el 1."}},
+         {"name": {"en": "Chorus 5", "es": "Estribillo 5"}, "beat": "pop_four_floor", "bars": 16, "note": {"en": "Crash at the start of each 8 bars; the last bar is an 8th-note fill to the toms.", "es": "Crash al empezar cada 8 compases; el último compás es un redoble de corcheas hacia los toms."}},
+         {"name": {"en": "Instrumental", "es": "Instrumental"}, "beat": "pop_four_floor", "bars": 16, "note": {"en": "Small fills at the end of each 8 bars.", "es": "Pequeños redobles al final de cada 8 compases."}},
+         {"name": {"en": "Verse 3", "es": "Estrofa 3"}, "beat": "pop_four_floor", "bars": 16, "note": {"en": "8th-note snare and tom fill at the halfway point.", "es": "Redoble de corcheas de caja y toms a mitad."}},
+         {"name": {"en": "Outro", "es": "Final"}, "beat": "pop_four_floor", "bars": 19}
+        ],
+        "steps": [
+         {"en": "Play Four on the floor slowly (90 BPM): an even kick on every beat, hi-hat open on the \"and\" and closed with your foot on the beat.", "es": "Toca Four on the floor despacio (90 BPM): bombo regular en cada tiempo, hi-hat abierto en la «y» y cerrado con el pie en el tiempo."},
+         {"en": "Bring it up to 117 and keep it unchanged for 16 bars and more.", "es": "Súbelo a 117 y mantenlo igual durante 16 compases o más."},
+         {"en": "Practise a one-bar 8th-note fill from the snare to the toms, landing on the crash.", "es": "Practica un redoble de corcheas de un compás de la caja a los toms, cayendo en el crash."},
+         {"en": "Practise the full stop: crash and kick, two silent bars, and back in exactly on 1.", "es": "Practica el parón: crash y bombo, dos compases en silencio y vuelta justo en el 1."},
+         {"en": "Play the whole song. On the record, start counting when the drums come in after the free-time intro.", "es": "Toca la canción entera. En el disco, empieza a contar cuando entra la batería tras la intro libre."}
+        ]}}
+     ]},
     {"id": "pop_ballad", "name": {"en": "Ballad", "es": "Balada"}, "bpm": 70, "minBpm": 60, "maxBpm": 85,
      "how": {"en": "Slow and soft: hi-hat 8th notes, cross-stick on 2 and 4 and bass drum on 1, the \"and\" of 2 and 3. Let every note breathe; a ballad is about space and steady time, not volume.", "es": "Lenta y suave: corcheas en el hi-hat, aro cruzado en 2 y 4 y bombo en 1, la «y» del 2 y el 3. Deja respirar cada nota: en una balada importan el espacio y el tiempo firme, no el volumen."},
-     "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "cross_stick": "....x.......x...", "kick": "x.....x.x......."}}
+     "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "cross_stick": "....x.......x...", "kick": "x.....x.x......."}},
+    {"id": "disco_basic", "name": {"en": "Disco (closed hi-hat)", "es": "Disco (hi-hat cerrado)"}, "bpm": 110, "minBpm": 95, "maxBpm": 130,
+     "how": {"en": "Bass drum on every beat, snare on 2 and 4 and closed 8th notes on the hi-hat. Simpler than Four on the floor because the hi-hat stays closed; many disco and funk-rock records use it as a steady loop.", "es": "Bombo en cada tiempo, caja en 2 y 4 y corcheas cerradas en el hi-hat. Más sencillo que Four on the floor porque el hi-hat va cerrado; muchos discos de disco y funk-rock lo usan como un bucle constante."},
+     "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "snare": "....X.......X...", "kick": "x...x...x...x..."},
+     "songs": [
+      {"id": "song_stayin_alive", "title": "Stayin' Alive", "artist": "Bee Gees", "sources": ["https://en.wikipedia.org/wiki/Stayin%27_Alive", "https://www.musiciwant.com/song/stayin-alive-bee-gees", "Songsterr song 64959 (bar counts)"],
+       "lesson": {"bpm": 104,
+        "sections": [
+         {"name": {"en": "Intro", "es": "Intro"}, "tracks": {"hihat": "x.x.x.x.x.x.x.x.x.x.x.x.x.x.x.o.", "snare": "....X.......X.......X.......X...", "kick": "x...x...x...x...x...x...x...x..."}, "bars": 6, "note": {"en": "The 2-bar loop starts from bar 1 under the guitar riff.", "es": "El bucle de 2 compases empieza desde el compás 1 bajo el riff de guitarra."}},
+         {"name": {"en": "Verse 1", "es": "Estrofa 1"}, "tracks": {"hihat": "x.x.x.x.x.x.x.x.x.x.x.x.x.x.x.o.", "snare": "....X.......X.......X.......X...", "kick": "x...x...x...x...x...x...x...x..."}, "bars": 8},
+         {"name": {"en": "Chorus 1", "es": "Estribillo 1"}, "tracks": {"hihat": "x.x.x.x.x.x.x.x.x.x.x.x.x.x.x.o.", "snare": "....X.......X.......X.......X...", "kick": "x...x...x...x...x...x...x...x..."}, "bars": 11, "note": {"en": "8-bar chorus plus a 3-bar tag.", "es": "Estribillo de 8 compases más una coda de 3."}},
+         {"name": {"en": "Main riff", "es": "Riff principal"}, "tracks": {"hihat": "x.x.x.x.x.x.x.x.x.x.x.x.x.x.x.o.", "snare": "....X.......X.......X.......X...", "kick": "x...x...x...x...x...x...x...x..."}, "bars": 2},
+         {"name": {"en": "Verse 2", "es": "Estrofa 2"}, "tracks": {"hihat": "x.x.x.x.x.x.x.x.x.x.x.x.x.x.x.o.", "snare": "....X.......X.......X.......X...", "kick": "x...x...x...x...x...x...x...x..."}, "bars": 8},
+         {"name": {"en": "Chorus 2", "es": "Estribillo 2"}, "tracks": {"hihat": "x.x.x.x.x.x.x.x.x.x.x.x.x.x.x.o.", "snare": "....X.......X.......X.......X...", "kick": "x...x...x...x...x...x...x...x..."}, "bars": 11},
+         {"name": {"en": "Bridge", "es": "Puente"}, "tracks": {"hihat": "x.x.x.x.x.x.x.x.x.x.x.x.x.x.x.o.", "snare": "....X.......X.......X.......X...", "kick": "x...x...x...x...x...x...x...x..."}, "bars": 12, "note": {"en": "Crash on the first 1, then the same loop.", "es": "Crash en el primer 1 y luego el mismo bucle."}},
+         {"name": {"en": "Verse 3", "es": "Estrofa 3"}, "tracks": {"hihat": "x.x.x.x.x.x.x.x.x.x.x.x.x.x.x.o.", "snare": "....X.......X.......X.......X...", "kick": "x...x...x...x...x...x...x...x..."}, "bars": 8},
+         {"name": {"en": "Chorus 3", "es": "Estribillo 3"}, "tracks": {"hihat": "x.x.x.x.x.x.x.x.x.x.x.x.x.x.x.o.", "snare": "....X.......X.......X.......X...", "kick": "x...x...x...x...x...x...x...x..."}, "bars": 11},
+         {"name": {"en": "Outro", "es": "Final"}, "tracks": {"hihat": "x.x.x.x.x.x.x.x.x.x.x.x.x.x.x.o.", "snare": "....X.......X.......X.......X...", "kick": "x...x...x...x...x...x...x...x..."}, "bars": 46, "note": {"en": "Long vamp until the fade.", "es": "Vamp largo hasta que se apaga."}}
+        ],
+        "steps": [
+         {"en": "Play a kick on every beat with the snare on 2 and 4, at 80 BPM.", "es": "Toca bombo en cada tiempo con caja en 2 y 4, a 80 BPM."},
+         {"en": "Add closed 8th notes on the hi-hat: this is the Disco beat.", "es": "Añade corcheas cerradas en el hi-hat: es el ritmo Disco."},
+         {"en": "Open the hi-hat on the \"and\" of 4 every second bar, as in the record's 2-bar loop.", "es": "Abre el hi-hat en la «y» del 4 cada dos compases, como el bucle de 2 compases del disco."},
+         {"en": "Bring it up to 104 BPM and hold it steady for two minutes: the record is a loop, so steadiness is everything.", "es": "Súbelo a 104 BPM y mantenlo firme dos minutos: el disco es un bucle, así que la regularidad lo es todo."},
+         {"en": "Play the whole song, counting the 11-bar choruses.", "es": "Toca la canción entera contando los estribillos de 11 compases."}
+        ]}},
+      {"id": "song_another_one_bites_the_dust", "title": "Another One Bites the Dust", "artist": "Queen", "note": {"en": "A clear four-on-the-floor bass drum.", "es": "Un bombo en cada tiempo muy claro."}, "sources": ["https://pcpki.com/queen/philipp/bitedust.html", "https://en.wikipedia.org/wiki/Another_One_Bites_the_Dust", "https://thedrumninja.com/another-one-bites-the-dust-drum-transcription/", "Songsterr song 371 (bar counts)"],
+       "lesson": {"bpm": 110,
+        "sections": [
+         {"name": {"en": "Intro (bass)", "es": "Intro (bajo)"}, "bars": 1, "note": {"en": "Bass pickup alone.", "es": "Entrada del bajo solo."}},
+         {"name": {"en": "Intro", "es": "Intro"}, "beat": "disco_basic", "bars": 10},
+         {"name": {"en": "Verse 1", "es": "Estrofa 1"}, "beat": "disco_basic", "bars": 8, "note": {"en": "A fill of 16ths on the snare on beats 3 and 4 of the last bar.", "es": "Redoble de semicorcheas de caja en los tiempos 3 y 4 del último compás."}},
+         {"name": {"en": "Chorus 1", "es": "Estribillo 1"}, "beat": "disco_basic", "bars": 8},
+         {"name": {"en": "Break", "es": "Corte"}, "beat": "disco_basic", "bars": 4},
+         {"name": {"en": "Verse 2", "es": "Estrofa 2"}, "beat": "disco_basic", "bars": 8, "note": {"en": "Same fill on the last bar.", "es": "El mismo redoble en el último compás."}},
+         {"name": {"en": "Chorus 2", "es": "Estribillo 2"}, "beat": "disco_basic", "bars": 8},
+         {"name": {"en": "Middle section", "es": "Parte central"}, "beat": "disco_basic", "bars": 18, "note": {"en": "From bar 6, an extra snare on the \"and\" of 3 every second bar; fill on bar 18.", "es": "Desde el compás 6, una caja extra en la «y» del 3 cada dos compases; redoble en el 18."}},
+         {"name": {"en": "Handclaps", "es": "Palmas"}, "tracks": {"cross_stick": "....x.......x..."}, "bars": 4, "note": {"en": "The record has only handclaps here: play cross-stick on 2 and 4.", "es": "En el disco aquí solo hay palmas: toca aro cruzado en 2 y 4."}},
+         {"name": {"en": "Middle section (groove back)", "es": "Parte central (vuelve el ritmo)"}, "beat": "disco_basic", "bars": 4},
+         {"name": {"en": "Verse 3", "es": "Estrofa 3"}, "beat": "disco_basic", "bars": 8, "note": {"en": "Fill on the last bar.", "es": "Redoble en el último compás."}},
+         {"name": {"en": "Chorus 3", "es": "Estribillo 3"}, "beat": "disco_basic", "bars": 8},
+         {"name": {"en": "Outro", "es": "Final"}, "beat": "disco_basic", "bars": 9, "note": {"en": "Fill on bar 8, then one last kick and hi-hat.", "es": "Redoble en el compás 8 y luego un último bombo y hi-hat."}}
+        ],
+        "steps": [
+         {"en": "Play a kick on every beat with the snare on 2 and 4, at 90 BPM.", "es": "Toca bombo en cada tiempo con caja en 2 y 4, a 90 BPM."},
+         {"en": "Add light, even 8th notes on the hi-hat: the Disco beat.", "es": "Añade corcheas ligeras y regulares en el hi-hat: el ritmo Disco."},
+         {"en": "Learn the single fill (16ths on the snare on beats 3 and 4) and put it on the last bar of each verse.", "es": "Aprende el único redoble (semicorcheas de caja en los tiempos 3 y 4) y ponlo en el último compás de cada estrofa."},
+         {"en": "Practise dropping to the four handclap bars and coming back in on time.", "es": "Practica bajar a los cuatro compases de palmas y volver a entrar a tiempo."},
+         {"en": "Play the whole song at 110 BPM.", "es": "Toca la canción entera a 110 BPM."}
+        ]}}
+     ]}
    ]},
-  {"id": "punk", "family": "rock", "name": "Punk", "kit": 10,
+  {"id": "punk", "family": "rock", "name": "Punk", "kit": 10, "sound": "punk",
    "setup": {"en": "Kit 09 (Room) gives a rawer sound. At high tempos a pad can sound when you hit its neighbour: if that happens, raise CRO (crosstalk) in Utility. Turn up the click VOL so you hear it over the kit.", "es": "El kit 09 (Room) da un sonido más crudo. A tempos altos un pad puede sonar al golpear el de al lado: si pasa, sube CRO (crosstalk) en Utility. Sube el VOL del clic para oírlo por encima de la batería."},
    "beats": [
     {"id": "punk_skank", "name": {"en": "Skank beat", "es": "Skank (polka)"}, "bpm": 170, "minBpm": 150, "maxBpm": 200,
@@ -38,7 +209,7 @@
      "how": {"en": "Hi-hat on all 8th notes, snare on 2 and 4 and a busy bass drum on 1, the \"and\" of 1, the \"and\" of 2, 3, the \"and\" of 3 and the \"and\" of 4. The kick pushes the song forward; keep it light so you can last a whole song.", "es": "Hi-hat en todas las corcheas, caja en 2 y 4 y un bombo movido en 1, la «y» del 1, la «y» del 2, 3, la «y» del 3 y la «y» del 4. El bombo empuja la canción; tócalo ligero para aguantar toda la canción."},
      "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "snare": "....X.......X...", "kick": "x.x...x.x.x...x."}}
    ]},
-  {"id": "metal", "family": "rock", "name": "Metal", "kit": 10,
+  {"id": "metal", "family": "rock", "name": "Metal", "kit": 10, "sound": "metal",
    "setup": {"en": "For a tighter kick, hit the kick pad, press Voice, go to NUM with Page/Select and choose Pwrbd Kick (26) or Rock Kick 3 (7). Keep it by saving a user kit: Save, choose 25–40 with < and >, Save. Fast kicks can make other pads sound: raise CRO if they do.", "es": "Para un bombo más seco, golpea el pad del bombo, pulsa Voice, ve a NUM con Page/Select y elige Pwrbd Kick (26) o Rock Kick 3 (7). Guárdalo en un kit de usuario: Save, elige 25–40 con < y >, Save. Si el bombo rápido hace sonar otros pads, sube CRO."},
    "beats": [
     {"id": "metal_double_bass", "name": {"en": "Double bass", "es": "Doble bombo"}, "bpm": 120, "minBpm": 90, "maxBpm": 160,
@@ -47,51 +218,146 @@
     {"id": "metal_gallop", "name": {"en": "Gallop", "es": "Galope"}, "bpm": 110, "minBpm": 90, "maxBpm": 140,
      "how": {"en": "The bass drum plays an 8th and two 16ths on every beat (\"dum, da-da\"), like a galloping horse, with snare on 2 and 4 and the ride on every beat. With one pedal, start slowly and use your ankle for the two quick notes.", "es": "El bombo toca una corchea y dos semicorcheas en cada tiempo («pum, pa-pa»), como un caballo al galope, con caja en 2 y 4 y ride en cada tiempo. Con un solo pedal, empieza despacio y usa el tobillo para las dos notas rápidas."},
      "tracks": {"ride": "X...X...X...X...", "snare": "....X.......X...", "kick": "x.xxx.xxx.xxx.xx"},
-     "songs": [{"title": "The Trooper", "artist": "Iron Maiden"}]},
+     "songs": [
+      {"id": "song_the_trooper", "title": "The Trooper", "artist": "Iron Maiden", "sources": ["https://melodics.com/learn-to-play/the-trooper-by-iron-maiden-on-drums", "https://en.wikipedia.org/wiki/The_Trooper", "Songsterr song 338 (bar counts)"],
+       "lesson": {"bpm": 162,
+        "sections": [
+         {"name": {"en": "Intro", "es": "Intro"}, "tracks": {"crash": "x...............", "kick": "x..............."}, "bars": 8, "note": {"en": "Band hits with tom fills in between.", "es": "Golpes de la banda con redobles de toms entre medias."}},
+         {"name": {"en": "Main riff", "es": "Riff principal"}, "beat": "metal_gallop", "bars": 16, "note": {"en": "Crash push every 2 bars; fills on bars 8 and 16.", "es": "Empujón de crash cada 2 compases; redobles en los compases 8 y 16."}},
+         {"name": {"en": "Verse 1 (stops)", "es": "Estrofa 1 (paradas)"}, "tracks": {"crash": "x...............", "kick": "x..............."}, "bars": 8, "note": {"en": "Sparse accents with the band.", "es": "Acentos sueltos con la banda."}},
+         {"name": {"en": "Verse 1 (groove)", "es": "Estrofa 1 (ritmo)"}, "beat": "metal_gallop", "bars": 8},
+         {"name": {"en": "Chorus 1", "es": "Estribillo 1"}, "beat": "metal_gallop", "bars": 8, "note": {"en": "Fills on bars 4 and 8.", "es": "Redobles en los compases 4 y 8."}},
+         {"name": {"en": "Main riff", "es": "Riff principal"}, "beat": "metal_gallop", "bars": 16},
+         {"name": {"en": "Verse 2", "es": "Estrofa 2"}, "beat": "metal_gallop", "bars": 16},
+         {"name": {"en": "Chorus 2", "es": "Estribillo 2"}, "beat": "metal_gallop", "bars": 8, "note": {"en": "A long fill on bar 4.", "es": "Un redoble largo en el compás 4."}},
+         {"name": {"en": "Solo 1", "es": "Solo 1"}, "beat": "metal_gallop", "bars": 16, "note": {"en": "Crash on beat 1 of many bars; fill on the last bar.", "es": "Crash en el 1 de muchos compases; redoble en el último."}},
+         {"name": {"en": "Solo 2", "es": "Solo 2"}, "beat": "metal_gallop", "bars": 16},
+         {"name": {"en": "Main riff", "es": "Riff principal"}, "beat": "metal_gallop", "bars": 16},
+         {"name": {"en": "Verse 3", "es": "Estrofa 3"}, "beat": "metal_gallop", "bars": 16},
+         {"name": {"en": "Chorus 3", "es": "Estribillo 3"}, "beat": "metal_gallop", "bars": 8},
+         {"name": {"en": "Outro", "es": "Final"}, "tracks": {"crash": "x...............", "kick": "x..............."}, "bars": 9, "note": {"en": "Hits and tom fills, ending on a final hit.", "es": "Golpes y redobles de toms, acabando en un golpe final."}}
+        ],
+        "steps": [
+         {"en": "Play the Basic rock beat on the ride at 100 BPM.", "es": "Toca el Ritmo básico de rock en el ride a 100 BPM."},
+         {"en": "Learn the gallop on the kick alone (an 8th and two 16ths), then the Gallop beat at 120 BPM.", "es": "Aprende el galope solo en el bombo (una corchea y dos semicorcheas) y luego el ritmo Galope a 120 BPM."},
+         {"en": "Add a crash on the \"and\" of 4 every second bar.", "es": "Añade un crash en la «y» del 4 cada dos compases."},
+         {"en": "Practise the band hits with a simple tom fill for the intro and the ending.", "es": "Practica los golpes de la banda con un redoble sencillo de toms para la intro y el final."},
+         {"en": "Raise the tempo step by step up to 162 BPM.", "es": "Sube el tempo poco a poco hasta 162 BPM."},
+         {"en": "Play the whole song. On the record the gallop is mostly in the bass and guitars; the app puts it on the kick to train your foot.", "es": "Toca la canción entera. En el disco el galope está sobre todo en el bajo y las guitarras; la app lo pone en el bombo para entrenar el pie."}
+        ]}}
+     ]},
     {"id": "metal_blast", "name": {"en": "Blast beat", "es": "Blast beat"}, "bpm": 120, "minBpm": 90, "maxBpm": 180,
      "how": {"en": "The traditional blast beat: ride and bass drum together on every 8th note and the snare on every 16th note in between. At speed it sounds like a wall of noise; practise it slowly until hands and foot alternate evenly.", "es": "El blast beat tradicional: ride y bombo juntos en cada corchea y la caja en cada semicorchea intermedia. A velocidad suena como un muro de ruido; practícalo despacio hasta que manos y pie se alternen de forma regular."},
      "tracks": {"ride": "x.x.x.x.x.x.x.x.", "snare": ".x.x.x.x.x.x.x.x", "kick": "x.x.x.x.x.x.x.x."}}
    ]},
-  {"id": "bossa_nova", "family": "latin", "name": "Bossa nova", "kit": 17,
+  {"id": "bossa_nova", "family": "latin", "name": "Bossa nova", "kit": 17, "sound": "bossa",
    "setup": {"en": "Kit 13 (Jazz Brush) is a softer option. For the cross-stick, rest your hand on the snare and hit the rim. If the rim doesn't sound like a side stick, hit the rim, press Voice and choose Snare Stick (87), then save a user kit. Lower R-S if the clicks are too loud.", "es": "El kit 13 (Jazz Brush) es una opción más suave. Para el aro cruzado, apoya la mano en la caja y golpea el aro. Si el aro no suena a side stick, golpea el aro, pulsa Voice y elige Snare Stick (87); luego guarda un kit de usuario. Baja R-S si los golpes de aro suenan muy fuertes."},
    "beats": [
     {"id": "bossa_nova_32", "name": {"en": "Bossa nova (3-2 clave)", "es": "Bossa nova (clave 3-2)"}, "bpm": 130, "minBpm": 110, "maxBpm": 150,
      "how": {"en": "Two bars long. Hi-hat (or ride) on all 8th notes, cross-stick on the snare following the bossa nova clave and bass drum on 1, the \"and\" of 2, 3 and the \"and\" of 4. Play softly, like a whisper under the guitar. Learn the hands and the feet separately before putting them together.", "es": "Dura dos compases. Hi-hat (o ride) en todas las corcheas, aro cruzado en la caja siguiendo la clave de bossa nova y bombo en 1, la «y» del 2, 3 y la «y» del 4. Toca suave, como un susurro bajo la guitarra. Aprende manos y pies por separado antes de juntarlos."},
      "tracks": {"hihat": "x.x.x.x.x.x.x.x.x.x.x.x.x.x.x.x.", "cross_stick": "x.....x.....x.......x.....x.....", "kick": "x.....x.x.....x.x.....x.x.....x."},
-     "songs": [{"title": "The Girl from Ipanema", "artist": "Antônio Carlos Jobim", "note": {"en": "Check whether the song feels 3-2 or 2-3 and switch beat if needed.", "es": "Comprueba si la canción va en 3-2 o 2-3 y cambia de ritmo si hace falta."}}, {"title": "Desafinado", "artist": "Antônio Carlos Jobim", "note": {"en": "Check whether the song feels 3-2 or 2-3 and switch beat if needed.", "es": "Comprueba si la canción va en 3-2 o 2-3 y cambia de ritmo si hace falta."}}]},
+     "songs": [
+      {"id": "song_the_girl_from_ipanema", "title": "The Girl from Ipanema", "artist": "Antônio Carlos Jobim", "note": {"en": "Check whether the song feels 3-2 or 2-3 and switch beat if needed.", "es": "Comprueba si la canción va en 3-2 o 2-3 y cambia de ritmo si hace falta."}, "sources": ["https://standardrepertoire.com/the-girl-from-ipanema.html", "https://en.wikipedia.org/wiki/Getz/Gilberto", "https://www.hooktheory.com/theorytab/view/stan-getz---joao-gilberto/the-girl-from-ipanema", "Songsterr song 402454 (bar counts)"],
+       "lesson": {"bpm": 129,
+        "sections": [
+         {"name": {"en": "Intro", "es": "Intro"}, "bars": 4, "note": {"en": "Guitar alone.", "es": "Guitarra sola."}},
+         {"name": {"en": "Chorus 1 (voice, Portuguese)", "es": "Estribillo 1 (voz en portugués)"}, "beat": "bossa_nova_32", "bars": 40, "note": {"en": "Form A8 A8 B16 A8. Very soft, no crashes.", "es": "Forma A8 A8 B16 A8. Muy suave, sin crashes."}},
+         {"name": {"en": "Chorus 2 (voice, English)", "es": "Estribillo 2 (voz en inglés)"}, "beat": "bossa_nova_32", "bars": 40},
+         {"name": {"en": "Chorus 3 (sax solo)", "es": "Estribillo 3 (solo de saxo)"}, "beat": "bossa_nova_32", "bars": 40, "note": {"en": "Keep it soft under the solo.", "es": "Mantenlo suave bajo el solo."}},
+         {"name": {"en": "Solo (piano, A A)", "es": "Solo (piano, A A)"}, "beat": "bossa_nova_32", "bars": 16},
+         {"name": {"en": "Chorus 4 (B and A)", "es": "Estribillo 4 (B y A)"}, "beat": "bossa_nova_32", "bars": 24, "note": {"en": "Voice and sax return.", "es": "Vuelven la voz y el saxo."}},
+         {"name": {"en": "Tag", "es": "Coda"}, "beat": "bossa_nova_32", "bars": 10, "note": {"en": "Fades out.", "es": "Se apaga."}}
+        ],
+        "steps": [
+         {"en": "Play the bossa nova bass drum (1, \"and\" of 2, 3, \"and\" of 4) with 8th notes on the hi-hat, slowly at 90 BPM.", "es": "Toca el bombo de bossa nova (1, «y» del 2, 3, «y» del 4) con corcheas en el hi-hat, despacio a 90 BPM."},
+         {"en": "Add the 2-bar cross-stick pattern on top.", "es": "Añade encima el patrón de aro cruzado de 2 compases."},
+         {"en": "Play the whole groove very quietly: on the record the drums are barely there.", "es": "Toca todo el ritmo muy suave: en el disco la batería casi no se oye."},
+         {"en": "Count the form 8 + 8 + 16 + 8 so you feel the long middle part (B).", "es": "Cuenta la forma 8 + 8 + 16 + 8 para sentir la parte central larga (B)."},
+         {"en": "Play the whole song at 129 BPM. Sources don't say whether the record is 3-2 or 2-3: if the cross-stick feels against the guitar, switch to the 2-3 beat.", "es": "Toca la canción entera a 129 BPM. Las fuentes no dicen si el disco va en 3-2 o 2-3: si el aro choca con la guitarra, cambia al ritmo 2-3."}
+        ]}},
+      {"id": "song_desafinado", "title": "Desafinado", "artist": "Antônio Carlos Jobim", "note": {"en": "Check whether the song feels 3-2 or 2-3 and switch beat if needed.", "es": "Comprueba si la canción va en 3-2 o 2-3 y cambia de ritmo si hace falta."}, "sources": ["https://en.wikipedia.org/wiki/Desafinado", "https://periodicos.ufrn.br/artresearchjournal/article/download/10002/8772", "https://www.learnjazzstandards.com/?p=8673"],
+       "lesson": {"bpm": 145,
+        "sections": [
+         {"name": {"en": "Intro", "es": "Intro"}, "bars": 2, "note": {"en": "Guitar alone.", "es": "Guitarra sola."}},
+         {"name": {"en": "Chorus 1 (voice)", "es": "Estribillo 1 (voz)"}, "beat": "bossa_nova_32", "bars": 68, "note": {"en": "Form A 16, A 16, B 16, A 20. Very soft.", "es": "Forma A 16, A 16, B 16, A 20. Muy suave."}},
+         {"name": {"en": "Chorus 2 (sax)", "es": "Estribillo 2 (saxo)"}, "beat": "bossa_nova_32", "bars": 68, "note": {"en": "Same form under the sax.", "es": "La misma forma bajo el saxo."}},
+         {"name": {"en": "Ending", "es": "Final"}, "beat": "bossa_nova_32", "bars": 9, "note": {"en": "The voice comes back briefly, then the end.", "es": "La voz vuelve un momento y termina."}}
+        ],
+        "steps": [
+         {"en": "Play the Bossa nova beat slowly at 100 BPM.", "es": "Toca el ritmo de Bossa nova despacio a 100 BPM."},
+         {"en": "Feel 16-bar phrases: mark the start of each part with a soft accent.", "es": "Siente frases de 16 compases: marca el inicio de cada parte con un acento suave."},
+         {"en": "Practise the long last part (20 bars) so you don't change too early.", "es": "Practica la última parte larga (20 compases) para no cambiar antes de tiempo."},
+         {"en": "Bring it up to 145 BPM.", "es": "Súbelo a 145 BPM."},
+         {"en": "Play the whole song, quietly.", "es": "Toca la canción entera, suave."}
+        ]}}
+     ]},
     {"id": "bossa_nova_23", "name": {"en": "Bossa nova (2-3 clave)", "es": "Bossa nova (clave 2-3)"}, "bpm": 130, "minBpm": 110, "maxBpm": 150,
      "how": {"en": "The same groove with the clave turned around: the bar with two cross-stick notes comes first, then the bar with three. Which one to use depends on the song; listen to where the strong notes of the melody fall.", "es": "El mismo ritmo con la clave al revés: primero el compás con dos golpes de aro y luego el de tres. Cuál usar depende de la canción; escucha dónde caen las notas fuertes de la melodía."},
      "tracks": {"hihat": "x.x.x.x.x.x.x.x.x.x.x.x.x.x.x.x.", "cross_stick": "....x.....x.....x.....x.....x...", "kick": "x.....x.x.....x.x.....x.x.....x."}}
    ]},
-  {"id": "songo", "family": "latin", "name": "Songo", "kit": 15,
+  {"id": "songo", "family": "latin", "name": "Songo", "kit": 15, "sound": "songo",
    "setup": {"en": "To get a cowbell, hit the ride, press Voice and choose Cowbell 1 (316), then save a user kit (Save, choose 25–40, Save). Lower THR on the snare so the ghost notes sound.", "es": "Para tener cencerro, golpea el ride, pulsa Voice y elige Cowbell 1 (316); luego guarda un kit de usuario (Save, elige 25–40, Save). Baja THR en la caja para que suenen las notas fantasma."},
    "beats": [
     {"id": "songo_basic", "name": {"en": "Basic songo (simplified)", "es": "Songo básico (simplificado)"}, "bpm": 110, "minBpm": 90, "maxBpm": 130,
      "how": {"en": "A simplified songo, the Cuban groove of Los Van Van and their drummer Changuito. Right hand: cowbell (or ride bell) on every beat. Left hand: soft ghost notes on the snare, an accent on the \"a\" of 2 and a floor tom note on the \"and\" of 4. Bass drum on the \"and\" of 2 and on 4. Real songo is freer and full of variations: take this as a starting point.", "es": "Un songo simplificado, el ritmo cubano de Los Van Van y su batería Changuito. Mano derecha: cencerro (o campana del ride) en cada tiempo. Mano izquierda: notas fantasma suaves en la caja, un acento en la «a» del 2 y una nota en el tom base en la «y» del 4. Bombo en la «y» del 2 y en el 4. El songo real es más libre y lleno de variaciones: tómalo como punto de partida."},
      "tracks": {"cowbell": "X...X...X...X...", "snare": "..g..g.X..g..g..", "tom": "..............x.", "kick": "......x.....x..."},
-     "songs": [{"title": "La sandunguera", "artist": "Los Van Van", "note": {"en": "The drummer varies the groove a lot; listen for the bell and the bass drum.", "es": "El batería varía mucho el ritmo; escucha el cencerro y el bombo."}}]}
+     "songs": [
+      {"id": "song_la_sandunguera", "title": "La sandunguera", "artist": "Los Van Van", "note": {"en": "The drummer varies the groove a lot; listen for the bell and the bass drum.", "es": "El batería varía mucho el ritmo; escucha el cencerro y el bombo."}}
+     ]}
    ]},
-  {"id": "reggae", "family": "latin", "name": "Reggae", "kit": 9,
+  {"id": "reggae", "family": "latin", "name": "Reggae", "kit": 9, "sound": "reggae",
    "setup": {"en": "Kit 01 (Acoustic) also works. Set up the cross-stick as in bossa nova (snare rim → Snare Stick, 87). At this slow tempo, set the click INT to 8th notes so you don't rush.", "es": "El kit 01 (Acoustic) también sirve. Configura el aro cruzado como en la bossa nova (aro de la caja → Snare Stick, 87). A este tempo lento, pon el INT del clic en corcheas para no correr."},
    "beats": [
     {"id": "reggae_one_drop", "name": {"en": "One drop", "es": "One drop"}, "bpm": 75, "minBpm": 60, "maxBpm": 90,
      "how": {"en": "One drop: nothing on beat 1. The bass drum and a cross-stick land together on beat 3 while the hi-hat plays 8th notes. It feels laid back; leaving space is the hard part, so don't add a kick on 1.", "es": "One drop: nada en el tiempo 1. Bombo y aro cruzado caen juntos en el tiempo 3 mientras el hi-hat toca corcheas. Es un ritmo relajado; lo difícil es dejar espacio, así que no metas bombo en el 1."},
      "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "cross_stick": "........x.......", "kick": "........x......."},
-     "songs": [{"title": "One Drop", "artist": "Bob Marley & The Wailers"}]},
+     "songs": [
+      {"id": "song_one_drop", "title": "One Drop", "artist": "Bob Marley & The Wailers"}
+     ]},
     {"id": "reggae_rockers", "name": {"en": "Rockers", "es": "Rockers"}, "bpm": 80, "minBpm": 65, "maxBpm": 95,
      "how": {"en": "The bass drum adds beat 1 to the one drop: kick on 1 and 3, cross-stick on 3 and hi-hat 8th notes. It drives a little more than the one drop and became popular in roots reggae in the mid-1970s.", "es": "El bombo añade el tiempo 1 al one drop: bombo en 1 y 3, aro cruzado en 3 y corcheas en el hi-hat. Empuja algo más que el one drop y se hizo popular en el roots reggae a mediados de los 70."},
      "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "cross_stick": "........x.......", "kick": "x.......x......."}},
     {"id": "reggae_steppers", "name": {"en": "Steppers", "es": "Steppers"}, "bpm": 80, "minBpm": 65, "maxBpm": 95,
      "how": {"en": "Bass drum on every beat (four on the floor) with the cross-stick on 3 and hi-hat 8th notes. An insistent, marching feel used in roots reggae and dub; keep the kick soft and even.", "es": "Bombo en cada tiempo (four on the floor) con aro cruzado en 3 y corcheas en el hi-hat. Un pulso insistente, como de marcha, típico del roots reggae y el dub; toca el bombo suave y regular."},
      "tracks": {"hihat": "x.x.x.x.x.x.x.x.", "cross_stick": "........x.......", "kick": "x...x...x...x..."},
-     "songs": [{"title": "Exodus", "artist": "Bob Marley & The Wailers"}]}
+     "songs": [
+      {"id": "song_exodus", "title": "Exodus", "artist": "Bob Marley & The Wailers", "sources": ["https://en.wikipedia.org/wiki/Four_on_the_floor_(music)", "https://songbpm.com/@bob-marley-the-wailers/exodus", "https://tabs.ultimate-guitar.com/tab/bob-marley/exodus-bass-1413676"],
+       "lesson": {"bpm": 133,
+        "sections": [
+         {"name": {"en": "Intro", "es": "Intro"}, "beat": "reggae_steppers", "bars": 20, "note": {"en": "The kick drives from bar 1.", "es": "El bombo empuja desde el compás 1."}},
+         {"name": {"en": "Verse 1", "es": "Estrofa 1"}, "beat": "reggae_steppers", "bars": 20, "note": {"en": "Steady, hi-hat only on top.", "es": "Firme, solo el hi-hat encima."}},
+         {"name": {"en": "Chorus 1 (refrain)", "es": "Estribillo 1 (estribillo corto)"}, "beat": "reggae_steppers", "bars": 14, "note": {"en": "Small fill at the end of each phrase.", "es": "Pequeño redoble al final de cada frase."}},
+         {"name": {"en": "Verse 2 (and refrain)", "es": "Estrofa 2 (y estribillo corto)"}, "beat": "reggae_steppers", "bars": 22},
+         {"name": {"en": "Chorus 2", "es": "Estribillo 2"}, "beat": "reggae_steppers", "bars": 10, "note": {"en": "A bit more energy, open hi-hat lifts.", "es": "Algo más de energía, hi-hat abierto a ratos."}},
+         {"name": {"en": "Instrumental", "es": "Instrumental"}, "beat": "reggae_steppers", "bars": 8, "note": {"en": "Horns lead; hold the groove.", "es": "Mandan los metales; mantén el ritmo."}},
+         {"name": {"en": "Reprise", "es": "Repetición"}, "beat": "reggae_steppers", "bars": 24, "note": {"en": "Accent the title hook with crash or tom.", "es": "Acentúa el gancho del título con crash o tom."}},
+         {"name": {"en": "\"Move\" riff 1", "es": "Riff \"Move\" 1"}, "beat": "reggae_steppers", "bars": 12, "note": {"en": "Locked riff, few fills.", "es": "Riff fijo, pocos redobles."}},
+         {"name": {"en": "Verse 3", "es": "Estrofa 3"}, "beat": "reggae_steppers", "bars": 16},
+         {"name": {"en": "Instrumental (horns and refrain)", "es": "Instrumental (metales y estribillo)"}, "beat": "reggae_steppers", "bars": 21, "note": {"en": "Thin out where the band pauses.", "es": "Vacía el ritmo donde la banda hace pausa."}},
+         {"name": {"en": "\"Move\" riff 2", "es": "Riff \"Move\" 2"}, "beat": "reggae_steppers", "bars": 14},
+         {"name": {"en": "Verse 4 (short)", "es": "Estrofa 4 (corta)"}, "beat": "reggae_steppers", "bars": 8},
+         {"name": {"en": "Breakdown", "es": "Pausa"}, "bars": 6, "note": {"en": "Stop or keep only the kick; come back in with a fill.", "es": "Para o deja solo el bombo; vuelve a entrar con un redoble."}},
+         {"name": {"en": "Outro", "es": "Final"}, "beat": "reggae_steppers", "bars": 54, "note": {"en": "Long vamp until the fade.", "es": "Vamp largo hasta que se apaga."}}
+        ],
+        "steps": [
+         {"en": "Play a steady kick on every beat with the click at 100 BPM, then 133.", "es": "Toca un bombo regular en cada tiempo con el clic a 100 BPM y luego a 133."},
+         {"en": "Play the Steppers beat at 100 BPM.", "es": "Toca el ritmo Steppers a 100 BPM."},
+         {"en": "Play it at 133 BPM with a small fill every 8 bars.", "es": "Tócalo a 133 BPM con un pequeño redoble cada 8 compases."},
+         {"en": "Practise the breakdown: stop, then come back in with a fill.", "es": "Practica la pausa: para y vuelve a entrar con un redoble."},
+         {"en": "Play the first part of the song, up to the horn break.", "es": "Toca la primera parte de la canción, hasta el corte de metales."},
+         {"en": "Play the whole song. The bar counts may be off by one or two in places: follow the record.", "es": "Toca la canción entera. Los compases pueden variar en uno o dos en algún sitio: sigue al disco."}
+        ]}}
+     ]}
    ]},
-  {"id": "cumbia", "family": "latin", "name": "Cumbia", "kit": 17,
+  {"id": "cumbia", "family": "latin", "name": "Cumbia", "kit": 17, "sound": "cumbia",
    "setup": {"en": "Set up the cross-stick as in bossa nova (snare rim → Snare Stick, 87). Practise with the click on every beat and check that the bass drum doesn't rush.", "es": "Configura el aro cruzado como en la bossa nova (aro de la caja → Snare Stick, 87). Practica con el clic en cada tiempo y comprueba que el bombo no corre."},
    "beats": [
     {"id": "cumbia_basic", "name": {"en": "Basic cumbia (simplified)", "es": "Cumbia básica (simplificada)"}, "bpm": 90, "minBpm": 80, "maxBpm": 110,
      "how": {"en": "A simplified drum-kit cumbia. The hi-hat copies the guacharaca scraper (an 8th and two 16ths on every beat: \"ch, chiki\"), the cross-stick plays the llamador drum on every \"and\" and the bass drum marks every beat. Keep the offbeats light and bouncy: the feel lives in the \"and\".", "es": "Una cumbia simplificada para batería. El hi-hat imita la guacharaca (una corchea y dos semicorcheas en cada tiempo: «ch, chiqui»), el aro cruzado hace el llamador en cada «y» y el bombo marca cada tiempo. Toca los contratiempos ligeros y con rebote: el sabor está en la «y»."},
      "tracks": {"hihat": "x.xxx.xxx.xxx.xx", "cross_stick": "..x...x...x...x.", "kick": "x...x...x...x..."},
-     "songs": [{"title": "La pollera colorá", "artist": "Pedro Salcedo y su Orquesta"}, {"title": "Cumbia sampuesana", "artist": "José Joaquín Bettín"}]}
+     "songs": [
+      {"id": "song_la_pollera_colora", "title": "La pollera colorá", "artist": "Pedro Salcedo y su Orquesta"},
+      {"id": "song_cumbia_sampuesana", "title": "Cumbia sampuesana", "artist": "José Joaquín Bettín"}
+     ]}
    ]}
 ]

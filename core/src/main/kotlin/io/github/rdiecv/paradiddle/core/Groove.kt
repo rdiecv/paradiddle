@@ -3,10 +3,12 @@
 
 package io.github.rdiecv.paradiddle.core
 
+import io.github.rdiecv.paradiddle.core.audio.KitSound
+
 enum class GrooveFamily { ROCK, LATIN }
 
 /** Drum kit pieces a groove can use, in the order they are shown (top to bottom). */
-enum class Instrument { HIHAT, RIDE, COWBELL, SNARE, CROSS_STICK, TOM, KICK }
+enum class Instrument { CRASH, HIHAT, RIDE, COWBELL, SNARE, CROSS_STICK, TOM, KICK }
 
 enum class Hit { NORMAL, ACCENT, GHOST, OPEN }
 
@@ -22,6 +24,8 @@ data class Style(
     val name: String,
     /** Recommended Alesis Nitro Mesh preset kit, 1-based (see [NitroMesh.presetKits]). */
     val kit: Int,
+    /** How the app's drums sound for this style (see [io.github.rdiecv.paradiddle.core.audio.KitSound.PRESETS]). */
+    val sound: KitSound,
     val setup: LocalizedText,
     val grooves: List<Groove>,
 )
@@ -51,5 +55,20 @@ data class Groove(
     }
 }
 
-/** A recorded song that uses a beat; [note] says where to listen, if needed. */
-data class Song(val title: String, val artist: String, val note: LocalizedText? = null)
+/**
+ * A recorded song that uses a beat; [note] says where to listen, if needed. [lesson] teaches the
+ * whole song with the app's beats, when its structure has been checked against drum guides.
+ */
+data class Song(
+    val id: String,
+    val title: String,
+    val artist: String,
+    val note: LocalizedText? = null,
+    val lesson: SongLesson? = null,
+)
+
+/** How to play a whole song: its parts in order, at [bpm], and the steps to learn it. */
+data class SongLesson(val bpm: Int, val sections: List<SongSection>, val steps: List<LocalizedText>)
+
+/** One part of a song played with [groove] for [bars] bars; no groove = the drums rest (count along). */
+data class SongSection(val name: LocalizedText, val groove: Groove?, val bars: Int, val note: LocalizedText? = null)

@@ -60,6 +60,7 @@ private val LABEL = Color(0xFFE8E9EE)
 private val LABEL_ON_LIGHT = Color(0xFF1F2A44)
 
 private fun Instrument.pad(): Pad = when (this) {
+    Instrument.CRASH -> Pad.CRASH
     Instrument.HIHAT -> Pad.HIHAT
     Instrument.RIDE, Instrument.COWBELL -> Pad.RIDE // the setup tips put the cowbell on the ride pad
     Instrument.SNARE, Instrument.CROSS_STICK -> Pad.SNARE
@@ -69,7 +70,7 @@ private fun Instrument.pad(): Pad = when (this) {
 
 /** Right-handed kit: right hand on the cymbals, left hand on snare and toms. */
 private fun Instrument.limb(): Limb = when (this) {
-    Instrument.HIHAT, Instrument.RIDE, Instrument.COWBELL -> Limb.RIGHT_HAND
+    Instrument.CRASH, Instrument.HIHAT, Instrument.RIDE, Instrument.COWBELL -> Limb.RIGHT_HAND
     Instrument.SNARE, Instrument.CROSS_STICK, Instrument.TOM -> Limb.LEFT_HAND
     Instrument.KICK -> Limb.RIGHT_FOOT
 }
@@ -85,10 +86,11 @@ private class Light(val strength: Float, val limb: Limb, val rimOnly: Boolean, v
 
 /**
  * Top view of the Alesis Nitro Mesh kit. Pads used by [groove] are outlined; while it plays,
- * [position] (step plus fraction, -1 when stopped) lights the pads to hit right now.
+ * [position] (step plus fraction, -1 when stopped) lights the pads to hit right now. [crash]
+ * also lights the crash (the cue at the start of a song section).
  */
 @Composable
-fun DrumKitView(groove: Groove, position: Double, modifier: Modifier = Modifier) {
+fun DrumKitView(groove: Groove, position: Double, modifier: Modifier = Modifier, crash: Boolean = false) {
     val measurer = rememberTextMeasurer()
     val labels = mapOf(
         Pad.CRASH to stringResource(R.string.kit_pad_crash),
@@ -108,7 +110,7 @@ fun DrumKitView(groove: Groove, position: Double, modifier: Modifier = Modifier)
         Limb.RIGHT_FOOT to stringResource(R.string.foot_right),
     )
     val description = stringResource(R.string.kit_view_desc)
-    val used = groove.tracks.keys.map { it.pad() }.toSet()
+    val used = groove.tracks.keys.map { it.pad() }.toSet() + if (crash) setOf(Pad.CRASH) else emptySet()
 
     // Pads hit at the current step, fading out over the step.
     val lights = HashMap<Pad, Light>()
@@ -123,6 +125,7 @@ fun DrumKitView(groove: Groove, position: Double, modifier: Modifier = Modifier)
             val light = Light(hit.strength() * fade, instrument.limb(), instrument == Instrument.CROSS_STICK, hit == Hit.OPEN)
             if ((lights[pad]?.strength ?: 0f) < light.strength) lights[pad] = light
         }
+        if (crash) lights[Pad.CRASH] = Light(fade, Limb.RIGHT_HAND, rimOnly = false, open = false)
     }
 
     Canvas(

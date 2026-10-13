@@ -12,7 +12,7 @@ class GrooveSoundTest {
     private val sound = GrooveSound(Synth(48_000))
 
     private val groove = StyleCatalog.parse(
-        """[{"id":"s","family":"rock","name":"S","kit":10,"setup":{"en":"Setup"},"beats":[
+        """[{"id":"s","family":"rock","name":"S","kit":10,"sound":"standard","setup":{"en":"Setup"},"beats":[
             {"id":"x","name":{"en":"X"},"bpm":120,"minBpm":60,"maxBpm":180,"how":{"en":"How"},
              "tracks":{"hihat":"x.x.x.x.x.x.x.o.","snare":"..g.X.......X...","kick":"x.......x......."}}]}]""",
     ).single().grooves.single()
@@ -67,5 +67,26 @@ class GrooveSoundTest {
         // Step 17 and a half wraps to 1.5 in a 16-step groove.
         assertEquals(1.5, sound.positionAt(groove, 120, 17 * 125_000_000L + 62_500_000L), 1e-9)
         assertEquals(-1.0, sound.positionAt(groove, 120, -1L), 1e-9)
+    }
+
+    private fun section(bars: Int, g: io.github.rdiecv.paradiddle.core.Groove?) =
+        io.github.rdiecv.paradiddle.core.SongSection(io.github.rdiecv.paradiddle.core.LocalizedText(mapOf("en" to "S")), g, bars)
+
+    @Test
+    fun songStartsAfterACountInAndCrashesOnNewSections() {
+        val timeline = io.github.rdiecv.paradiddle.core.SongTimeline(listOf(section(1, null), section(1, groove), section(1, groove)))
+        val voices = sound.songVoices(timeline, 120)
+        // Count-in: 4 clicks; rest bar: 4 clicks; two bars of the groove: 13 hits each; 2 crashes.
+        assertEquals(4 + 4 + 13 * 2 + 2, voices.size)
+        // 120 BPM: a bar is 96000 frames, so the song starts at 96000 and the groove bars at 192000 and 288000.
+        val crashes = voices.filter { it.samples.size > 48_000 }.map { it.startFrame }
+        assertEquals(listOf(192_000L, 288_000L), crashes)
+        assertEquals(96_000L * 4, sound.songLengthFrames(timeline, 120))
+    }
+
+    @Test
+    fun songStepAtIsNegativeDuringTheCountIn() {
+        assertEquals(-16.0, sound.songStepAt(120, 0L), 1e-9)
+        assertEquals(0.5, sound.songStepAt(120, 2_000_000_000L + 62_500_000L), 1e-9)
     }
 }

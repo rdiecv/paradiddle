@@ -117,3 +117,34 @@ Each song has a play button that sends Android's standard `MEDIA_PLAY_FROM_SEARC
 artist, query) so whichever music app the user has finds and plays it; if none answers, it falls
 back to `ACTION_WEB_SEARCH`, and then to a short message. No service (YouTube, Spotify…) is named,
 which keeps the app clear of F-Droid's NonFreeNet anti-feature and needs no permission.
+
+## Update: song lessons and per-style sound
+
+The generic "How to learn a whole song" guide is gone. Instead, a song can carry a `lesson`, and
+its card gets a "Learn this song" button that opens a song page (route `song/{id}`):
+
+- **Data.** `lesson` = `bpm`, ordered `sections` and learning `steps` (EN/ES). A section has a
+  `name`, `bars`, an optional `note` and either a `beat` (id of any beat in the file), inline
+  `tracks` (a short pattern only that song uses, e.g. stop hits or a build-up) or neither (the
+  drums rest). The parser rejects unknown beats, both beat and tracks, bars < 1, a lesson with no
+  drums and an out-of-range tempo.
+- **Sources.** The user chose researched plans: each lesson is written only from published drum
+  guides and bar-by-bar song charts, listed in the song's `sources` (kept in the file, ignored by
+  the parser). Bar counts can be off by a bar or two where charts disagree, and the steps say so
+  when a detail is uncertain (e.g. the clave direction in The Girl from Ipanema). Songs with no
+  reliable form (La sandunguera, One Drop, La pollera colorá, Cumbia sampuesana) keep only the
+  listen button.
+- **Song page.** Header with artist and tempo, the kit drawing (crash lit at each new section),
+  a status line (count-in / section · bar x of y · next section), tempo ±4 with a reset to the
+  song's tempo, play the whole song, the learning path and a song map: one row per section with
+  its beat, its note and a "play from here" button; the playing row is highlighted.
+- **Playback.** `SongTimeline` maps a step to (section, bar, groove step). `GrooveSound`
+  renders a one-bar count-in, the grooves section by section, quarter clicks where the drums
+  rest and a crash at the start of each later section.
+- **New beats** needed by the lessons: "Open hi-hat chorus" (rock) and "Disco (closed hi-hat)"
+  (pop); Stayin' Alive and Another One Bites the Dust moved to the disco beat.
+
+Each style also names a drum `sound`: a `KitSound` preset of synthesis parameters (kick pitch and
+decay, snare tone and noise, hi-hat darkness, ride, room reflections…) so rock, pop, punk,
+metal, bossa nova, songo, reggae and cumbia each sound like their genre. The rudiments keep the
+standard sound.

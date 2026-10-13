@@ -45,11 +45,29 @@ class MixerTest {
         listOf(
             synth.click(true), synth.click(false), synth.snare(1f), synth.snare(0.3f), synth.buzz(1f, 0.25),
             synth.kick(), synth.hihat(open = false), synth.hihat(open = true), synth.ride(), synth.cowbell(),
-            synth.crossStick(), synth.tom(),
+            synth.crossStick(), synth.tom(), synth.crash(),
         )
             .forEach { s ->
                 assertTrue(s.isNotEmpty())
                 assertTrue(s.all { it.isFinite() && it in -1f..1f })
             }
+    }
+
+    @Test
+    fun everyKitSoundIsFiniteAndInRange() {
+        KitSound.PRESETS.forEach { (name, kit) ->
+            val synth = Synth(48_000, kit)
+            listOf(
+                synth.snare(1f), synth.kick(), synth.hihat(open = false), synth.hihat(open = true), synth.ride(),
+                synth.cowbell(), synth.crossStick(), synth.tom(), synth.crash(),
+            ).forEach { s -> assertTrue(name, s.isNotEmpty() && s.all { it.isFinite() && it in -1f..1f }) }
+        }
+    }
+
+    @Test
+    fun stylesSoundDifferent() {
+        val reggae = Synth(48_000, KitSound.PRESETS.getValue("reggae")).kick()
+        val metal = Synth(48_000, KitSound.PRESETS.getValue("metal")).kick()
+        assertTrue("a reggae kick rings longer than a metal kick", reggae.size > metal.size * 2)
     }
 }

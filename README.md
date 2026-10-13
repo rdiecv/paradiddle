@@ -15,10 +15,12 @@ A free, open source Android app for learning the **40 PAS drum rudiments**.
 - Results with rushing/dragging tendency and a suggested next tempo
 - Local progress: best clean tempo (≥ 90 %), accuracy, practice time, daily log
 - One-time latency calibration so scoring is fair on every phone
-- **Styles**: 18 named beats of rock, pop, punk, metal, bossa nova, songo, reggae and cumbia,
+- **Styles**: 20 named beats of rock, pop, punk, metal, bossa nova, songo, reggae and cumbia,
   shown on a drawing of the Alesis Nitro Mesh kit that lights up the pads to hit, plus a drum
-  grid, looping playback at any tempo, a recommended kit setup, songs that use each beat and a
-  guide to learning a whole song
+  grid, looping playback at any tempo with a drum sound for each style, a recommended kit setup
+  and songs that use each beat
+- **Song lessons**: for 11 songs, a page that maps every section to the beat it uses, gives a
+  learning path and plays the whole song (or any section) with the kit lighting up
 - **My kit**: how to set up an Alesis Nitro Mesh kit to practise with the app
 - English and Spanish · no ads, no tracking, no network, no permissions
 
@@ -97,8 +99,9 @@ welcome: `./gradlew :core:test` checks the file is valid.
 ## Style data
 
 The styles live in [`app/src/main/assets/styles.json`](app/src/main/assets/styles.json). Each
-style has a recommended Alesis Nitro Mesh preset kit (`kit`, 1–24), setup tips and a list of
-named `beats`. Texts (`setup`, a beat's `name` and `how`) are given per language
+style has a recommended Alesis Nitro Mesh preset kit (`kit`, 1–24), a synthesised drum `sound`
+(`standard`, `rock`, `pop`, `punk`, `metal`, `bossa`, `songo`, `reggae` or `cumbia`), setup tips
+and a list of named `beats`. Texts (`setup`, a beat's `name` and `how`) are given per language
 (`{"en": …, "es": …}`). Each track of a beat has one character per 16th note (16 per 4/4 bar,
 one or two bars):
 
@@ -109,11 +112,16 @@ one or two bars):
 | `g` | ghost note |
 | `o` | open hi-hat (hi-hat track only) |
 
-A beat can list `songs` that use it (`title`, `artist` and an optional per-language `note`).
-They are listening examples only: the app never ships recordings or transcriptions, and a song
-is added only when a source confirms the beat.
+A beat can list `songs` that use it (`id`, `title`, `artist` and an optional per-language
+`note`). The app never ships recordings or transcriptions, and a song is added only when a
+source confirms the beat. A song can have a `lesson`: its tempo (`bpm`), its `sections` in
+order and a learning path (`steps`). Each section has a `name`, a number of `bars`, an optional
+`note` and either the `beat` it uses (the id of any beat in the file), its own short `tracks`
+(a pattern only that song uses) or neither (the drums rest; the app counts along). A lesson is
+written only from published drum guides and bar-by-bar song charts, which are listed in the
+song's `sources`; songs without a reliable source keep only the listen button.
 
-Instruments: `hihat`, `ride`, `cowbell`, `snare`, `cross_stick`, `tom`, `kick`. The songo and
+Instruments: `crash`, `hihat`, `ride`, `cowbell`, `snare`, `cross_stick`, `tom`, `kick`. The songo and
 cumbia beats are simplified drum-kit versions; corrections and new beats are welcome, and
 `./gradlew :core:test` checks the file.
 

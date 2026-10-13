@@ -29,7 +29,8 @@ class StyleCatalogTest {
         kit: Int = 10,
         id: String = "s",
         setup: String = """{"en":"Setup"}""",
-    ) = """{"id":"$id","family":"$family","name":"S","kit":$kit,"setup":$setup,"beats":${beats.joinToString(",", "[", "]")}}"""
+        sound: String = "rock",
+    ) = """{"id":"$id","family":"$family","name":"S","kit":$kit,"sound":"$sound","setup":$setup,"beats":${beats.joinToString(",", "[", "]")}}"""
 
     private fun parse(vararg styles: String) = StyleCatalog.parse(styles.joinToString(",", "[", "]"))
 
@@ -45,7 +46,7 @@ class StyleCatalogTest {
     @Test
     fun realFileHasSeveralBeatsForMostStyles() {
         val all = StyleCatalog.parse(realFile())
-        assertEquals(18, all.sumOf { it.grooves.size })
+        assertEquals(20, all.sumOf { it.grooves.size })
         assertTrue(all.count { it.grooves.size >= 2 } >= 6)
     }
 
@@ -97,7 +98,7 @@ class StyleCatalogTest {
     @Test
     fun parsesSongs() {
         val songs = parse(
-            style(beat(songs = """[{"title":"T","artist":"A"},{"title":"U","artist":"B","note":{"en":"Chorus only","es":"Solo el estribillo"}}]""")),
+            style(beat(songs = """[{"id":"t","title":"T","artist":"A"},{"id":"u","title":"U","artist":"B","note":{"en":"Chorus only","es":"Solo el estribillo"}}]""")),
         ).single().grooves.single().songs
         assertEquals(listOf("T", "U"), songs.map { it.title })
         assertEquals("A", songs[0].artist)
@@ -105,11 +106,67 @@ class StyleCatalogTest {
         assertEquals("Solo el estribillo", songs[1].note?.get("es"))
     }
 
+    private fun lessonSong(beat: String? = "b", bars: Int = 8) =
+        """[{"id":"t","title":"T","artist":"A","lesson":{"bpm":100,
+            "sections":[{"name":{"en":"Intro"},"bars":2},{"name":{"en":"Verse"},"beat":${beat?.let { "\"$it\"" } ?: "null"},"bars":$bars}],
+            "steps":[{"en":"Learn the beat"}]}}]"""
+
+    @Test
+    fun parsesLessonsWithBeatsOfAnyStyle() {
+        val all = parse(
+            style(beat(id = "b")),
+            style(beat(id = "c", songs = lessonSong(beat = "b")), id = "s2"),
+        )
+        val lesson = all[1].grooves.single().songs.single().lesson!!
+        assertEquals(100, lesson.bpm)
+        assertNull(lesson.sections[0].groove)
+        assertEquals("b", lesson.sections[1].groove?.id)
+        assertEquals(8, lesson.sections[1].bars)
+        assertEquals("Learn the beat", lesson.steps.single().get("es"))
+    }
+
+    @Test
+    fun lessonSectionsCanHaveTheirOwnShortPattern() {
+        val songs = """[{"id":"t","title":"T","artist":"A","lesson":{"bpm":100,
+            "sections":[{"name":{"en":"Hits"},"tracks":{"crash":"x...............","kick":"x..............."},"bars":4}],
+            "steps":[{"en":"Step"}]}}]"""
+        val section = parse(style(beat(songs = songs))).single().grooves.single().songs.single().lesson!!.sections.single()
+        assertEquals(listOf(Instrument.CRASH, Instrument.KICK), section.groove!!.tracks.keys.toList())
+        assertEquals("Hits", section.groove!!.name.get("en"))
+    }
+
+    @Test fun rejectsSectionWithBeatAndTracks() = assertRejected(
+        style(
+            beat(
+                songs = """[{"id":"t","title":"T","artist":"A","lesson":{"bpm":100,
+                    "sections":[{"name":{"en":"S"},"beat":"b","tracks":{"kick":"x..............."},"bars":4}],
+                    "steps":[{"en":"Step"}]}}]""",
+            ),
+        ),
+    )
+
+    @Test
+    fun realFileLessonsUseKnownBeats() {
+        val lessons = StyleCatalog.parse(realFile()).flatMap { s -> s.grooves.flatMap { g -> g.songs.mapNotNull { it.lesson } } }
+        lessons.forEach { l -> assertTrue(l.sections.all { it.bars > 0 }) }
+    }
+
     @Test
     fun realFileSongsHaveTitleAndArtist() {
         val songs = StyleCatalog.parse(realFile()).flatMap { s -> s.grooves.flatMap { it.songs } }
         assertTrue(songs.size >= 10)
         songs.forEach { assertTrue(it.title.isNotBlank() && it.artist.isNotBlank()) }
+    }
+
+    @Test
+    fun realFileLessonsAreTranslatedAndPlayable() {
+        val lessons = StyleCatalog.parse(realFile()).flatMap { s -> s.grooves.flatMap { it.songs } }.mapNotNull { it.lesson }
+        assertTrue(lessons.size >= 10)
+        lessons.forEach { lesson ->
+            val texts = lesson.steps + lesson.sections.flatMap { listOfNotNull(it.name, it.note) }
+            texts.forEach { assertTrue(it.byLanguage["en"].orEmpty().isNotBlank() && it.byLanguage["es"].orEmpty().isNotBlank()) }
+            assertTrue(lesson.sections.first().groove != null || lesson.sections[1].groove != null)
+        }
     }
 
     private fun assertRejected(vararg styles: String) {
@@ -123,6 +180,13 @@ class StyleCatalogTest {
 
     @Test fun rejectsUnknownFamily() = assertRejected(style(family = "polka"))
     @Test fun rejectsUnknownKit() = assertRejected(style(kit = 25))
+    @Test fun rejectsUnknownSound() = assertRejected(style(sound = "polka"))
+
+    @Test
+    fun realFileStylesHaveTheirOwnSound() {
+        val all = StyleCatalog.parse(realFile())
+        assertEquals(all.size, all.map { it.sound }.toSet().size)
+    }
     @Test fun rejectsStyleWithoutBeats() = assertRejected(style(beats = arrayOf()))
     @Test fun rejectsTextWithoutEnglish() = assertRejected(style(setup = """{"es":"Config"}"""))
     @Test fun rejectsEmptyText() = assertRejected(style(beat(how = """{"en":" "}""")))
@@ -138,8 +202,12 @@ class StyleCatalogTest {
     @Test fun rejectsTempoOutsideLimits() = assertRejected(style(beat(bpm = 300, minBpm = 290, maxBpm = 320)))
     @Test fun rejectsDuplicateBeatIds() = assertRejected(style(beat(), beat()))
     @Test fun rejectsBeatIdEqualToAStyleId() = assertRejected(style(beat(id = "s")))
-    @Test fun rejectsSongWithoutTitle() = assertRejected(style(beat(songs = """[{"title":" ","artist":"A"}]""")))
+    @Test fun rejectsSongWithoutTitle() = assertRejected(style(beat(songs = """[{"id":"t","title":" ","artist":"A"}]""")))
     @Test fun rejectsSongNoteWithoutEnglish() =
-        assertRejected(style(beat(songs = """[{"title":"T","artist":"A","note":{"es":"Nota"}}]""")))
+        assertRejected(style(beat(songs = """[{"id":"t","title":"T","artist":"A","note":{"es":"Nota"}}]""")))
+    @Test fun rejectsSongIdEqualToABeatId() = assertRejected(style(beat(songs = """[{"id":"b","title":"T","artist":"A"}]""")))
+    @Test fun rejectsLessonWithUnknownBeat() = assertRejected(style(beat(songs = lessonSong(beat = "nope"))))
+    @Test fun rejectsLessonWithoutDrums() = assertRejected(style(beat(songs = lessonSong(beat = null))))
+    @Test fun rejectsLessonSectionWithoutBars() = assertRejected(style(beat(songs = lessonSong(bars = 0))))
     @Test fun rejectsDuplicateStyleIds() = assertRejected(style(), style(beat(id = "c")))
 }

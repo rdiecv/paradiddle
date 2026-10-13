@@ -7,6 +7,7 @@ import android.app.Application
 import androidx.room.Room
 import io.github.rdiecv.paradiddle.core.Rudiment
 import io.github.rdiecv.paradiddle.core.RudimentCatalog
+import io.github.rdiecv.paradiddle.core.Song
 import io.github.rdiecv.paradiddle.core.Style
 import io.github.rdiecv.paradiddle.core.StyleCatalog
 import io.github.rdiecv.paradiddle.data.AppDatabase
@@ -30,4 +31,9 @@ class ParadiddleApp : Application() {
     fun rudiment(id: String): Rudiment? = rudiments.firstOrNull { it.id == id }
 
     fun style(id: String): Style? = styles.firstOrNull { it.id == id }
+
+    /** A song with a lesson and the style it belongs to. */
+    fun song(id: String): Pair<Style, Song>? = styles.firstNotNullOfOrNull { style ->
+        style.grooves.flatMap { it.songs }.firstOrNull { it.id == id && it.lesson != null }?.let { style to it }
+    }
 }

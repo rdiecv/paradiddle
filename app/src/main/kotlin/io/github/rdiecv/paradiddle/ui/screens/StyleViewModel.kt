@@ -17,7 +17,7 @@ import io.github.rdiecv.paradiddle.core.audio.Synth
 
 /** The chosen beat of a style, looped for up to [MAX_SECONDS] at the chosen tempo. */
 class StyleViewModel(val style: Style) : ViewModel() {
-    private val sound by lazy { GrooveSound(Synth(AudioEngine.sampleRate)) }
+    private val sound by lazy { GrooveSound(Synth(AudioEngine.sampleRate, style.sound)) }
     private var playback: Playback? = null
 
     var selected by mutableIntStateOf(0)

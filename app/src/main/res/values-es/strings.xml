@@ -102,6 +102,7 @@ Código fuente: github.com/rdiecv/paradiddle</string>
     <string name="grid_legend">Punto grande: acento · punto pequeño: nota fantasma · aro: hi-hat abierto</string>
     <string name="grid_counts">1 e y a 2 e y a 3 e y a 4 e y a</string>
     <string name="bar_n">Compás %1$d</string>
+    <string name="inst_crash_short">CR</string>
     <string name="inst_hihat_short">HH</string>
     <string name="inst_ride_short">RD</string>
     <string name="inst_cowbell_short">CE</string>
@@ -109,6 +110,7 @@ Código fuente: github.com/rdiecv/paradiddle</string>
     <string name="inst_cross_stick_short">AR</string>
     <string name="inst_tom_short">TB</string>
     <string name="inst_kick_short">BO</string>
+    <string name="inst_crash">crash</string>
     <string name="inst_hihat">hi-hat (charles)</string>
     <string name="inst_ride">ride</string>
     <string name="inst_cowbell">cencerro</string>
@@ -169,9 +171,25 @@ Código fuente: github.com/rdiecv/paradiddle</string>
     <string name="songs_none">Todavía no hay canciones sugeridas para este ritmo. La guía de abajo sirve para cualquier canción que conozcas que lo use.</string>
     <string name="song_listen">Escuchar %1$s</string>
     <string name="song_no_app">No hay ninguna app para reproducir o buscar esta canción.</string>
-    <string name="songs_caveat">Las canciones suelen cambiar de ritmo entre partes: úsalas como ejemplos para escuchar.</string>
-    <string name="learn_song_title">Cómo aprender una canción entera</string>
-    <string name="learn_song_show">Mostrar la guía</string>
-    <string name="learn_song_hide">Ocultar la guía</string>
-    <string name="learn_song_body">1. Escucha la canción entera una vez sin tocar. Identifica sus partes: intro, estrofa, estribillo, puente, final.\n2. Busca el tempo: pulsa Reproducir aquí y cambia el tempo hasta que el bucle encaje con la canción.\n3. Cuenta los compases de cada parte (casi siempre 4, 8 o 16) y apunta un mapa, por ejemplo: Intro 4 · Estrofa 8 · Estribillo 8 · Estrofa 8 · Estribillo 8 · Final 4.\n4. Practica este ritmo con la app, más lento que la canción, hasta que te salga sin pensar.\n5. Toca encima de la canción. Mantén el ritmo en cada parte; en el último compás de una parte, haz un redoble corto (por ejemplo cuatro corcheas en la caja o los toms) y golpea el crash junto con el bombo en el 1 de la parte siguiente.\n6. Fíjate en los cambios: muchas canciones usan el hi-hat cerrado en la estrofa y el ride o un hi-hat más abierto en el estribillo.\n7. Para oír la canción y tu batería a la vez, conecta el móvil a Aux In (mira Mi batería). Toca de principio a fin sin pararte por los fallos.</string>
+
+    <!-- Lecciones de canciones -->
+    <string name="learn_this_song">Aprender esta canción</string>
+    <string name="song_listen_short">Escuchar</string>
+    <string name="song_tempo">Tempo de la canción: %1$d BPM</string>
+    <string name="song_tempo_reset">Volver al tempo de la canción (%1$d)</string>
+    <string name="song_play_all">Tocar la canción entera</string>
+    <string name="song_play_from">Tocar desde %1$s</string>
+    <string name="song_path">Ruta de aprendizaje</string>
+    <string name="song_map">Mapa de la canción</string>
+    <string name="song_map_hint">Cada parte con su ritmo. Pulsa ▶ en una parte para tocar desde ahí; un crash marca cada parte nueva.</string>
+    <plurals name="song_bars">
+        <item quantity="one">%1$d compás</item>
+        <item quantity="many">%1$d compases</item>
+        <item quantity="other">%1$d compases</item>
+    </plurals>
+    <string name="song_no_drums">Sin batería: cuenta los tiempos</string>
+    <string name="song_status_stopped">Pulsa Tocar: un compás de cuenta y luego la canción.</string>
+    <string name="song_status_count_in">Cuenta: %1$d</string>
+    <string name="song_status_now">%1$s · compás %2$d de %3$d</string>
+    <string name="song_status_next">siguiente: %1$s</string>
 </resources>

@@ -3,13 +3,6 @@
 
 package io.github.rdiecv.paradiddle.ui.screens
 
-import android.app.SearchManager
-import android.content.ActivityNotFoundException
-import android.content.Context
-import android.content.Intent
-import android.provider.MediaStore
-import android.widget.Toast
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,16 +14,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.FilledTonalIconButton
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FilterChip
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -69,7 +59,7 @@ import io.github.rdiecv.paradiddle.ui.components.GrooveGrid
 import kotlin.math.roundToInt
 
 @Composable
-fun StyleDetailScreen(vm: StyleViewModel, onBack: () -> Unit) {
+fun StyleDetailScreen(vm: StyleViewModel, onBack: () -> Unit, onLearnSong: (String) -> Unit) {
     val style = vm.style
     val groove = vm.groove
     // Stop when the screen goes away (other tab, back) or the app goes to the background.
@@ -161,7 +151,7 @@ fun StyleDetailScreen(vm: StyleViewModel, onBack: () -> Unit) {
             }
 
             InfoCard(stringResource(R.string.how_to_play), groove.how.text())
-            SongsCard(groove.songs)
+            SongsCard(groove.songs, onLearnSong)
             InfoCard(
                 stringResource(R.string.nitro_setup),
                 stringResource(R.string.kit_select, style.kit, NitroMesh.kitName(style.kit)) + "\n\n" + style.setup.text(),
@@ -181,16 +171,16 @@ private fun InfoCard(title: String, body: String) {
 }
 
 @Composable
-private fun SongsCard(songs: List<Song>) {
-    var showGuide by rememberSaveable { mutableStateOf(false) }
+private fun SongsCard(songs: List<Song>, onLearn: (String) -> Unit) {
+    val context = LocalContext.current
     Card(Modifier.fillMaxWidth()) {
-        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             Text(stringResource(R.string.songs_title), style = MaterialTheme.typography.titleSmall)
             if (songs.isEmpty()) {
                 Text(stringResource(R.string.songs_none), style = MaterialTheme.typography.bodyMedium)
-            } else {
-                val context = LocalContext.current
-                songs.forEach { song ->
+            }
+            songs.forEach { song ->
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Column(Modifier.weight(1f)) {
                             Text(song.title, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Medium)
@@ -200,55 +190,15 @@ private fun SongsCard(songs: List<Song>) {
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         }
-                        FilledTonalIconButton(onClick = { context.listenTo(song) }) {
+                        IconButton(onClick = { context.listenTo(song) }) {
                             Icon(Icons.Filled.PlayArrow, stringResource(R.string.song_listen, song.title))
                         }
                     }
+                    if (song.lesson != null) {
+                        FilledTonalButton(onClick = { onLearn(song.id) }) { Text(stringResource(R.string.learn_this_song)) }
+                    }
                 }
-                Text(
-                    stringResource(R.string.songs_caveat),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-            HorizontalDivider()
-            Row(
-                Modifier.fillMaxWidth().clickable { showGuide = !showGuide },
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(stringResource(R.string.learn_song_title), style = MaterialTheme.typography.titleSmall, modifier = Modifier.weight(1f))
-                Icon(
-                    if (showGuide) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
-                    contentDescription = stringResource(if (showGuide) R.string.learn_song_hide else R.string.learn_song_show),
-                )
-            }
-            if (showGuide) {
-                Text(stringResource(R.string.learn_song_body), style = MaterialTheme.typography.bodyMedium)
             }
         }
     }
 }
-
-/**
- * Asks the phone's music apps to find and play [song] (Android's standard "play from search"),
- * falling back to a web search. No service is named, so whichever app the user has answers.
- */
-private fun Context.listenTo(song: Song) {
-    val query = "${song.title} ${song.artist}"
-    val play = Intent(MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH)
-        .putExtra(MediaStore.EXTRA_MEDIA_FOCUS, MediaStore.Audio.Media.ENTRY_CONTENT_TYPE)
-        .putExtra(MediaStore.EXTRA_MEDIA_TITLE, song.title)
-        .putExtra(MediaStore.EXTRA_MEDIA_ARTIST, song.artist)
-        .putExtra(SearchManager.QUERY, query)
-    val search = Intent(Intent.ACTION_WEB_SEARCH).putExtra(SearchManager.QUERY, query)
-    for (intent in listOf(play, search)) {
-        try {
-            startActivity(intent)
-            return
-        } catch (e: ActivityNotFoundException) {
-            // Try the next way.
-        }
-    }
-    Toast.makeText(this, R.string.song_no_app, Toast.LENGTH_LONG).show()
-}
-

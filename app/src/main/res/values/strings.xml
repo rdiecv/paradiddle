@@ -103,6 +103,7 @@ Source code: github.com/rdiecv/paradiddle</string>
     <string name="grid_legend">Big dot: accent · small dot: ghost note · ring: open hi-hat</string>
     <string name="grid_counts">1 e &amp; a 2 e &amp; a 3 e &amp; a 4 e &amp; a</string>
     <string name="bar_n">Bar %1$d</string>
+    <string name="inst_crash_short">CR</string>
     <string name="inst_hihat_short">HH</string>
     <string name="inst_ride_short">RD</string>
     <string name="inst_cowbell_short">CB</string>
@@ -110,6 +111,7 @@ Source code: github.com/rdiecv/paradiddle</string>
     <string name="inst_cross_stick_short">XS</string>
     <string name="inst_tom_short">FT</string>
     <string name="inst_kick_short">BD</string>
+    <string name="inst_crash">crash</string>
     <string name="inst_hihat">hi-hat</string>
     <string name="inst_ride">ride</string>
     <string name="inst_cowbell">cowbell</string>
@@ -169,9 +171,24 @@ Source code: github.com/rdiecv/paradiddle</string>
     <string name="songs_none">No song suggestion yet for this beat. The guide below works with any song you know that uses it.</string>
     <string name="song_listen">Listen to %1$s</string>
     <string name="song_no_app">No app found to play or search for this song.</string>
-    <string name="songs_caveat">Songs often change the beat between sections: use them as listening examples.</string>
-    <string name="learn_song_title">How to learn a whole song</string>
-    <string name="learn_song_show">Show the guide</string>
-    <string name="learn_song_hide">Hide the guide</string>
-    <string name="learn_song_body">1. Listen to the whole song once without playing. Name its parts: intro, verse, chorus, bridge, ending.\n2. Find the tempo: press Play here and change the tempo until the loop matches the song.\n3. Count the bars of each part (most are 4, 8 or 16 bars) and write a road map, for example: Intro 4 · Verse 8 · Chorus 8 · Verse 8 · Chorus 8 · Ending 4.\n4. Practise this beat with the app, slower than the song, until you can play it without thinking.\n5. Play along with the song. Keep the beat through each part; in the last bar of a part, play a short fill (for example four 8th notes on the snare or the toms) and hit the crash together with the bass drum on the 1 of the next part.\n6. Listen for changes: songs often use a closed hi-hat in the verse and the ride or a more open hi-hat in the chorus.\n7. To hear the song and your kit together, connect the phone to Aux In (see My kit). Play from start to end without stopping on mistakes.</string>
+
+    <!-- Song lessons -->
+    <string name="learn_this_song">Learn this song</string>
+    <string name="song_listen_short">Listen</string>
+    <string name="song_tempo">Song tempo: %1$d BPM</string>
+    <string name="song_tempo_reset">Back to the song tempo (%1$d)</string>
+    <string name="song_play_all">Play the whole song</string>
+    <string name="song_play_from">Play from %1$s</string>
+    <string name="song_path">Learning path</string>
+    <string name="song_map">Song map</string>
+    <string name="song_map_hint">Each part with its beat. Press ▶ on a part to play from there; a crash marks every new part.</string>
+    <plurals name="song_bars">
+        <item quantity="one">%1$d bar</item>
+        <item quantity="other">%1$d bars</item>
+    </plurals>
+    <string name="song_no_drums">No drums: count along</string>
+    <string name="song_status_stopped">Press Play: one bar of count-in, then the song.</string>
+    <string name="song_status_count_in">Count-in: %1$d</string>
+    <string name="song_status_now">%1$s · bar %2$d of %3$d</string>
+    <string name="song_status_next">next: %1$s</string>
 </resources>

@@ -8,10 +8,27 @@ import kotlin.math.exp
 import kotlin.math.sin
 import kotlin.random.Random
 
-/** Synthesised sounds as mono float samples in [-1, 1]. Deterministic (fixed noise seed). */
-class Synth(val sampleRate: Int) {
+/**
+ * Synthesised sounds as mono float samples in [-1, 1]. Deterministic (fixed noise seed). The drum
+ * kit sounds follow [kit], so each music style can have its own sound.
+ */
+class Synth(val sampleRate: Int, private val kit: KitSound = KitSound.STANDARD) {
 
     private fun frames(seconds: Double) = (seconds * sampleRate).toInt().coerceAtLeast(1)
+
+    /** Adds the kit's room reflections to a dry sound, keeping the peak under 1. */
+    private fun FloatArray.inRoom(): FloatArray {
+        if (kit.room.isEmpty()) return this
+        val delays = kit.room.map { (seconds, gain) -> (seconds * sampleRate).toInt() to gain.toFloat() }
+        val out = FloatArray(size + delays.maxOf { it.first })
+        for (i in indices) {
+            out[i] += this[i]
+            for ((d, g) in delays) out[i + d] += this[i] * g
+        }
+        val peak = out.maxOf { kotlin.math.abs(it) }
+        if (peak > 0.98f) for (i in out.indices) out[i] *= 0.98f / peak
+        return out
+    }
 
     /** Short sine "tick" with a fast decay. */
     fun click(strong: Boolean): FloatArray {
@@ -23,16 +40,20 @@ class Synth(val sampleRate: Int) {
         }
     }
 
-    /** Snare-like hit: decaying noise plus a low body tone. [gain] in (0, 1]. */
+    /** Snare-like hit: decaying noise (brighter with the kit's snare brightness) plus a body tone. [gain] in (0, 1]. */
     fun snare(gain: Float, seed: Int = 1): FloatArray {
         val rnd = Random(seed)
-        val n = frames(0.18)
+        val n = frames(kit.snareLength)
+        var last = 0.0
         return FloatArray(n) { i ->
             val t = i.toDouble() / sampleRate
-            val noise = (rnd.nextDouble() * 2 - 1) * exp(-t / 0.045) * 0.6
-            val body = sin(2 * PI * 190 * t) * exp(-t / 0.03) * 0.4
+            val raw = rnd.nextDouble() * 2 - 1
+            val tone = raw * (1 - kit.snareBrightness) + (raw - last) * kit.snareBrightness
+            last = raw
+            val noise = tone * exp(-t / kit.snareNoiseDecay) * kit.snareNoiseGain
+            val body = sin(2 * PI * kit.snareTone * t) * exp(-t / kit.snareToneDecay) * kit.snareToneGain
             ((noise + body) * gain).toFloat()
-        }
+        }.inRoom()
     }
 
     /** Buzz stroke: quick soft bounces every 25 ms for [durationSeconds]. */
@@ -49,45 +70,45 @@ class Synth(val sampleRate: Int) {
         }
     }
 
-    /** Bass drum: a sine that drops from 120 to 50 Hz, with a short beater click. */
+    /** Bass drum: a sine that drops onto the kit's low pitch, with a beater click. */
     fun kick(): FloatArray {
-        val n = frames(0.3)
+        val n = frames(kit.kickLength)
         var phase = 0.0
         return FloatArray(n) { i ->
             val t = i.toDouble() / sampleRate
-            phase += 2 * PI * (50 + 70 * exp(-t / 0.04)) / sampleRate
-            val body = sin(phase) * exp(-t / 0.12) * 0.85
-            val beater = sin(2 * PI * 1_200 * t) * exp(-t / 0.003) * 0.15
+            phase += 2 * PI * (kit.kickLow + kit.kickSweep * exp(-t / kit.kickSweepTime)) / sampleRate
+            val body = sin(phase) * exp(-t / kit.kickDecay) * (1 - kit.kickBeater)
+            val beater = sin(2 * PI * 1_200 * t) * exp(-t / 0.003) * kit.kickBeater
             (body + beater).toFloat()
-        }
+        }.inRoom()
     }
 
-    /** Hi-hat: high-passed noise, short when closed and ringing when [open]. */
+    /** Hi-hat: high-passed noise (darker with the kit's hi-hat darkness), short when closed and ringing when [open]. */
     fun hihat(open: Boolean): FloatArray {
         val rnd = Random(if (open) 12 else 11)
-        val decay = if (open) 0.12 else 0.018
+        val decay = if (open) kit.hatOpenDecay else kit.hatClosedDecay
         val n = frames(if (open) 0.35 else 0.08)
         var last = 0.0
         return FloatArray(n) { i ->
             val t = i.toDouble() / sampleRate
             val noise = rnd.nextDouble() * 2 - 1
-            val high = (noise - last) / 2
+            val high = (noise - last) / 2 * (1 - kit.hatDarkness) + noise / 2 * kit.hatDarkness
             last = noise
             (high * exp(-t / decay) * 0.8).toFloat()
-        }
+        }.inRoom()
     }
 
     /** Ride cymbal: inharmonic partials plus a little noise, long decay. */
     fun ride(): FloatArray {
         val rnd = Random(13)
-        val partials = doubleArrayOf(3_150.0, 4_480.0, 5_920.0, 7_340.0)
+        val partials = doubleArrayOf(3_150.0, 4_480.0, 5_920.0, 7_340.0).map { it * kit.ridePitch }
         val n = frames(0.8)
         return FloatArray(n) { i ->
             val t = i.toDouble() / sampleRate
-            val ping = partials.sumOf { sin(2 * PI * it * t) } / partials.size * exp(-t / 0.35) * 0.5
-            val wash = (rnd.nextDouble() * 2 - 1) * exp(-t / 0.08) * 0.2
+            val ping = partials.sumOf { sin(2 * PI * it * t) } / partials.size * exp(-t / kit.rideDecay) * 0.5
+            val wash = (rnd.nextDouble() * 2 - 1) * exp(-t / 0.08) * kit.rideWash
             (ping + wash).toFloat()
-        }
+        }.inRoom()
     }
 
     /** Cowbell: two detuned tones with a quick decay. */
@@ -95,8 +116,8 @@ class Synth(val sampleRate: Int) {
         val n = frames(0.25)
         return FloatArray(n) { i ->
             val t = i.toDouble() / sampleRate
-            ((sin(2 * PI * 545 * t) + sin(2 * PI * 815 * t)) * exp(-t / 0.06) * 0.45).toFloat()
-        }
+            ((sin(2 * PI * kit.bellLow * t) + sin(2 * PI * kit.bellHigh * t)) * exp(-t / kit.bellDecay) * 0.45).toFloat()
+        }.inRoom()
     }
 
     /** Cross-stick (side stick): a dry, woody click. */
@@ -105,10 +126,10 @@ class Synth(val sampleRate: Int) {
         val n = frames(0.06)
         return FloatArray(n) { i ->
             val t = i.toDouble() / sampleRate
-            val tone = sin(2 * PI * 1_750 * t) * exp(-t / 0.012) * 0.5
+            val tone = sin(2 * PI * kit.stickTone * t) * exp(-t / kit.stickDecay) * 0.5
             val noise = (rnd.nextDouble() * 2 - 1) * exp(-t / 0.004) * 0.4
             (tone + noise).toFloat()
-        }
+        }.inRoom()
     }
 
     /** Low tom: a sine that falls slightly in pitch, with a soft attack noise. */
@@ -118,10 +139,26 @@ class Synth(val sampleRate: Int) {
         var phase = 0.0
         return FloatArray(n) { i ->
             val t = i.toDouble() / sampleRate
-            phase += 2 * PI * (105 + 35 * exp(-t / 0.05)) / sampleRate
-            val body = sin(phase) * exp(-t / 0.15) * 0.75
+            phase += 2 * PI * (kit.tomLow + kit.tomLow / 3 * exp(-t / 0.05)) / sampleRate
+            val body = sin(phase) * exp(-t / kit.tomDecay) * 0.75
             val attack = (rnd.nextDouble() * 2 - 1) * exp(-t / 0.01) * 0.2
             (body + attack).toFloat()
-        }
+        }.inRoom()
+    }
+
+    /** Crash cymbal: bright, high-passed noise with a long wash. */
+    fun crash(): FloatArray {
+        val rnd = Random(16)
+        val n = frames(1.4)
+        var last = 0.0
+        return FloatArray(n) { i ->
+            val t = i.toDouble() / sampleRate
+            val noise = rnd.nextDouble() * 2 - 1
+            val high = (noise - last) / 2
+            last = noise
+            val body = high * (0.75 * exp(-t / 0.45) + 0.25 * exp(-t / 0.05))
+            val shimmer = sin(2 * PI * 5_300 * t) * exp(-t / 0.3) * 0.08
+            (body + shimmer).toFloat()
+        }.inRoom()
     }
 }

@@ -38,6 +38,8 @@ import io.github.rdiecv.paradiddle.ui.screens.PracticeViewModel
 import io.github.rdiecv.paradiddle.ui.screens.RudimentDetailScreen
 import io.github.rdiecv.paradiddle.ui.screens.RudimentListScreen
 import io.github.rdiecv.paradiddle.ui.screens.SettingsScreen
+import io.github.rdiecv.paradiddle.ui.screens.SongScreen
+import io.github.rdiecv.paradiddle.ui.screens.SongViewModel
 import io.github.rdiecv.paradiddle.ui.screens.StyleDetailScreen
 import io.github.rdiecv.paradiddle.ui.screens.StyleViewModel
 import io.github.rdiecv.paradiddle.ui.screens.StylesScreen
@@ -99,7 +101,12 @@ fun ParadiddleNavHost() {
             composable("style/{id}", listOf(navArgument("id") { type = NavType.StringType })) { entry ->
                 val style = app.style(entry.arguments?.getString("id").orEmpty()) ?: return@composable back()
                 val vm = viewModel { StyleViewModel(style) }
-                StyleDetailScreen(vm, onBack = ::back)
+                StyleDetailScreen(vm, onBack = ::back, onLearnSong = { nav.navigate("song/$it") })
+            }
+            composable("song/{id}", listOf(navArgument("id") { type = NavType.StringType })) { entry ->
+                val (style, song) = app.song(entry.arguments?.getString("id").orEmpty()) ?: return@composable back()
+                val vm = viewModel { SongViewModel(style, song) }
+                SongScreen(vm, onBack = ::back)
             }
             composable(Tab.KIT.route) { KitGuideScreen() }
             composable("calibration") { CalibrationScreen(onBack = ::back) }

@@ -19,4 +19,6 @@ dependencies {
 tasks.test {
     systemProperty("rudimentsJson", rootProject.file("app/src/main/assets/rudiments.json").absolutePath)
     systemProperty("stylesJson", rootProject.file("app/src/main/assets/styles.json").absolutePath)
+    // The tests read the app's data files, so a change to them must rerun the tests.
+    inputs.files("../app/src/main/assets/rudiments.json", "../app/src/main/assets/styles.json")
 }
