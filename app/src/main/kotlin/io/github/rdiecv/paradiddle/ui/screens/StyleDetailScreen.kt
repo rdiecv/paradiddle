@@ -55,6 +55,7 @@ import io.github.rdiecv.paradiddle.core.Groove
 import io.github.rdiecv.paradiddle.core.NitroMesh
 import io.github.rdiecv.paradiddle.core.Song
 import io.github.rdiecv.paradiddle.ui.components.DrumKitView
+import io.github.rdiecv.paradiddle.ui.rememberFrameDelayNanos
 import io.github.rdiecv.paradiddle.ui.components.GrooveGrid
 import kotlin.math.roundToInt
 
@@ -67,14 +68,14 @@ fun StyleDetailScreen(vm: StyleViewModel, onBack: () -> Unit, onLearnSong: (Stri
     LifecycleEventEffect(Lifecycle.Event.ON_STOP) { vm.stop() }
 
     var position by remember { mutableDoubleStateOf(-1.0) }
+    val frameDelay by rememberFrameDelayNanos(active = vm.playing)
     LaunchedEffect(vm.playing, vm.selected) {
         if (!vm.playing) {
             position = -1.0
             return@LaunchedEffect
         }
         while (true) {
-            withFrameNanos { }
-            position = vm.currentPosition()
+            position = withFrameNanos { vm.positionAt(it + frameDelay) }
         }
     }
 

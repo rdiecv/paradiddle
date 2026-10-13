@@ -35,7 +35,8 @@ fun judgementColor(j: Judgement): Color = when (j) {
 
 /**
  * Two lanes (left hand, right hand) with notes falling toward a hit line near the bottom.
- * A note touches the hit line exactly at its session time [nowNanos].
+ * A note is centred on the hit line at its session time; [nowNanos] is the session time this
+ * frame will be on screen.
  */
 @Composable
 fun LanesView(
@@ -51,11 +52,11 @@ fun LanesView(
     val ink = MaterialTheme.colorScheme.onBackground
     Canvas(modifier) {
         val u = density
-        val hitY = size.height - 18f * u
-        val pxPerNano = (hitY - 8f * u) / LOOKAHEAD_NANOS
+        val lanes = LaneGeometry(hitY = size.height - 18f * u, topY = 8f * u, lookaheadNanos = LOOKAHEAD_NANOS)
+        val hitY = lanes.hitY
         val laneW = size.width / 2
         fun laneX(hand: Hand) = if (hand == Hand.LEFT) 0f else laneW
-        fun yOf(t: Long) = hitY - (t - nowNanos) * pxPerNano
+        fun yOf(t: Long) = lanes.yOf(t, nowNanos)
 
         // Lane backgrounds and divider.
         drawRect(PadColors.left.copy(alpha = 0.06f), Offset(0f, 0f), Size(laneW, size.height))
@@ -91,7 +92,6 @@ fun LanesView(
         val to = nowNanos + LOOKAHEAD_NANOS
         timeline.notes.forEach { n ->
             if (n.timeNanos < from || n.timeNanos - 200 * NANOS_PER_MS > to) return@forEach
-            val y = yOf(n.timeNanos)
             val j = judgements[n.index]
             val base = if (n.hand == Hand.LEFT) PadColors.left else PadColors.right
             val color = j?.let(::judgementColor) ?: base
@@ -99,21 +99,22 @@ fun LanesView(
             val w = laneW * 0.56f
             val x = laneX(n.hand) + (laneW - w) / 2
             val alpha = if (n.timeNanos < nowNanos && j != null) 0.45f else 1f
-            drawRoundRect(color.copy(alpha = alpha), Offset(x, y - h), Size(w, h), CornerRadius(4f * u))
-            if (n.buzz) drawBuzz(x, y, w, h, measurer)
+            val top = lanes.noteTop(n.timeNanos, nowNanos, h)
+            drawRoundRect(color.copy(alpha = alpha), Offset(x, top), Size(w, h), CornerRadius(4f * u))
+            if (n.buzz) drawBuzz(x, top, w, h, measurer)
             n.graces.forEach { g ->
                 val gy = yOf(g.timeNanos)
                 drawCircle(
                     (if (g.hand == Hand.LEFT) PadColors.left else PadColors.right).copy(alpha = 0.8f),
                     radius = 4f * u,
-                    center = Offset(laneX(g.hand) + laneW / 2, gy - 4f * u),
+                    center = Offset(laneX(g.hand) + laneW / 2, gy),
                 )
             }
         }
     }
 }
 
-private fun DrawScope.drawBuzz(x: Float, y: Float, w: Float, h: Float, measurer: androidx.compose.ui.text.TextMeasurer) {
+private fun DrawScope.drawBuzz(x: Float, top: Float, w: Float, h: Float, measurer: androidx.compose.ui.text.TextMeasurer) {
     val m = measurer.measure("z", TextStyle(color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.Bold))
-    drawText(m, topLeft = Offset(x + (w - m.size.width) / 2, y - h + (h - m.size.height) / 2))
+    drawText(m, topLeft = Offset(x + (w - m.size.width) / 2, top + (h - m.size.height) / 2))
 }

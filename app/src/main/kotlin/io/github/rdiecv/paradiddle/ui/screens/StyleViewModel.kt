@@ -77,10 +77,11 @@ class StyleViewModel(val style: Style) : ViewModel() {
     }
 
     /** Step being heard now plus how far into it (e.g. 3.25), or -1.0 when not playing. */
-    fun currentPosition(): Double {
+    /** Position in the groove at clock time [nanoTime] (step plus fraction), -1 when stopped. */
+    fun positionAt(nanoTime: Long): Double {
         val p = playback ?: return -1.0
         if (!playing) return -1.0
-        return sound.positionAt(groove, playingBpm, p.sessionTimeAt(System.nanoTime()))
+        return sound.positionAt(groove, playingBpm, p.sessionTimeAt(nanoTime))
     }
 
     override fun onCleared() = stop()

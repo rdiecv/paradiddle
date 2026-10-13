@@ -30,6 +30,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - My kit: a guide to setting up the Alesis Nitro Mesh kit for practice (connections, kit,
   metronome, pad sensitivity, Learning Mode).
 
+### Fixed
+
+- Practice: the falling notes showed the moment to hit 40–95 ms late. Notes are now centred on
+  the hit line at their time, and every moving view (practice lanes, lit kit) draws the moment
+  the frame reaches the screen (measured on Android 13+, estimated before).
+
 ### Changed
 
 - New app icon: a paradiddle (R L R R · L R L L) drawn as bars, with a themed-icon layer for

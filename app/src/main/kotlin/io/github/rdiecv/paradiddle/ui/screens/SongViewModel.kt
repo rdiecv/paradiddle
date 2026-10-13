@@ -65,10 +65,11 @@ class SongViewModel(val style: Style, val song: Song) : ViewModel() {
     }
 
     /** Song position in 16ths since section [SongTimeline.from] started (negative in the count-in), or null when stopped. */
-    fun currentStep(): Double? {
+    /** Song step (negative in the count-in) at clock time [nanoTime], null when stopped. */
+    fun stepAt(nanoTime: Long): Double? {
         val p = playback ?: return null
         if (!playing) return null
-        return sound.songStepAt(playingBpm, p.sessionTimeAt(System.nanoTime()))
+        return sound.songStepAt(playingBpm, p.sessionTimeAt(nanoTime))
     }
 
     override fun onCleared() = stop()

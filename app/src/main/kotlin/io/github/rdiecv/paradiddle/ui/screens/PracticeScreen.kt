@@ -26,6 +26,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,6 +49,7 @@ import io.github.rdiecv.paradiddle.core.Judgement
 import io.github.rdiecv.paradiddle.core.NANOS_PER_MS
 import io.github.rdiecv.paradiddle.core.Scoring
 import io.github.rdiecv.paradiddle.core.SessionResult
+import io.github.rdiecv.paradiddle.ui.rememberFrameDelayNanos
 import io.github.rdiecv.paradiddle.ui.components.LanesView
 import io.github.rdiecv.paradiddle.ui.components.NotationView
 import io.github.rdiecv.paradiddle.ui.theme.PadColors
@@ -64,9 +66,10 @@ fun PracticeScreen(vm: PracticeViewModel, onBack: () -> Unit) {
     }
     LifecycleEventEffect(Lifecycle.Event.ON_STOP) { vm.abort() }
 
+    val frameDelay by rememberFrameDelayNanos(active = vm.phase == Phase.PLAYING)
     LaunchedEffect(vm.phase) {
         while (vm.phase == Phase.PLAYING) {
-            withFrameNanos { vm.onFrame() }
+            withFrameNanos { vm.onFrame(it + frameDelay) }
         }
     }
 

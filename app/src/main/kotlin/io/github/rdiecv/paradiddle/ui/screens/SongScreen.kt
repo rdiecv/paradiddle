@@ -48,6 +48,7 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import io.github.rdiecv.paradiddle.R
 import io.github.rdiecv.paradiddle.core.Groove
 import io.github.rdiecv.paradiddle.ui.components.DrumKitView
+import io.github.rdiecv.paradiddle.ui.rememberFrameDelayNanos
 import kotlin.math.floor
 
 @Composable
@@ -58,14 +59,14 @@ fun SongScreen(vm: SongViewModel, onBack: () -> Unit) {
     LifecycleEventEffect(Lifecycle.Event.ON_STOP) { vm.stop() }
 
     var step by remember { mutableStateOf<Double?>(null) }
+    val frameDelay by rememberFrameDelayNanos(active = vm.playing)
     LaunchedEffect(vm.playing, vm.timeline) {
         if (!vm.playing) {
             step = null
             return@LaunchedEffect
         }
         while (true) {
-            withFrameNanos { }
-            step = vm.currentStep()
+            step = withFrameNanos { vm.stepAt(it + frameDelay) }
         }
     }
     val current = step

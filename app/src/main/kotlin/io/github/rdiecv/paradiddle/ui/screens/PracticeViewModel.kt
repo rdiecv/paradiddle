@@ -51,7 +51,7 @@ class PracticeViewModel(
         private set
     var timeline by mutableStateOf<Timeline?>(null)
         private set
-    /** Session time "now", updated every frame while playing. */
+    /** Session time when the current frame is on screen, updated every frame while playing. */
     var nowNanos by mutableLongStateOf(Long.MIN_VALUE)
         private set
     var liveAccuracy by mutableDoubleStateOf(100.0)
@@ -107,12 +107,12 @@ class PracticeViewModel(
         }
     }
 
-    /** Called once per display frame while playing. */
-    fun onFrame() {
+    /** Called once per display frame while playing; [shownAtNanoTime] is when the frame will be on screen. */
+    fun onFrame(shownAtNanoTime: Long) {
         val p = playback ?: return
         if (phase != Phase.PLAYING) return
+        nowNanos = p.sessionTimeAt(shownAtNanoTime)
         val now = p.sessionTimeAt(System.nanoTime())
-        nowNanos = now
         scorer?.let { s ->
             // Lag behind "now" so taps delivered a little late can still match their note.
             s.advanceTo(now - calibrationNanos - INPUT_DELIVERY_NANOS).forEach(::show)
